@@ -275,7 +275,7 @@ public class Caja extends javax.swing.JFrame {
         
         if(index == 0)
         {
-            Ticket ticket = new Ticket();
+            AdministracionTicket ticket = new AdministracionTicket();
             ticket.setVisible(true);
             dispose();
         }

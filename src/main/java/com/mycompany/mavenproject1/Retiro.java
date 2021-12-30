@@ -4,6 +4,13 @@
  */
 package com.mycompany.mavenproject1;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Usuario
@@ -114,9 +121,21 @@ public class Retiro extends javax.swing.JFrame {
 
         jLabel2.setText("Importe:");
 
+        jTextField1.setText("0");
+
         jButton2.setText("Aceptar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Cancelar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -182,19 +201,132 @@ public class Retiro extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        Home home = new Home();
-        home.setVisible(true);
+        Caja caja = new Caja();
+        caja.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        double dinero = Double.parseDouble(jTextField2.getText());
+        if(dinero < 0)
+        {
+            JOptionPane.showMessageDialog(null,"Error del usuario en el importe!!");
+            return;
+        }
+        int seleccion = jComboBox2.getSelectedIndex();
+        String columna;
         
-        Home home = new Home();
-        home.setVisible(true);
+        switch (seleccion) {
+            case 0 -> {
+                columna = "PAGO_PROVEDORES";
+            }
+            case 1 -> {
+                columna = "DEVOLUCIONES";
+            }
+            case 2 -> {
+                columna = "PAGO_SERVICIOS";
+            }
+            case 3 -> {
+                columna = "OTRO_PAGOS";
+            }
+            default -> {
+                columna = "error";    
+            }
+            
+            
+        }
+        
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            PreparedStatement ps = connection.prepareStatement("update dinero set " + columna + " = ? where ID = 1");
+            
+            //int ultimoT = conseguirUltimoTicket();
+            double dineroAcumulado = getDinero(columna);
+            dineroAcumulado += dinero;
+            
+            ps.setString(1, String.valueOf(dineroAcumulado));
+            ps.executeUpdate();
+            
+        }catch(SQLException e)
+        {
+            
+        }
+        
+        Caja caja = new Caja();
+        caja.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        Caja caja = new Caja();
+        caja.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        double dinero = Double.parseDouble(jTextField1.getText());
+        if(dinero < 0)
+        {
+            JOptionPane.showMessageDialog(null,"Error del usuario en el importe!!");
+            return;
+        }
+        int seleccion = jComboBox1.getSelectedIndex(); 
+        String columna;
+        
+        switch (seleccion) {
+            case 0 -> {
+                columna = "INICIAL_DIA";
+            }
+            case 1 -> {
+                columna = "PAGO_CLIENTES";
+            }
+            case 2 -> {
+                columna = "OTROS";
+            }
+            default -> {
+                columna = "error";    
+            }
+        }
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            PreparedStatement ps = connection.prepareStatement("update dinero set " + columna + " = ? where ID = 1");
+            
+            double dineroAcumulado = getDinero(columna);
+            dineroAcumulado += dinero;
+            
+            ps.setString(1, String.valueOf(dineroAcumulado));
+            ps.executeUpdate();
+            
+        }catch(SQLException e)
+        {
+            
+        }
+        
+        Caja caja = new Caja();
+        caja.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private double getDinero(String columna)
+    {
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            PreparedStatement ps = connection.prepareStatement("select * from dinero where ID = 1");
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next())
+            {
+                return Double.parseDouble(rs.getString(columna));
+            }
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        return 0;
+    }
     /**
      * @param args the command line arguments
      */

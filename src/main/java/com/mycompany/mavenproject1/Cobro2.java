@@ -4,6 +4,11 @@
  */
 package com.mycompany.mavenproject1;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -147,9 +152,45 @@ public class Cobro2 extends javax.swing.JDialog {
             return;
         }
         cobrar = true;
+        consolidarVenta(Double.parseDouble(jTextField1.getText()));
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void consolidarVenta(double total)
+    {
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            PreparedStatement ps = connection.prepareStatement("update dinero set VENTA = ? where ID = 1");
+            double ventaActual = getDinero("VENTA");
+            ventaActual += total;
+            
+            ps.setString(1, String.valueOf(ventaActual));
+            ps.executeUpdate();
+            
+        }catch(SQLException e)
+        {
+            
+        }
+    }
+    
+    private double getDinero(String columna)
+    {
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            PreparedStatement ps = connection.prepareStatement("select * from dinero where ID = 1");
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next())
+            {
+                return Double.parseDouble(rs.getString(columna));
+            }
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        return 0;
+    }
+    
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
         double cambio = -Double.parseDouble(jTextField1.getText());

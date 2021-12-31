@@ -39,11 +39,7 @@ public class Ticket
         String titulo = "***REFACCIONARIA GJ***";
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         String fechaHora = dtf.format(LocalDateTime.now());
-        //String ticket = String.valueOf(numeroTicket);
         String productos[] = obtenerProductos();
-        //String total = String.valueOf(this.total);
-        //String pago = String.valueOf(this.pago);
-        //String cambio = String.valueOf(this.cambio);
         
         try{
          FileWriter archivo = new FileWriter(new File(numeroTicket + ".txt"));

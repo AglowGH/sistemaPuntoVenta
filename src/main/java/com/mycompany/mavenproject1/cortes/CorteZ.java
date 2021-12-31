@@ -26,9 +26,16 @@ public class CorteZ
     
     public CorteZ()
     {
-        
+        crearCarpeta();
     }
-    
+    private void crearCarpeta()
+    {
+        File carpeta = new File("Cortes_Z");
+        if(!carpeta.exists())
+        {
+            carpeta.mkdir();
+        }
+    }
     public void crearCorte()
     {
         String titulo = "***REFACCIONARIA GJ***";
@@ -39,7 +46,7 @@ public class CorteZ
         int numeroCorte = Integer.parseInt(ingresosEgresos[8]) + 1;
         
         try{
-         FileWriter archivo = new FileWriter(new File("corte_Z_" + numeroCorte + ".txt"));
+         FileWriter archivo = new FileWriter(new File("Cortes_Z\\corte_Z_" + numeroCorte + ".txt"));
          
          archivo.write(titulo + "\n");
          archivo.append("Cajero: " + cajero + "\n");

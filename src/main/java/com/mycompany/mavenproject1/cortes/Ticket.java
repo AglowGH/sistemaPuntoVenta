@@ -27,11 +27,21 @@ public class Ticket
     
     public Ticket(int numeroTicket,DefaultTableModel modelo,double total,double cambio,double pago)
     {
+        crearCarpeta();
         this.numeroTicket = numeroTicket;
         this.modelo = modelo;
         this.total = total;//es el total de toda la venta
         this.cambio = cambio;
         this.pago = pago;
+    }
+    
+    private void crearCarpeta()
+    {
+        File carpeta = new File("tickets");
+        if(!carpeta.exists())
+        {
+            carpeta.mkdir();
+        }
     }
     
     public void guardarTicket()
@@ -42,7 +52,7 @@ public class Ticket
         String productos[] = obtenerProductos();
         
         try{
-         FileWriter archivo = new FileWriter(new File(numeroTicket + ".txt"));
+         FileWriter archivo = new FileWriter(new File("tickets\\ticket_" + numeroTicket + ".txt"));
          
          archivo.write(titulo + "\n");
          archivo.append("Cajero: " + cajero + "\n");

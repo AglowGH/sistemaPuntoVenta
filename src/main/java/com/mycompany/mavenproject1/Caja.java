@@ -65,11 +65,13 @@ public class Caja extends javax.swing.JFrame {
         });
 
         jTable1.setModel(modelo);
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextField1.setText("0");
+        jTextField1.setEnabled(false);
 
         jTextField2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jTextField2.addActionListener(new java.awt.event.ActionListener() {

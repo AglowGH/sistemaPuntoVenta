@@ -216,6 +216,7 @@ public class Inventario extends javax.swing.JFrame {
 
         jTable1.setModel(modelo);
         jTable1.setRowHeight(26);
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
 
         jButton4.setText("Eliminar Producto");
@@ -399,6 +400,7 @@ public class Inventario extends javax.swing.JFrame {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos los productos", "Por provedor" }));
 
         jTable2.setModel(modelo2);
+        jTable2.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(jTable2);
 
         jLabel10.setText("Provedores:");
@@ -491,6 +493,7 @@ public class Inventario extends javax.swing.JFrame {
         });
 
         jTable3.setModel(modelo3);
+        jTable3.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(jTable3);
 
         jButton5.setText("Imprimir");
@@ -686,7 +689,7 @@ public class Inventario extends javax.swing.JFrame {
         boolean v1 = esDoublePositivo(jTextField4.getText().trim());
         boolean v2 = esDoublePositivo(jTextField5.getText().trim());
         boolean v3 = esDoublePositivo(jTextField6.getText().trim());
-        boolean v4 = esDoublePositivo(jTextField9.getText().trim());
+        boolean v4 = esDoublePositivo(jTextField9.getText().trim());  
         
         if(!v1 || !v2 || !v3 || !v4)
         {
@@ -729,6 +732,11 @@ public class Inventario extends javax.swing.JFrame {
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
+        if(!verificarDatos())
+        {
+            jTextField4.setText("0");
+            return;
+        }
         double precio = calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
@@ -740,6 +748,11 @@ public class Inventario extends javax.swing.JFrame {
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
         // TODO add your handling code here:
+        if(!verificarDatos())
+        {
+            jTextField5.setText("0");
+            return;
+        }
         double precio = calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
@@ -751,6 +764,11 @@ public class Inventario extends javax.swing.JFrame {
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
         // TODO add your handling code here:
+        if(!verificarDatos())
+        {
+            jTextField6.setText("0");
+            return;
+        }
         double precio = calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
@@ -762,6 +780,11 @@ public class Inventario extends javax.swing.JFrame {
 
     private void jTextField4FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField4FocusLost
         // TODO add your handling code here:
+        if(!verificarDatos())
+        {
+            jTextField4.setText("0");
+            return;
+        }
         double precio = calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
@@ -773,6 +796,11 @@ public class Inventario extends javax.swing.JFrame {
 
     private void jTextField5FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField5FocusLost
         // TODO add your handling code here:
+        if(!verificarDatos())
+        {
+            jTextField5.setText("0");
+            return;
+        }
         double precio = calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
@@ -784,6 +812,11 @@ public class Inventario extends javax.swing.JFrame {
 
     private void jTextField6FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField6FocusLost
         // TODO add your handling code here:
+        if(!verificarDatos())
+        {
+            jTextField6.setText("0");
+            return;
+        }
         double precio = calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
@@ -895,6 +928,16 @@ public class Inventario extends javax.swing.JFrame {
     {
         @Override
         public void setValueAt(Object aValue, int row, int column) {
+            
+            if(column == 0 || column == 3)
+            {
+                boolean verificacion = esDoublePositivo(String.valueOf(aValue));
+                if(!verificacion)
+                {
+                    JOptionPane.showMessageDialog(null,"Error al ingresar infromacion en la tabala.");
+                    return;
+                }
+            }
             super.setValueAt(aValue, row, column); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
             
             if(column < 4)

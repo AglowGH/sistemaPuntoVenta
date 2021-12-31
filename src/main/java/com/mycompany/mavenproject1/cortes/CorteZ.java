@@ -91,6 +91,7 @@ public class CorteZ
             JOptionPane.showMessageDialog(null,"Error al crear el ticket.");
         }
         actualizarContador(numeroCorte);
+        actualizarTablas();
     }
     
     public void leerCorte()
@@ -181,6 +182,38 @@ public class CorteZ
         }catch(SQLException e)
         {
             JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    private void actualizarTablas()
+    {
+        //Limpiar la tabla de la base de datos que almacena los tickets de un día
+        try
+        {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            PreparedStatement ps = connection.prepareStatement("delete from ventas");
+            ps.executeUpdate();
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        
+        //Limpiar la informacion necesaria de la tabla dinero
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            PreparedStatement ps = connection.prepareStatement("update dinero set INICIAL_DIA = ?, PAGO_CLIENTES = ?, VENTA = ?, OTROS = ?, DEVOLUCIONES = ?, PAGO_PROVEDORES = ?, PAGO_SERVICIOS = ?, OTRO_PAGOS = ? where ID = 1");
+            ps.setString(1,"0");
+            ps.setString(2,"0");
+            ps.setString(3,"0");
+            ps.setString(4,"0");
+            ps.setString(5,"0");
+            ps.setString(6,"0");
+            ps.setString(7,"0");
+            ps.setString(8,"0");
+            ps.executeUpdate();
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null,e.getMessage());
         }
     }
 }

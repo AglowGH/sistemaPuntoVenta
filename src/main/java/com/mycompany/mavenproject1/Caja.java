@@ -298,7 +298,8 @@ public class Caja extends javax.swing.JFrame {
         if(index == 3)
         {
             //Corte z
-            return;
+            CorteZ corte = new CorteZ();
+            corte.crearCorte();
         }
         
     }//GEN-LAST:event_jButton5ActionPerformed

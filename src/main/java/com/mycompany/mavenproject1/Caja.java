@@ -272,7 +272,6 @@ public class Caja extends javax.swing.JFrame {
         // TODO add your handling code here:
         Opciones masOpciones = new Opciones(this,true);
         int index = masOpciones.showDialog();
-        System.out.println(index);
         
         if(index == 0)
         {

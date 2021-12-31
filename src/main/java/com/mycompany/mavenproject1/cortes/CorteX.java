@@ -162,7 +162,7 @@ public class CorteX
     {
         try{
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
-            PreparedStatement ps = connection.prepareStatement("update dinero set ULTIMO_CORTEX where ID = 1");
+            PreparedStatement ps = connection.prepareStatement("update dinero set ULTIMO_CORTEX = ? where ID = 1");
             
             ps.setString(1,String.valueOf(corteActual));
             ps.executeUpdate();

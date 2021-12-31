@@ -644,6 +644,7 @@ public class Inventario extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        if(!verificarDatos())return;
         try
         {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root","");
@@ -680,6 +681,31 @@ public class Inventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private boolean verificarDatos()
+    {
+        boolean v1 = esDoublePositivo(jTextField4.getText().trim());
+        boolean v2 = esDoublePositivo(jTextField5.getText().trim());
+        boolean v3 = esDoublePositivo(jTextField6.getText().trim());
+        boolean v4 = esDoublePositivo(jTextField9.getText().trim());
+        
+        if(!v1 || !v2 || !v3 || !v4)
+        {
+            JOptionPane.showMessageDialog(null,"Error al captura información, verifica los datos.");
+            return false;
+        }
+        return true;
+    }
+    private boolean esDoublePositivo(String valor)
+    {
+        try{
+            double conversion = Double.parseDouble(valor);    
+            return conversion >= 0;
+        }catch(NumberFormatException e)
+        {
+            //JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        return false;
+    }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         int i = jTable1.getSelectedRow();

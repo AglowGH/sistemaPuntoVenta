@@ -354,8 +354,15 @@ public class Caja extends javax.swing.JFrame {
     {
         @Override
         public void setValueAt(Object aValue, int row, int column) {
-            super.setValueAt(aValue, row, column); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
             
+            if(column == 1 || column == 3)
+            {
+                if(!esDoublePositivo(String.valueOf(aValue)))
+                {
+                    return;
+                }
+            }
+            super.setValueAt(aValue, row, column); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
             if(column < 4)
             {
                 double cantdad = Double.parseDouble(String.valueOf(modelo.getValueAt(row,1)));
@@ -374,12 +381,24 @@ public class Caja extends javax.swing.JFrame {
         @Override
         public boolean isCellEditable(int row, int column) {
             if(column == 1 || column == 3)
+            {
                 return true;
+            }
             return false;
         }
         
     };
-    
+    private boolean esDoublePositivo(String valor)
+    {
+        try{
+            double conversion = Double.parseDouble(valor);    
+            return conversion >= 0;
+        }catch(NumberFormatException e)
+        {
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        return false;
+    }
     public void completarCompra(double cambio)
     {
         if(cambio != -1)

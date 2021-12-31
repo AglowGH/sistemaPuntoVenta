@@ -58,6 +58,8 @@ public class Retiro extends javax.swing.JFrame {
 
         jLabel4.setText("Importe:");
 
+        jTextField2.setText("0");
+
         jButton4.setText("Aceptar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,12 +210,13 @@ public class Retiro extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        double dinero = Double.parseDouble(jTextField2.getText());
-        if(dinero < 0)
+        
+        if(!esDoublePositivo(jTextField2.getText()))
         {
             JOptionPane.showMessageDialog(null,"Error del usuario en el importe!!");
             return;
         }
+        double dinero = Double.parseDouble(jTextField2.getText());
         int seleccion = jComboBox2.getSelectedIndex();
         String columna;
         
@@ -258,6 +261,17 @@ public class Retiro extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private boolean esDoublePositivo(String valor)
+    {
+        try{
+            double conversion = Double.parseDouble(valor);    
+            return conversion >= 0;
+        }catch(NumberFormatException e)
+        {
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        return false;
+    }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         Caja caja = new Caja();
@@ -267,12 +281,12 @@ public class Retiro extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        double dinero = Double.parseDouble(jTextField1.getText());
-        if(dinero < 0)
+        if(!esDoublePositivo(jTextField1.getText()))
         {
             JOptionPane.showMessageDialog(null,"Error del usuario en el importe!!");
             return;
         }
+        double dinero = Double.parseDouble(jTextField1.getText());
         int seleccion = jComboBox1.getSelectedIndex(); 
         String columna;
         

@@ -165,13 +165,19 @@ public class Cobro2 extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        double cambio = Double.parseDouble(jTextField3.getText());
-        if(cambio<0)
+        if(!esDoublePositivo(jTextField2.getText()))
+        {
+            JOptionPane.showMessageDialog(null,"Error en el pago!!!");
+            return;
+        }
+        double cambio2 = Double.parseDouble(jTextField3.getText());
+        //System.out.println(cambio);
+        if(cambio2 < 0)
         {
             JOptionPane.showMessageDialog(null,"Falta money!!!");
             return;
         }
-        this.cambio = cambio;
+        this.cambio = cambio2;
         consolidarVenta(Double.parseDouble(jTextField1.getText()));
         aumentarContadorTicket();
         Ticket ticket = new Ticket(Integer.parseInt(jTextField4.getText()),modelo,Double.parseDouble(jTextField1.getText()),Double.parseDouble(jTextField3.getText()),Double.parseDouble(jTextField2.getText()));
@@ -180,6 +186,17 @@ public class Cobro2 extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private boolean esDoublePositivo(String valor)
+    {
+        try{
+            double conversion = Double.parseDouble(valor);    
+            return conversion >= 0;
+        }catch(NumberFormatException e)
+        {
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        return false;
+    }
     private void guardarNumeroTicket(String numeroTicket,double total){
         try{
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
@@ -267,6 +284,11 @@ public class Cobro2 extends javax.swing.JDialog {
     }
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
+        if(!esDoublePositivo(jTextField2.getText()))
+        {
+         JOptionPane.showMessageDialog(null,"Error en el pago!!!");
+         return;   
+        }
         double cambio = -Double.parseDouble(jTextField1.getText());
         cambio += Double.parseDouble(jTextField2.getText());
         jTextField3.setText(String.valueOf(cambio));
@@ -274,6 +296,11 @@ public class Cobro2 extends javax.swing.JDialog {
 
     private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
         // TODO add your handling code here:
+        if(!esDoublePositivo(jTextField2.getText()))
+        {
+         JOptionPane.showMessageDialog(null,"Error en el pago!!!");
+         return;   
+        }
         double cambio = -Double.parseDouble(jTextField1.getText());
         cambio += Double.parseDouble(jTextField2.getText());
         jTextField3.setText(String.valueOf(cambio));

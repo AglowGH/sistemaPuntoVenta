@@ -8,6 +8,24 @@ package com.mycompany.mavenproject1.cortes;
  *
  * @author Usuario
  */
-public class CorteX {
+public class CorteX 
+{
+    private String cajero = "UNKNOWN";
+    
+    public CorteX()
+    {
+        
+    }
+    
+    public void crearCorte()
+    {
+        
+    }
+    
+    public void leerCorte()
+    {
+        
+    }
+    
     
 }

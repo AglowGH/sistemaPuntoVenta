@@ -175,10 +175,26 @@ public class Cobro2 extends javax.swing.JDialog {
         consolidarVenta(Double.parseDouble(jTextField1.getText()));
         aumentarContadorTicket();
         Ticket ticket = new Ticket(Integer.parseInt(jTextField4.getText()),modelo,Double.parseDouble(jTextField1.getText()),Double.parseDouble(jTextField3.getText()),Double.parseDouble(jTextField2.getText()));
-        
+        ticket.guardarTicket();
+        guardarNumeroTicket(jTextField4.getText(),Double.parseDouble(jTextField1.getText()));
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void guardarNumeroTicket(String numeroTicket,double total){
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            PreparedStatement ps = connection.prepareStatement("insert into ventas values (?,?)");
+            
+            ps.setString(1,numeroTicket);
+            ps.setString(2,String.valueOf(total));
+            
+            ps.executeUpdate();
+            
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
     private void consolidarVenta(double total)
     {
         try{

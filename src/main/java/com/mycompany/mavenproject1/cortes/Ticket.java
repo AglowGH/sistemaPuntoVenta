@@ -34,7 +34,7 @@ public class Ticket
         this.pago = pago;
     }
     
-    public void guardarTicket() throws IOException
+    public void guardarTicket()
     {
         String titulo = "***REFACCIONARIA GJ***";
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -46,9 +46,10 @@ public class Ticket
         //String cambio = String.valueOf(this.cambio);
         
         try{
-         FileWriter archivo = new FileWriter(new File(""));
+         FileWriter archivo = new FileWriter(new File(numeroTicket + ".txt"));
          
          archivo.write(titulo + "\n");
+         archivo.append(cajero + "\n");
          archivo.append("Fecha y Hora:" + fechaHora + "\n");
          archivo.append("Ticket: " + numeroTicket + "\n");
          
@@ -94,7 +95,7 @@ public class Ticket
             precioUnidad = String.valueOf(modelo.getValueAt(i,3));
             totalPorProducto = String.valueOf(modelo.getValueAt(i,4));
             
-            productos[i] = codigo + " " + unidades + " " + producto + " " + precioUnidad + " " + totalPorProducto;
+            productos[i] = codigo + " " + unidades + " " + producto + " $" + precioUnidad + " $" + totalPorProducto;
         }
         return productos;
     }

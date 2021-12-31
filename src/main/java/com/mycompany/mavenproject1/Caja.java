@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+import com.mycompany.mavenproject1.cortes.*;
+
 /**
  *
  * @author Usuario
@@ -289,6 +291,8 @@ public class Caja extends javax.swing.JFrame {
         if(index == 2)
         {
             //Corte x
+            CorteX corte = new CorteX();
+            corte.crearCorte();
             return;
         }
         

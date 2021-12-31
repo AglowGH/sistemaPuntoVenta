@@ -42,7 +42,37 @@ public class CorteX
          archivo.append("Fecha y Hora:" + fechaHora + "\n");
          archivo.append("Corte X : " + numeroCorte + "\n");
          
+         archivo.append("---------Ingresos--------------\n");
+         archivo.append("Inicial día: $" + ingresosEgresos[0] +"\n");
+         archivo.append("Pago de clientes: $" + ingresosEgresos[1] +"\n");
+         archivo.append("Ventas: $" + ingresosEgresos[2] +"\n");
+         archivo.append("Otros ingresos: $" + ingresosEgresos[3] +"\n");
          
+         double totalI = Double.parseDouble(ingresosEgresos[0]) + Double.parseDouble(ingresosEgresos[1]) + Double.parseDouble(ingresosEgresos[2]) + Double.parseDouble(ingresosEgresos[3]);
+         archivo.append("Total ingresos: $" + totalI + "\n");
+         
+         archivo.append("\n");
+         archivo.append("---------Egresos-----------------\n");
+         archivo.append("Devoluciones: $" + ingresosEgresos[4] +"\n");
+         archivo.append("Pago provedores: $" + ingresosEgresos[5] +"\n");
+         archivo.append("Servicios: $" + ingresosEgresos[6] +"\n");
+         archivo.append("Otros pagos: $" + ingresosEgresos[7] +"\n");
+         
+         double totalE = Double.parseDouble(ingresosEgresos[4]) + Double.parseDouble(ingresosEgresos[5]) + Double.parseDouble(ingresosEgresos[6]) + Double.parseDouble(ingresosEgresos[7]);
+         archivo.append("Total egresos: $" + totalE + "\n");
+         
+         archivo.append("\n");
+         double total = totalI - totalE;
+         archivo.append("Total en caja: $" + total + "\n");
+         
+         
+         archivo.append("Tickets: \n");
+         archivo.append("\n");
+         
+         for(String i:tickets)
+         {
+             archivo.append(i + "\n");
+         }
          
          archivo.close();
         }catch(IOException e)
@@ -68,7 +98,7 @@ public class CorteX
             int i = 0;
             while(rs.next())
             {
-                tickets[i] = rs.getString("NUMERO_TICKET") + " " +rs.getString("VENTA");
+                tickets[i] = rs.getString("NUMERO_TICKET") + "  $" +rs.getString("VENTA");
                 i++;
             }
         }catch(SQLException e){

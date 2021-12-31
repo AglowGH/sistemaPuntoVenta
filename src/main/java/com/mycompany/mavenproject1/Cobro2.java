@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import com.mycompany.mavenproject1.cortes.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -25,14 +27,15 @@ public class Cobro2 extends javax.swing.JDialog {
         initComponents();
     }
 
-    public boolean showDialog(double total)
+    public double showDialog(double total,DefaultTableModel modelo)
     {
         int ticket = getUltimoTicket();
+        this.modelo = modelo;
         ticket ++;
         jTextField4.setText(String.valueOf(ticket));
         jTextField1.setText(String.valueOf(total));
         setVisible(true);
-        return cobrar;
+        return cambio;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -168,9 +171,11 @@ public class Cobro2 extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null,"Falta money!!!");
             return;
         }
-        cobrar = true;
+        this.cambio = cambio;
         consolidarVenta(Double.parseDouble(jTextField1.getText()));
         aumentarContadorTicket();
+        Ticket ticket = new Ticket(Integer.parseInt(jTextField4.getText()),modelo,Double.parseDouble(jTextField1.getText()),Double.parseDouble(jTextField3.getText()),Double.parseDouble(jTextField2.getText()));
+        
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -299,7 +304,8 @@ public class Cobro2 extends javax.swing.JDialog {
         });
     }
 
-    private boolean cobrar = false;
+    private double cambio = -1;
+    private DefaultTableModel modelo = null;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

@@ -179,10 +179,9 @@ public class Caja extends javax.swing.JFrame {
             return;
         }
         
-        //Cobro.total = calcularTotal();
         Cobro2 cobro = new Cobro2(this,true);
-        boolean cobrar = cobro.showDialog(calcularTotal());
-        completarCompra(cobrar);
+        double cambio = cobro.showDialog(calcularTotal(),modelo);
+        completarCompra(cambio);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private double calcularPrecioCliente(double precioProvedor,double ganancia,double impuestos)
@@ -377,9 +376,9 @@ public class Caja extends javax.swing.JFrame {
         
     };
     
-    public void completarCompra(boolean cobrar)
+    public void completarCompra(double cambio)
     {
-        if(cobrar)
+        if(cambio != -1)
         {
             int nFilas = modelo.getRowCount();
             

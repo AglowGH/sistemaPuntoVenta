@@ -32,13 +32,13 @@ public class CorteX
         String fechaHora = dtf.format(LocalDateTime.now());
         String[] ingresosEgresos = recuperarIngresosEgresos();
         String[] tickets = recuperarTickets();
-        int numeroCorte = Integer.parseInt(ingresosEgresos[8]);
+        int numeroCorte = Integer.parseInt(ingresosEgresos[8]) + 1;
         
         try{
          FileWriter archivo = new FileWriter(new File("corte_X_" + numeroCorte + ".txt"));
          
          archivo.write(titulo + "\n");
-         archivo.append(cajero + "\n");
+         archivo.append("Cajero: " + cajero + "\n");
          archivo.append("Fecha y Hora:" + fechaHora + "\n");
          archivo.append("Corte X : " + numeroCorte + "\n");
          
@@ -79,7 +79,7 @@ public class CorteX
         {
             JOptionPane.showMessageDialog(null,"Error al crear el ticket.");
         }
-        
+        actualizarContador(numeroCorte);
     }
     
     public void leerCorte()
@@ -155,5 +155,21 @@ public class CorteX
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return columnas;
+    }
+    
+    //Actualiza el contador de los cortes x
+    private void actualizarContador(int corteActual)
+    {
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            PreparedStatement ps = connection.prepareStatement("update dinero set ULTIMO_CORTEX where ID = 1");
+            
+            ps.setString(1,String.valueOf(corteActual));
+            ps.executeUpdate();
+            
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 }

@@ -250,7 +250,7 @@ public class Retiro extends javax.swing.JFrame {
             
         }catch(SQLException e)
         {
-            
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         
         Caja caja = new Caja();

@@ -45,7 +45,7 @@ public class Ticket
          FileWriter archivo = new FileWriter(new File(numeroTicket + ".txt"));
          
          archivo.write(titulo + "\n");
-         archivo.append(cajero + "\n");
+         archivo.append("Cajero: " + cajero + "\n");
          archivo.append("Fecha y Hora:" + fechaHora + "\n");
          archivo.append("Ticket: " + numeroTicket + "\n");
          

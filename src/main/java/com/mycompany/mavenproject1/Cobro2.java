@@ -183,10 +183,11 @@ public class Cobro2 extends javax.swing.JDialog {
     private void guardarNumeroTicket(String numeroTicket,double total){
         try{
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
-            PreparedStatement ps = connection.prepareStatement("insert into ventas values (?,?)");
+            PreparedStatement ps = connection.prepareStatement("insert into ventas values (?,?,?)");
             
-            ps.setString(1,numeroTicket);
-            ps.setString(2,String.valueOf(total));
+            ps.setString(1,"1");
+            ps.setString(2,numeroTicket);
+            ps.setString(3,String.valueOf(total));
             
             ps.executeUpdate();
             

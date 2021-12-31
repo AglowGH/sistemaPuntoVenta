@@ -185,7 +185,7 @@ public class Cobro2 extends javax.swing.JDialog {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
             PreparedStatement ps = connection.prepareStatement("insert into ventas values (?,?,?)");
             
-            ps.setString(1,"1");
+            ps.setString(1,"0");
             ps.setString(2,numeroTicket);
             ps.setString(3,String.valueOf(total));
             
@@ -193,7 +193,7 @@ public class Cobro2 extends javax.swing.JDialog {
             
         }catch(SQLException e)
         {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            JOptionPane.showMessageDialog(null,e.getMessage());
         }
     }
     private void consolidarVenta(double total)

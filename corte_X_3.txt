@@ -1,0 +1,22 @@
+***REFACCIONARIA GJ***
+Cajero: UNKNOWN
+Fecha y Hora:2021/12/30 21:12:13
+Corte X : 3
+---------Ingresos--------------
+Inicial día: $300.0
+Pago de clientes: $600.0
+Ventas: $674.0
+Otros ingresos: $900.0
+Total ingresos: $2474.0
+
+---------Egresos-----------------
+Devoluciones: $150.0
+Pago provedores: $200.0
+Servicios: $250.0
+Otros pagos: $25.0
+Total egresos: $625.0
+
+Total en caja: $1849.0
+Tickets: 
+
+9  $45.0

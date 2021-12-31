@@ -1,0 +1,9 @@
+***REFACCIONARIA GJ***
+Cajero: UNKNOWN
+Fecha y Hora:2021/12/30 21:30:01
+Ticket: 13
+2021 1 Cinta $19.0 $19.0
+2020 1 Aceite ATF $77.0 $77.0
+Total: 96.0
+Pago: 100.0
+Cambio: 4.0

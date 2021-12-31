@@ -1,0 +1,8 @@
+***REFACCIONARIA GJ***
+Cajero: UNKNOWN
+Fecha y Hora:2021/12/30 21:11:56
+Ticket: 10
+2022 1 Winoil $45.0 $45.0
+Total: 45.0
+Pago: 100.0
+Cambio: 55.0

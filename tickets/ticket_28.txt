@@ -1,0 +1,8 @@
+***REFACCIONARIA GJ***
+Cajero: UNKNOWN
+Fecha y Hora:2021/12/31 21:28:10
+Ticket: 28
+2025 1 Cable $7.0 $7.0
+Total: 7.0
+Pago: 8.0
+Cambio: 1.0

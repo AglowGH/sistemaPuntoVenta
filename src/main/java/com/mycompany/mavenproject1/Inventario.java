@@ -45,7 +45,7 @@ public class Inventario extends javax.swing.JFrame {
            modelo.addColumn("Inventario");
            modelo.addColumn("Cantidad Minima");
            
-           Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root","");
+           Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
            String sql = "SELECT CÓDIGO, NOMBRE, EXISTENCIA, INVENTARIO, CANTIDAD_MINIMA FROM productos  ";
            PreparedStatement ps = connection.prepareStatement(sql);
            ResultSet rs = ps.executeQuery();
@@ -70,7 +70,7 @@ public class Inventario extends javax.swing.JFrame {
     {
         try
         {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             //String sql = "select CÓDIGO, NOMBRE, EXISTENCIA, CANTIDAD_MINIMA from productos";
             String sql ="select * from productos";
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -209,10 +209,18 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
 
-        jTabbedPane1.setPreferredSize(new java.awt.Dimension(1000, 700));
+        jTabbedPane1.setMaximumSize(new java.awt.Dimension(1024, 768));
+        jTabbedPane1.setMinimumSize(new java.awt.Dimension(1024, 768));
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(1024, 768));
+        jTabbedPane1.setRequestFocusEnabled(false);
 
-        jPanel2.setMinimumSize(new java.awt.Dimension(1000, 700));
-        jPanel2.setPreferredSize(new java.awt.Dimension(1000, 700));
+        jPanel2.setMaximumSize(new java.awt.Dimension(1024, 768));
+        jPanel2.setMinimumSize(new java.awt.Dimension(1024, 768));
+        jPanel2.setPreferredSize(new java.awt.Dimension(1024, 768));
+
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(1024, 768));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(1024, 768));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(1024, 768));
 
         jTable1.setModel(modelo);
         jTable1.setRowHeight(26);
@@ -234,17 +242,17 @@ public class Inventario extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton4)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(398, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 985, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton4)
-                .addContainerGap(168, Short.MAX_VALUE))
+                .addContainerGap(233, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Productos", jPanel2);
@@ -351,7 +359,7 @@ public class Inventario extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel7)))
-                .addContainerGap(546, Short.MAX_VALUE))
+                .addContainerGap(565, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -390,7 +398,7 @@ public class Inventario extends javax.swing.JFrame {
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
-                .addContainerGap(321, Short.MAX_VALUE))
+                .addContainerGap(359, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Alta Producto", jPanel1);
@@ -433,27 +441,32 @@ public class Inventario extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel10)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 986, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(21, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel10)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))))
-                .addContainerGap(536, Short.MAX_VALUE))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(63, 63, 63))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -472,9 +485,9 @@ public class Inventario extends javax.swing.JFrame {
                     .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                .addGap(43, 43, 43)
                 .addComponent(jButton3)
-                .addContainerGap(148, Short.MAX_VALUE))
+                .addContainerGap(175, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Recibir Producto", jPanel3);
@@ -511,7 +524,7 @@ public class Inventario extends javax.swing.JFrame {
                 .addComponent(jLabel14)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(532, Short.MAX_VALUE))
+                .addContainerGap(551, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane3))
@@ -533,7 +546,7 @@ public class Inventario extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Alertas", jPanel4);
@@ -544,12 +557,12 @@ public class Inventario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(34, 34, 34))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -557,7 +570,7 @@ public class Inventario extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(478, 478, 478))
         );
 
@@ -587,7 +600,7 @@ public class Inventario extends javax.swing.JFrame {
 
         try{
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             for(int i=0; i<nFilas ;i++)
             {
                 PreparedStatement ps1 = connection.prepareStatement("update productos set EXISTENCIA = ?, PRECIO_DE_COMPRA = ? where CÓDIGO = " + String.valueOf(modelo2.getValueAt(i,1)));
@@ -614,7 +627,7 @@ public class Inventario extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
             PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = ?");
             pst.setString(1,jTextField7.getText().trim());
             ResultSet rs = pst.executeQuery();
@@ -648,9 +661,15 @@ public class Inventario extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         if(!verificarDatos())return;
+        String nombreProducto = verificarCodigoBarras(jTextField3.getText());
+        if(nombreProducto != null)
+        {
+            JOptionPane.showMessageDialog(null,"El producto: " + nombreProducto + " usa el código de barras proporcionado.");
+            return;
+        }
         try
         {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
             PreparedStatement pst = connection.prepareStatement("insert into productos values(?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1,"0");
             pst.setString(2,jTextField1.getText().trim());
@@ -684,6 +703,24 @@ public class Inventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    //La siguiente funcio verifica que el código de barras no se repita con otro producto ya existente
+    private String verificarCodigoBarras(String codigo)
+    {
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("select NOMBRE from productos where CÓDIGO = " + codigo);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next())
+            {
+                return rs.getString("NOMBRE");
+            }
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        return null;
+    }
+    //verifica que los parametros que se tienen que introducir números sean números.
     private boolean verificarDatos()
     {
         boolean v1 = esDoublePositivo(jTextField4.getText().trim());
@@ -721,7 +758,7 @@ public class Inventario extends javax.swing.JFrame {
         modelo.removeRow(i);
         try
         {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("delete from productos where CÓDIGO = " + codigo);
             ps.executeUpdate();
         }catch(SQLException e)
@@ -865,7 +902,7 @@ public class Inventario extends javax.swing.JFrame {
         double existencias[] = new double[nFilas];
         
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
          
             for(int i=0;i<nFilas;i++)
             {
@@ -916,6 +953,7 @@ public class Inventario extends javax.swing.JFrame {
         });
     }
 
+    private String password = "A1b2C3";
     private DefaultTableModel modelo = new DefaultTableModel()
     {
         @Override

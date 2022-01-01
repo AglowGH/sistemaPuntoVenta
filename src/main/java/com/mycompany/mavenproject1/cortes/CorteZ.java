@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 public class CorteZ 
 {
     private String cajero = "UNKNOWN";
+    private String password = "A1b2C3";
     
     public CorteZ()
     {
@@ -104,7 +105,7 @@ public class CorteZ
         int numeroTickets = contarTickets();
         String tickets[] = new String[numeroTickets];
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("select * from ventas");
             ResultSet rs = ps.executeQuery();
             int i = 0;
@@ -123,7 +124,7 @@ public class CorteZ
     {
         int numeroTickets = 0;
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("select * from ventas");
             ResultSet rs = ps.executeQuery();
             
@@ -143,7 +144,7 @@ public class CorteZ
     {
         String columnas[] = new String[9];
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("select * from dinero where ID = 1");
             ResultSet rs = ps.executeQuery();
             
@@ -173,7 +174,7 @@ public class CorteZ
     private void actualizarContador(int corteActual)
     {
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("update dinero set ULTIMO_CORTEZ = ? where ID = 1");
             
             ps.setString(1,String.valueOf(corteActual));
@@ -190,7 +191,7 @@ public class CorteZ
         //Limpiar la tabla de la base de datos que almacena los tickets de un día
         try
         {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("delete from ventas");
             ps.executeUpdate();
         }catch(SQLException e)
@@ -200,7 +201,7 @@ public class CorteZ
         
         //Limpiar la informacion necesaria de la tabla dinero
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("update dinero set INICIAL_DIA = ?, PAGO_CLIENTES = ?, VENTA = ?, OTROS = ?, DEVOLUCIONES = ?, PAGO_PROVEDORES = ?, PAGO_SERVICIOS = ?, OTRO_PAGOS = ? where ID = 1");
             ps.setString(1,"0");
             ps.setString(2,"0");

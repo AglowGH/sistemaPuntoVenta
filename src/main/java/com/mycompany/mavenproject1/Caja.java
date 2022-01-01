@@ -206,7 +206,7 @@ public class Caja extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
             PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = ?");
             pst.setString(1,jTextField2.getText().trim());
             ResultSet rs = pst.executeQuery();
@@ -410,7 +410,7 @@ public class Caja extends javax.swing.JFrame {
             double existencias[] = new double[nFilas];
         
             try{
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
          
                 for(int i=0;i<nFilas;i++)
                 {
@@ -428,7 +428,7 @@ public class Caja extends javax.swing.JFrame {
             double existencia;
             try{
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             for(int i=0; i<nFilas ;i++)
             {
                 PreparedStatement ps1 = connection.prepareStatement("update productos set EXISTENCIA = ? where CÓDIGO = " + String.valueOf(modelo.getValueAt(i,0)));
@@ -452,6 +452,7 @@ public class Caja extends javax.swing.JFrame {
             
         }
     }
+    private String password = "A1b2C3";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

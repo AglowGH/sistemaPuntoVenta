@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 public class CorteX 
 {
     private String cajero = "UNKNOWN";
+    private String password = "A1b2C3";
     
     public CorteX()
     {
@@ -99,7 +100,7 @@ public class CorteX
         int numeroTickets = contarTickets();
         String tickets[] = new String[numeroTickets];
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("select * from ventas");
             ResultSet rs = ps.executeQuery();
             int i = 0;
@@ -118,7 +119,7 @@ public class CorteX
     {
         int numeroTickets = 0;
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("select * from ventas");
             ResultSet rs = ps.executeQuery();
             
@@ -138,7 +139,7 @@ public class CorteX
     {
         String columnas[] = new String[9];
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("select * from dinero where ID = 1");
             ResultSet rs = ps.executeQuery();
             
@@ -168,7 +169,7 @@ public class CorteX
     private void actualizarContador(int corteActual)
     {
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("update dinero set ULTIMO_CORTEX = ? where ID = 1");
             
             ps.setString(1,String.valueOf(corteActual));

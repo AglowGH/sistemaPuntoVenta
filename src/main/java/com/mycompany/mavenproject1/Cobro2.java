@@ -199,7 +199,7 @@ public class Cobro2 extends javax.swing.JDialog {
     }
     private void guardarNumeroTicket(String numeroTicket,double total){
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("insert into ventas values (?,?,?)");
             
             ps.setString(1,"0");
@@ -216,7 +216,7 @@ public class Cobro2 extends javax.swing.JDialog {
     private void consolidarVenta(double total)
     {
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("update dinero set VENTA = ? where ID = 1");
             double ventaActual = getDinero("VENTA");
             ventaActual += total;
@@ -233,7 +233,7 @@ public class Cobro2 extends javax.swing.JDialog {
     private double getDinero(String columna)
     {
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("select * from dinero where ID = 1");
             ResultSet rs = ps.executeQuery();
             
@@ -251,7 +251,7 @@ public class Cobro2 extends javax.swing.JDialog {
     private void aumentarContadorTicket()
     {
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("update dinero set ULTIMO_TICKET = ? where ID = 1");
             int numeroT = Integer.parseInt(jTextField4.getText());
             
@@ -267,7 +267,7 @@ public class Cobro2 extends javax.swing.JDialog {
     private int getUltimoTicket()
     {
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("select ULTIMO_TICKET from dinero where ID = 1");
             ResultSet rs = ps.executeQuery();
             if(rs.next())
@@ -350,6 +350,7 @@ public class Cobro2 extends javax.swing.JDialog {
 
     private double cambio = -1;
     private DefaultTableModel modelo = null;
+    private String password = "A1b2C3";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

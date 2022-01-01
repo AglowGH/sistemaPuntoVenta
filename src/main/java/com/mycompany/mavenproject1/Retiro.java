@@ -241,7 +241,7 @@ public class Retiro extends javax.swing.JFrame {
         }
         
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("update dinero set " + columna + " = ? where ID = 1");
             
             //int ultimoT = conseguirUltimoTicket();
@@ -305,7 +305,7 @@ public class Retiro extends javax.swing.JFrame {
             }
         }
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("update dinero set " + columna + " = ? where ID = 1");
             
             double dineroAcumulado = getDinero(columna);
@@ -327,7 +327,7 @@ public class Retiro extends javax.swing.JFrame {
     private double getDinero(String columna)
     {
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root","");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("select * from dinero where ID = 1");
             ResultSet rs = ps.executeQuery();
             
@@ -376,6 +376,7 @@ public class Retiro extends javax.swing.JFrame {
         });
     }
 
+    private String password = "A1b2C3";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

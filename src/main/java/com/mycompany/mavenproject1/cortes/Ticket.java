@@ -59,29 +59,40 @@ public class Ticket implements Printable
         try{
          FileWriter archivo = new FileWriter(new File("tickets\\ticket_" + numeroTicket + ".txt"));
          
-         archivo.write(titulo + "\n");
+         archivo.write(titulo + "\n\n\n");
          archivo.append("Cajero: " + cajero + "\n");
          archivo.append("Fecha y Hora:" + fechaHora + "\n");
          archivo.append("Ticket: " + numeroTicket + "\n");
          
+         archivo.append("\n\n\n");
          int nProductos = modelo.getRowCount();
          for(int i=0;i<nProductos;i++)
          {
-            archivo.append(productos[i] + "\n");
+            archivo.append(productos[i] + "\n\n");
          }
+         archivo.append("\n\n\n");
          
-         archivo.append("Total: " + total + "\n");
-         archivo.append("Pago: " + pago + "\n");
-         archivo.append("Cambio: " + cambio + "\n");
+         archivo.append("Total: $" + total + "\n");
+         archivo.append("Pago: $" + pago + "\n");
+         archivo.append("Cambio $: " + cambio + "\n");
          
+         archivo.append("\n\n\n");
+         archivo.append("¡Muchas gracias por su compra!");
+         archivo.append("\n\n\nv8");
          archivo.close();
         }catch(IOException e)
         {
             JOptionPane.showMessageDialog(null,"Error al crear el ticket.");
         }
         
+        
+        imprimir("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\mavenproject1\\tickets\\ticket_" + numeroTicket + ".txt");
+    }
+
+    private void imprimir(String archivo)
+    {
         try{
-            File file = new File("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\mavenproject1\\tickets\\ticket_" + numeroTicket + ".txt");
+            File file = new File(archivo);
             Desktop desktop = Desktop.getDesktop();
             desktop.print(file);
             desktop.print(file);

@@ -4,6 +4,7 @@
  */
 package com.mycompany.mavenproject1.cortes;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -86,13 +87,29 @@ public class CorteZ
              archivo.append(i + "\n");
          }
          
+         archivo.append("\n\n\n\n\nv8");
          archivo.close();
         }catch(IOException e)
         {
             JOptionPane.showMessageDialog(null,"Error al crear el ticket.");
         }
+        
+        imprimir("Cortes_Z\\corte_Z_" + numeroCorte + ".txt");
         actualizarContador(numeroCorte);
         actualizarTablas();
+    }
+    
+    private void imprimir(String archivo)
+    {
+        try{
+            File file = new File(archivo);
+            Desktop desktop = Desktop.getDesktop();
+            desktop.print(file);
+            desktop.print(file);
+        }catch(IOException e)
+        {
+            JOptionPane.showMessageDialog(null,"Error al imprimir");
+        }
     }
     
     public void leerCorte()

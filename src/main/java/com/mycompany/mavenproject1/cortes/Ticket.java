@@ -4,6 +4,11 @@
  */
 package com.mycompany.mavenproject1.cortes;
 
+import java.awt.Desktop;
+import java.awt.Graphics;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Usuario
  */
-public class Ticket 
+public class Ticket implements Printable
 {
     private String cajero = "UNKNOWN";
     private int numeroTicket;
@@ -74,6 +79,16 @@ public class Ticket
         {
             JOptionPane.showMessageDialog(null,"Error al crear el ticket.");
         }
+        
+        try{
+            File file = new File("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\mavenproject1\\tickets\\ticket_" + numeroTicket + ".txt");
+            Desktop desktop = Desktop.getDesktop();
+            desktop.print(file);
+            desktop.print(file);
+        }catch(IOException e)
+        {
+            JOptionPane.showMessageDialog(null,"Error al imprimir");
+        }
     }
     
     public void leerTicket()
@@ -104,5 +119,12 @@ public class Ticket
             productos[i] = codigo + " " + unidades + " " + producto + " $" + precioUnidad + " $" + totalPorProducto;
         }
         return productos;
+    }
+
+    @Override
+    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException 
+    {
+        
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

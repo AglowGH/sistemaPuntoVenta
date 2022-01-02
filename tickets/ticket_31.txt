@@ -1,0 +1,8 @@
+***REFACCIONARIA GJ***
+Cajero: UNKNOWN
+Fecha y Hora:2022/01/02 11:39:37
+Ticket: 31
+2021 10 Cinta $19.0 $190.0
+Total: 190.0
+Pago: 200.0
+Cambio: 10.0

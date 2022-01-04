@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import com.mycompany.mavenproject1.cortes.*;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 
 /**
@@ -31,6 +32,10 @@ public class Caja extends javax.swing.JFrame {
         modelo.addColumn("Precio Unidad");
         modelo.addColumn("Precio");
         initComponents();
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        int xSize = (int) tk.getScreenSize().getWidth();
+        int ySize = (int) tk.getScreenSize().getHeight();
+        setBounds(0,0, xSize,ySize);
     }
 
     /**

@@ -427,7 +427,7 @@ public class Caja extends javax.swing.JFrame {
 
         @Override
         public boolean isCellEditable(int row, int column) {
-            if(column == 1 || column == 3)
+            if(column == 1 /*|| column == 3*/)
             {
                 return true;
             }

@@ -45,7 +45,7 @@ public class Inventario extends javax.swing.JFrame {
            modelo.addColumn("Inventario");
            modelo.addColumn("Cantidad Minima");
            
-           Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
+           Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/refaccionaria", "root",password);
            String sql = "SELECT CÓDIGO, NOMBRE, EXISTENCIA, INVENTARIO, CANTIDAD_MINIMA FROM productos  ";
            PreparedStatement ps = connection.prepareStatement(sql);
            ResultSet rs = ps.executeQuery();
@@ -66,11 +66,40 @@ public class Inventario extends javax.swing.JFrame {
         }
     }
     
+    private void actualizarInfoT1()
+    {
+        try{
+           modelo.addColumn("Código");
+           modelo.addColumn("Nombre");
+           modelo.addColumn("Existencia");
+           modelo.addColumn("Inventario");
+           modelo.addColumn("Cantidad Minima");
+           
+           Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
+           String sql = "SELECT CÓDIGO, NOMBRE, EXISTENCIA, INVENTARIO, CANTIDAD_MINIMA FROM productos  ";
+           PreparedStatement ps = connection.prepareStatement(sql);
+           ResultSet rs = ps.executeQuery();
+           ResultSetMetaData rsMD = rs.getMetaData();
+           int nColumnas = rsMD.getColumnCount();
+           while(rs.next())
+           {
+               Object[] fila = new Object[nColumnas];
+               for(int i=1;i<=nColumnas;i++)
+               {
+                   fila[i-1] = rs.getObject(i);
+               }
+               modelo.addRow(fila);
+           }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
     private void actualizarAlerta(String tipo_alerta)
     {
         try
         {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/refaccionaria","root",password);
             //String sql = "select CÓDIGO, NOMBRE, EXISTENCIA, CANTIDAD_MINIMA from productos";
             String sql ="select * from productos";
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -156,6 +185,10 @@ public class Inventario extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
+        jLabel16 = new javax.swing.JLabel();
+        jTextField10 = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -234,14 +267,39 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
 
+        jLabel16.setText("Producto:");
+
+        jButton6.setText("Buscar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("Recargar");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton4)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 985, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -251,7 +309,13 @@ public class Inventario extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton4)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel16)
+                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton6)
+                        .addComponent(jButton7)))
                 .addContainerGap(233, Short.MAX_VALUE))
         );
 
@@ -882,6 +946,56 @@ public class Inventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox4ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        if(jTextField10.getText().trim().equals(""))
+            return;
+        DefaultTableModel model = buscarProducto(jTextField10.getText());
+        if(model.getRowCount() != 0)
+        {
+             modelo = model;
+            jTable1.setModel(modelo);
+        }else{
+            JOptionPane.showMessageDialog(null,"Ese producto no existe.");
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        modelo = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row,int column)
+            {
+                return false;
+            }
+        };
+        actualizarInfoT1();
+        jTable1.setModel(modelo);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private DefaultTableModel buscarProducto(String buscar)
+    {
+        DefaultTableModel modeloBuscar = new DefaultTableModel();
+        modeloBuscar.addColumn("Código");
+        modeloBuscar.addColumn("Nombre");
+        modeloBuscar.addColumn("Descripción");
+        modeloBuscar.addColumn("Existencia");
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("select * from productos where CONCAT(NOMBRE,'',DESCRIPCIÓN,'',CÓDIGO) like '%" + buscar + "%'");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next())
+            {
+                String fila[] = {rs.getString("CÓDIGO"),rs.getString("NOMBRE"),rs.getString("EXISTENCIA"),rs.getString("INVENTARIO"),rs.getString("CANTIDAD_MINIMA")};
+                modeloBuscar.addRow(fila);
+            }
+        } catch (SQLException ex)
+        {
+            //Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex.getMessage());
+        }
+        return modeloBuscar;
+    }
     
     private double calcularPrecioCliente(double precioProvedor,double ganancia,double impuestos)
     {
@@ -962,7 +1076,7 @@ public class Inventario extends javax.swing.JFrame {
             return false;
         }
     };
-    private final DefaultTableModel modelo2 = new DefaultTableModel()
+    private DefaultTableModel modelo2 = new DefaultTableModel()
     {
         @Override
         public void setValueAt(Object aValue, int row, int column) {
@@ -1015,6 +1129,8 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -1026,6 +1142,7 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1046,6 +1163,7 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;

@@ -46,6 +46,7 @@ public class CorteZ
         String[] ingresosEgresos = recuperarIngresosEgresos();
         String[] tickets = recuperarTickets();
         int numeroCorte = Integer.parseInt(ingresosEgresos[8]) + 1;
+        double ganancias = recuperarGanancia();
         
         try{
          FileWriter archivo = new FileWriter(new File("Cortes_Z\\corte_Z_" + numeroCorte + ".txt"));
@@ -87,6 +88,12 @@ public class CorteZ
              archivo.append(i + "\n");
          }
          
+         archivo.append("\n\n\n");
+         archivo.append("Ganancias por venta $" + ganancias);
+         totalE -= Double.parseDouble(ingresosEgresos[4]);
+         archivo.append("Egresos: $" + totalE);
+         total = ganancias - totalE;
+         archivo.append("Total: $" + total);
          archivo.append("\n\n\n\n\nv8");
          archivo.close();
         }catch(IOException e)
@@ -233,5 +240,23 @@ public class CorteZ
         {
             JOptionPane.showMessageDialog(null,e.getMessage());
         }
+    }
+    
+    private double recuperarGanancia()
+    {
+        double gananciaAnterior = 0;
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("select GANANCIA from dinero where ID = 1");
+            ResultSet rs = ps.executeQuery();
+            if(rs.next())
+            {
+                gananciaAnterior = Double.parseDouble(rs.getString("GANANCIA"));
+            }
+        }catch(SQLException e)
+        {
+            
+        }
+        return gananciaAnterior;
     }
 }

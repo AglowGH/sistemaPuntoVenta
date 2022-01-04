@@ -1,0 +1,26 @@
+***REFACCIONARIA GJ***
+
+
+Cajero: UNKNOWN
+Fecha y Hora:2022/01/02 23:08:49
+Ticket: 48
+
+
+
+2020 2 Cinta truper $23.0 $46.0
+
+2021 2 Cinta $19.0 $38.0
+
+
+
+
+Total: $84.0
+Pago: $100.0
+Cambio $: 16.0
+
+
+
+¡Muchas gracias por su compra!
+
+
+v8

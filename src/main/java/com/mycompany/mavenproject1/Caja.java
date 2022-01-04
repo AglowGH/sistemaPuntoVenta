@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import com.mycompany.mavenproject1.cortes.*;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -77,6 +78,11 @@ public class Caja extends javax.swing.JFrame {
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
+            }
+        });
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField2KeyReleased(evt);
             }
         });
 
@@ -197,6 +203,7 @@ public class Caja extends javax.swing.JFrame {
         double porcentajeGanancia = ganancia/100;
         double porcentajeImpuesto = (impuestos/100) + 1;
         double precio = precioProvedor/(1 - porcentajeGanancia);
+        precio = Math.round(precio*100)/100;
         precio *= porcentajeImpuesto;
         precio = Math.round(precio*100)/100;
         return precio;
@@ -306,6 +313,41 @@ public class Caja extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_DOWN)
+        {
+            DefaultTableModel model = buscarProducto(jTextField2.getText());
+            BuscarProducto bp = new BuscarProducto(this,true);
+            String seleccion = bp.showDialog(model);
+            jTextField2.setText(seleccion);
+        }
+    }//GEN-LAST:event_jTextField2KeyReleased
+
+    private DefaultTableModel buscarProducto(String buscar)
+    {
+        DefaultTableModel modeloBuscar = new DefaultTableModel();
+        modeloBuscar.addColumn("Código");
+        modeloBuscar.addColumn("Nombre");
+        modeloBuscar.addColumn("Descripción");
+        modeloBuscar.addColumn("Existencia");
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("select * from productos where CONCAT(NOMBRE,'',DESCRIPCIÓN,'',CÓDIGO) like '%" + buscar + "%'");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next())
+            {
+                String fila[] = {rs.getString("CÓDIGO"),rs.getString("NOMBRE"),rs.getString("DESCRIPCIÓN"),rs.getString("EXISTENCIA")};
+                modeloBuscar.addRow(fila);
+            }
+        } catch (SQLException ex)
+        {
+            //Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex.getMessage());
+        }
+        return modeloBuscar;
+    }
+    
     private double calcularTotal()
     {
         int nProductos = jTable1.getRowCount();
@@ -369,7 +411,6 @@ public class Caja extends javax.swing.JFrame {
             {
                 double cantdad = Double.parseDouble(String.valueOf(modelo.getValueAt(row,1)));
                 double precio = Double.parseDouble(String.valueOf(modelo.getValueAt(row,3)));
-                
                 double total = cantdad * precio;
                 double totalAnterior = Double.parseDouble(String.valueOf(getValueAt(row,4)));
                 double totalCuenta = Double.parseDouble(jTextField1.getText());

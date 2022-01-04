@@ -180,6 +180,7 @@ public class Cobro2 extends javax.swing.JDialog {
         this.cambio = cambio2;
         consolidarVenta(Double.parseDouble(jTextField1.getText()));
         aumentarContadorTicket();
+        agregarGanancias();
         Ticket ticket = new Ticket(Integer.parseInt(jTextField4.getText()),modelo,Double.parseDouble(jTextField1.getText()),Double.parseDouble(jTextField3.getText()),Double.parseDouble(jTextField2.getText()));
         ticket.guardarTicket();
         guardarNumeroTicket(jTextField4.getText(),Double.parseDouble(jTextField1.getText()));
@@ -348,7 +349,76 @@ public class Cobro2 extends javax.swing.JDialog {
         });
     }
 
+    private void agregarGanancias()
+    {
+        for(int i=0;i<modelo.getRowCount();i++)
+        {
+            agregarGanancia(String.valueOf(modelo.getValueAt(i,0)),Double.parseDouble(String.valueOf(modelo.getValueAt(i, 1))));
+        }
+        ganancia += recuperarGanancia();
+        try{
+
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
+            PreparedStatement pst = connection.prepareStatement("update dinero set GANANCIA = ? where ID = 1");
+            //ResultSet rs = pst.executeQuery();
+            pst.setString(1,String.valueOf(ganancia));
+            pst.executeUpdate();
+        }catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+    //Este método agrega solamente las ganacias de un producto
+    private void agregarGanancia(String codigo,double cantidad)
+    {
+        try{
+
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
+            PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = " + codigo);
+            ResultSet rs = pst.executeQuery();
+
+            if(rs.next())
+            {
+                ganancia += calcularGanancia(Double.parseDouble(rs.getString("PRECIO_DE_COMPRA")),Double.parseDouble(rs.getString("% GANANCIA")),cantidad);
+            }
+        }catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+    private double calcularGanancia(double precioProvedor,double ganancia,double cantidad)
+    {
+        if(ganancia >= 100)
+        {
+            return 0;
+        }
+        double porcentajeGanancia = ganancia/100;
+        double precio = cantidad * precioProvedor/(1 - porcentajeGanancia);
+        precio = Math.round(precio*100)/100;
+        precio -= (cantidad * precioProvedor);
+        return precio;
+    }
+    
+    private double recuperarGanancia()
+    {
+        double gananciaAnterior = 0;
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("select GANANCIA from dinero where ID = 1");
+            ResultSet rs = ps.executeQuery();
+            if(rs.next())
+            {
+                gananciaAnterior = Double.parseDouble(rs.getString("GANANCIA"));
+            }
+        }catch(SQLException e)
+        {
+            
+        }
+        return gananciaAnterior;
+    }
+    
     private double cambio = -1;
+    private double ganancia = 0;
     private DefaultTableModel modelo = null;
     private String password = "A1b2C3";
     // Variables declaration - do not modify//GEN-BEGIN:variables

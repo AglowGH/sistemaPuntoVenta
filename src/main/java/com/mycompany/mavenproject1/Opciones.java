@@ -39,6 +39,7 @@ public class Opciones extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jList1.setFont(new java.awt.Font("Yu Gothic Light", 1, 24)); // NOI18N
         jList1.setModel(new javax.swing.AbstractListModel<String>() {

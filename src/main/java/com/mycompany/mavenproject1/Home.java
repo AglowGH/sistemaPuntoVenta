@@ -33,7 +33,6 @@ public class Home extends javax.swing.JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1024, 768));
-        setResizable(false);
         setSize(new java.awt.Dimension(1024, 768));
 
         jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\mavenproject1\\src\\main\\java\\imagenes\\caja.png")); // NOI18N

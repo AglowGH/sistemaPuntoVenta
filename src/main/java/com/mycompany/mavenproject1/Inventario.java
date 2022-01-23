@@ -1072,7 +1072,16 @@ public class Inventario extends javax.swing.JFrame {
         String seleccion = jComboBox5.getSelectedItem().toString();
         if(seleccion.equals("General"))
         {
-            
+            LogInDialog dialog = new LogInDialog(this,true);
+            boolean pass = dialog.showDialog();
+            if(pass)
+            {
+                System.out.println("Aqui");
+            }else
+            {
+                JOptionPane.showMessageDialog(this,"Usuario o contraseña incorrectos.");
+                jComboBox5.setSelectedIndex(0);
+            }
         }
     }//GEN-LAST:event_jComboBox5ActionPerformed
 

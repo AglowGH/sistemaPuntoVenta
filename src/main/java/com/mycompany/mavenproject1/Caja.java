@@ -142,12 +142,12 @@ public class Caja extends javax.swing.JFrame {
                                 .addComponent(jButton4)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(36, 36, 36))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -213,13 +213,25 @@ public class Caja extends javax.swing.JFrame {
         return precio;
     }
     
+    private String checarSQLInjection(String input)
+    {
+        String newInput = input.replace('/',' ');
+        newInput = newInput.replace('-',' ');
+        newInput = newInput.replace('=',' ');
+        newInput = newInput.replace('(',' ');
+        newInput = newInput.replace(')',' ');
+        newInput = newInput.replace('%',' ');
+        return newInput;
+
+    }
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
         try{
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
             PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = ?");
-            pst.setString(1,jTextField2.getText().trim());
+            String codigo = checarSQLInjection(jTextField2.getText().trim());
+            pst.setString(1,codigo.trim());
             ResultSet rs = pst.executeQuery();
             double precio;
 

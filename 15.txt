@@ -1,8 +1,0 @@
-***REFACCIONARIA GJ***
-Cajero: UNKNOWN
-Fecha y Hora:2021/12/30 21:32:21
-Ticket: 15
-2020 1 Aceite ATF $77.0 $77.0
-Total: 77.0
-Pago: 100.0
-Cambio: 23.0

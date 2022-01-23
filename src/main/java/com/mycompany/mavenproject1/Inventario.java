@@ -232,6 +232,13 @@ public class Inventario extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
+        tab5 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jComboBox5 = new javax.swing.JComboBox<>();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1024, 768));
@@ -415,18 +422,18 @@ public class Inventario extends javax.swing.JFrame {
                                         .addComponent(jLabel13)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField5)
+                                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
                                     .addComponent(jTextField6)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jTextField1)
                                     .addComponent(jTextField2)
                                     .addComponent(jTextField3)
-                                    .addComponent(jTextField4)
-                                    .addComponent(jTextField9)))))
+                                    .addComponent(jTextField9)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel7)))
-                .addContainerGap(565, Short.MAX_VALUE))
+                .addContainerGap(541, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -616,6 +623,56 @@ public class Inventario extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Alertas", jPanel4);
 
+        jTable4.setModel(modelo4);
+        jScrollPane4.setViewportView(jTable4);
+
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General" }));
+
+        jButton8.setText("Imprimir Lista");
+
+        jButton9.setText("Imprimir resultados");
+
+        jLabel17.setText("Tipo de inventario:");
+        jLabel17.setEnabled(false);
+
+        javax.swing.GroupLayout tab5Layout = new javax.swing.GroupLayout(tab5);
+        tab5.setLayout(tab5Layout);
+        tab5Layout.setHorizontalGroup(
+            tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tab5Layout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addGroup(tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(tab5Layout.createSequentialGroup()
+                        .addComponent(jButton8)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton9))
+                    .addGroup(tab5Layout.createSequentialGroup()
+                        .addGroup(tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(222, Short.MAX_VALUE))
+        );
+        tab5Layout.setVerticalGroup(
+            tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tab5Layout.createSequentialGroup()
+                .addGroup(tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(tab5Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel17)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton9)
+                    .addComponent(jButton8))
+                .addContainerGap(218, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Inventario", tab5);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -723,10 +780,23 @@ public class Inventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTextField7ActionPerformed
 
+    private String checarSQLInjection(String input)
+    {
+        String newInput = input.replace('/',' ');
+        newInput = newInput.replace('-',' ');
+        newInput = newInput.replace('=',' ');
+        newInput = newInput.replace('(',' ');
+        newInput = newInput.replace(')',' ');
+        newInput = newInput.replace('%',' ');
+        return newInput;
+
+    }
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         if(!verificarDatos())return;
-        String nombreProducto = verificarCodigoBarras(jTextField3.getText());
+        String input = checarSQLInjection(jTextField3.getText().trim());
+        String nombreProducto = verificarCodigoBarras(input.trim());
         if(nombreProducto != null)
         {
             JOptionPane.showMessageDialog(null,"El producto: " + nombreProducto + " usa el código de barras proporcionado.");
@@ -737,15 +807,22 @@ public class Inventario extends javax.swing.JFrame {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
             PreparedStatement pst = connection.prepareStatement("insert into productos values(?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1,"0");
-            pst.setString(2,jTextField1.getText().trim());
-            pst.setString(3,jTextField2.getText().trim());
-            pst.setString(4,jTextField3.getText().trim());
-            pst.setString(5,jTextField4.getText().trim());
-            pst.setString(6,jTextField5.getText().trim());
-            pst.setString(7,jTextField6.getText().trim());
+            String dato = checarSQLInjection(jTextField1.getText().trim());
+            pst.setString(2,dato.trim());
+            dato = checarSQLInjection(jTextField2.getText().trim());
+            pst.setString(3,dato.trim());
+            dato = checarSQLInjection(jTextField3.getText().trim());
+            pst.setString(4,dato.trim());
+            dato = checarSQLInjection(jTextField4.getText().trim());
+            pst.setString(5,dato.trim());
+            dato = checarSQLInjection(jTextField5.getText().trim());
+            pst.setString(6,dato.trim());
+            dato = checarSQLInjection(jTextField6.getText().trim());
+            pst.setString(7,dato.trim());
             pst.setString(8,"0");
             pst.setString(9,"0");
-            pst.setString(10,jTextField9.getText().trim());
+            dato = checarSQLInjection(jTextField9.getText().trim());
+            pst.setString(10,dato.trim());
 
             pst.executeUpdate();
 
@@ -947,11 +1024,14 @@ public class Inventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox4ActionPerformed
 
+    
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
+        
         if(jTextField10.getText().trim().equals(""))
             return;
-        DefaultTableModel model = buscarProducto(jTextField10.getText());
+        String input = checarSQLInjection(jTextField10.getText());
+        DefaultTableModel model = buscarProducto(input.trim());
         if(model.getRowCount() != 0)
         {
              modelo = model;
@@ -959,6 +1039,7 @@ public class Inventario extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null,"Ese producto no existe.");
         }
+        jTextField10.setText("");
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -979,8 +1060,8 @@ public class Inventario extends javax.swing.JFrame {
         DefaultTableModel modeloBuscar = new DefaultTableModel();
         modeloBuscar.addColumn("Código");
         modeloBuscar.addColumn("Nombre");
-        modeloBuscar.addColumn("Descripción");
         modeloBuscar.addColumn("Existencia");
+        modeloBuscar.addColumn("Cantidad Minima");
         try{
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             PreparedStatement ps = connection.prepareStatement("select * from productos where CONCAT(NOMBRE,'',DESCRIPCIÓN,'',CÓDIGO) like '%" + buscar + "%'");
@@ -1124,6 +1205,14 @@ public class Inventario extends javax.swing.JFrame {
         }
         
     };
+    private DefaultTableModel modelo4 = new DefaultTableModel()
+    {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            //return super.isCellEditable(row, column); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+            return false;
+        }
+    };
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -1132,10 +1221,13 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1144,6 +1236,7 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1159,10 +1252,12 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField2;
@@ -1173,5 +1268,6 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JPanel tab5;
     // End of variables declaration//GEN-END:variables
 }

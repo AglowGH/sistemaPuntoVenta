@@ -30,6 +30,12 @@ public class Inventario extends javax.swing.JFrame {
 
     private void actualizarInfo()
     {
+        modelo4.addColumn("Código");
+        modelo4.addColumn("Nombre");
+        modelo4.addColumn("Existencia");
+        modelo4.addColumn("Inventario");
+        modelo4.addColumn("Diferencia");
+        
         modelo3.addColumn("Código");
         modelo3.addColumn("Nombre");
         modelo3.addColumn("Existencia");
@@ -624,9 +630,15 @@ public class Inventario extends javax.swing.JFrame {
         jTabbedPane1.addTab("Alertas", jPanel4);
 
         jTable4.setModel(modelo4);
+        jTable4.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(jTable4);
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General" }));
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ninguno", "General" }));
+        jComboBox5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox5ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Imprimir Lista");
 
@@ -679,7 +691,7 @@ public class Inventario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -692,7 +704,7 @@ public class Inventario extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1055,6 +1067,15 @@ public class Inventario extends javax.swing.JFrame {
         jTable1.setModel(modelo);
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
+        // TODO add your handling code here:
+        String seleccion = jComboBox5.getSelectedItem().toString();
+        if(seleccion.equals("General"))
+        {
+            
+        }
+    }//GEN-LAST:event_jComboBox5ActionPerformed
+
     private DefaultTableModel buscarProducto(String buscar)
     {
         DefaultTableModel modeloBuscar = new DefaultTableModel();
@@ -1212,6 +1233,7 @@ public class Inventario extends javax.swing.JFrame {
             //return super.isCellEditable(row, column); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
             return false;
         }
+        
     };
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

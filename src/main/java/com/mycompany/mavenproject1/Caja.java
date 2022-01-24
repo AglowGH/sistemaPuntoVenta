@@ -300,7 +300,6 @@ public class Caja extends javax.swing.JFrame {
         boolean pass = log.showDialog();
         if(!pass)
         {
-            JOptionPane.showMessageDialog(this,"Usuario o contraseña incoreccto");
             return;
         }
         Opciones masOpciones = new Opciones(this,true);

@@ -129,6 +129,9 @@ public class LogInDialog extends javax.swing.JDialog {
                 if(contrasena.equals(passwor))
                 {
                     login = true;
+                }else
+                {
+                    JOptionPane.showMessageDialog(this,"Usuario o contraseña incorrectos.");
                 }
             }
         }catch(SQLException e)

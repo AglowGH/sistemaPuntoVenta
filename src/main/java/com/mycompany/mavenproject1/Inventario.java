@@ -731,6 +731,10 @@ public class Inventario extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        LogInDialog log = new LogInDialog(this,true);
+        boolean pass = log.showDialog();
+        if(!pass)
+            return;
         int nFilas = jTable2.getRowCount();
         if(nFilas == 0)
         {
@@ -915,6 +919,13 @@ public class Inventario extends javax.swing.JFrame {
     }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        LogInDialog log = new LogInDialog(this,true);
+        boolean pass = log.showDialog();
+        if(!pass)
+        {
+            return;
+        }
+        
         int i = jTable1.getSelectedRow();
         if(i == -1)
         {
@@ -1093,7 +1104,6 @@ public class Inventario extends javax.swing.JFrame {
                 actualizarTablaInventarioGeneral();
             }else
             {
-                JOptionPane.showMessageDialog(this,"Usuario o contraseña incorrectos.");
                 jComboBox5.setSelectedIndex(0);
             }
         }

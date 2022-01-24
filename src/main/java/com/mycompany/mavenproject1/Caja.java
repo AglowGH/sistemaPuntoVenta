@@ -307,9 +307,10 @@ public class Caja extends javax.swing.JFrame {
         
         if(index == 0)
         {
-            AdministracionTicket ticket = new AdministracionTicket();
-            ticket.setVisible(true);
-            dispose();
+            //AdministracionTicket ticket = new AdministracionTicket();
+            //ticket.setVisible(true);
+            //dispose();
+            JOptionPane.showMessageDialog(this,"Seguimos trabajando en ello!!");
         }
         
         if(index == 1)

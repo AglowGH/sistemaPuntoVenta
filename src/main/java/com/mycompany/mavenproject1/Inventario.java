@@ -230,6 +230,8 @@ public class Inventario extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jTextField8 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
@@ -516,6 +518,20 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
 
+        jButton11.setText("Borrar");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        jButton12.setText("Borrar Todo");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -532,7 +548,11 @@ public class Inventario extends javax.swing.JFrame {
                                 .addGap(12, 12, 12)
                                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton12)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton11))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addGap(18, 18, 18)
@@ -541,7 +561,7 @@ public class Inventario extends javax.swing.JFrame {
                                 .addComponent(jLabel10)
                                 .addGap(18, 18, 18)
                                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -565,10 +585,12 @@ public class Inventario extends javax.swing.JFrame {
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton11)
+                    .addComponent(jButton12))
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addContainerGap(200, Short.MAX_VALUE))
+                .addContainerGap(197, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Recibir Producto", jPanel3);
@@ -792,7 +814,6 @@ public class Inventario extends javax.swing.JFrame {
                 nuevoP[4] = rs.getString("PRECIO_DE_COMPRA");
 
                 modelo2.addRow(nuevoP);
-                jTextField7.setText("");
 
                 double total = Double.parseDouble(jTextField8.getText());
                 total += Double.parseDouble(rs.getString("PRECIO_DE_COMPRA"));
@@ -801,6 +822,7 @@ public class Inventario extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null,"Producto no encontardo!!!");
             }
+            jTextField7.setText("");
         }catch(SQLException e)
         {
             System.out.println(e.getMessage());
@@ -1126,6 +1148,27 @@ public class Inventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton10ActionPerformed
 
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        modelo2.setRowCount(0);
+        jTextField8.setText("0");
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        int index = jTable2.getSelectedRow();
+        if(index == -1)
+        {
+            JOptionPane.showMessageDialog(this,"Selecciona un producto");
+            return;
+        }
+        
+        double total = Double.parseDouble(jTextField8.getText());
+        total -= Double.parseDouble(String.valueOf(modelo2.getValueAt(index,4)));
+        jTextField8.setText(String.valueOf(total));
+        modelo2.removeRow(index);
+    }//GEN-LAST:event_jButton11ActionPerformed
+
     private void actualizarInventarioGeneral()
     {
         int numeroElementos = modelo4.getRowCount();
@@ -1358,6 +1401,8 @@ public class Inventario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

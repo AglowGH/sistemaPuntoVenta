@@ -245,6 +245,7 @@ public class Inventario extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
+        jButton10 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1024, 768));
@@ -647,6 +648,13 @@ public class Inventario extends javax.swing.JFrame {
         jLabel17.setText("Tipo de inventario:");
         jLabel17.setEnabled(false);
 
+        jButton10.setText("Grabar Afectación");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout tab5Layout = new javax.swing.GroupLayout(tab5);
         tab5.setLayout(tab5Layout);
         tab5Layout.setHorizontalGroup(
@@ -655,6 +663,8 @@ public class Inventario extends javax.swing.JFrame {
                 .addGap(9, 9, 9)
                 .addGroup(tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(tab5Layout.createSequentialGroup()
+                        .addComponent(jButton10)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton8)
                         .addGap(18, 18, 18)
                         .addComponent(jButton9))
@@ -679,7 +689,8 @@ public class Inventario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton9)
-                    .addComponent(jButton8))
+                    .addComponent(jButton8)
+                    .addComponent(jButton10))
                 .addContainerGap(218, Short.MAX_VALUE))
         );
 
@@ -1070,13 +1081,14 @@ public class Inventario extends javax.swing.JFrame {
     private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
         // TODO add your handling code here:
         String seleccion = jComboBox5.getSelectedItem().toString();
+        modelo4.setRowCount(0);
         if(seleccion.equals("General"))
         {
             LogInDialog dialog = new LogInDialog(this,true);
             boolean pass = dialog.showDialog();
             if(pass)
             {
-                System.out.println("Aqui");
+                actualizarTablaInventarioGeneral();
             }else
             {
                 JOptionPane.showMessageDialog(this,"Usuario o contraseña incorrectos.");
@@ -1085,6 +1097,80 @@ public class Inventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox5ActionPerformed
 
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        int index = jComboBox5.getSelectedIndex();
+        
+        switch(index)
+        {
+            case 0:
+                JOptionPane.showMessageDialog(this,"Opción no disponible para este tipo de inventario.");
+                break;
+            case 1:
+                actualizarInventarioGeneral();
+                break;
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void actualizarInventarioGeneral()
+    {
+        /*
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            for(int i=0; i<nFilas ;i++)
+            {
+                PreparedStatement ps1 = connection.prepareStatement("update productos set EXISTENCIA = ?, PRECIO_DE_COMPRA = ? where CÓDIGO = " + String.valueOf(modelo2.getValueAt(i,1)));
+
+                precioActual = Double.parseDouble(String.valueOf(modelo2.getValueAt(i, 3)));
+                existencia = existencias[i] + Double.parseDouble(String.valueOf(modelo2.getValueAt(i, 0)));
+
+                ps1.setString(1,String.valueOf(existencia));
+                ps1.setString(2,String.valueOf(precioActual));
+                ps1.executeUpdate();
+            }
+        */
+        int numeroElementos = modelo4.getRowCount();
+        
+        try
+        {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            for(int i=0;i<numeroElementos;i++)
+            {
+                String codigo = String.valueOf(modelo4.getValueAt(i,0));
+                PreparedStatement ps = connection.prepareStatement("update productos set EXISTENCIA = ? where CÓDIGO = " + codigo);
+                ps.setString(1,String.valueOf(modelo4.getValueAt(i,3)));
+                ps.executeUpdate();
+            }       
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(this,"Error al actualizar el inventario.");
+        }
+        
+    }
+    private void actualizarTablaInventarioGeneral()
+    {
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("select * from productos");
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                String[] arreglo = new String[5];
+                arreglo[0] = rs.getString("CÓDIGO");
+                arreglo[1] = rs.getString("NOMBRE");
+                arreglo[2] = rs.getString("EXISTENCIA");
+                arreglo[3] = rs.getString("INVENTARIO");
+                double diferencia = Double.parseDouble(arreglo[3]) - Double.parseDouble(arreglo[2]);
+                arreglo[4] = String.valueOf(diferencia);
+                modelo4.addRow(arreglo);
+            }
+            
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(this,"Error al cargar el inventario general ");
+        }
+    }
+    
     private DefaultTableModel buscarProducto(String buscar)
     {
         DefaultTableModel modeloBuscar = new DefaultTableModel();
@@ -1246,6 +1332,7 @@ public class Inventario extends javax.swing.JFrame {
     };
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

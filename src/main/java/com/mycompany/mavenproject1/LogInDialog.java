@@ -116,24 +116,24 @@ public class LogInDialog extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String usuario = jTextField1.getText();
+        String usuario =  "'" + jTextField1.getText() + "'";
         String contrasena = String.valueOf(jPasswordField1.getPassword());
         
         try{
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("select USER from usuarios where PASSWORD = " + contrasena);
+            PreparedStatement ps = connection.prepareStatement("select PASSWORD from usuarios where USER = " + usuario);
             ResultSet rs = ps.executeQuery();
             if(rs.next())
             {
-                String user = rs.getString("USER");
-                if(user.equals(usuario))
+                String passwor = rs.getString("PASSWORD");
+                if(contrasena.equals(passwor))
                 {
                     login = true;
                 }
             }
         }catch(SQLException e)
         {
-            JOptionPane.showMessageDialog(this,"Unable to connect to datebase.");
+            JOptionPane.showMessageDialog(this,"Unable to connect to datebase. " + e.getMessage());
         }
         
         dispose();

@@ -774,7 +774,8 @@ public class Inventario extends javax.swing.JFrame {
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
             PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = ?");
-            pst.setString(1,jTextField7.getText().trim());
+            String codigo = checarSQLInjection(jTextField7.getText());
+            pst.setString(1,codigo.trim());
             ResultSet rs = pst.executeQuery();
 
             if(rs.next())
@@ -1109,26 +1110,14 @@ public class Inventario extends javax.swing.JFrame {
                 break;
             case 1:
                 actualizarInventarioGeneral();
+                jComboBox5.setSelectedIndex(0);
+                modelo4.setRowCount(0);
                 break;
         }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void actualizarInventarioGeneral()
     {
-        /*
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            for(int i=0; i<nFilas ;i++)
-            {
-                PreparedStatement ps1 = connection.prepareStatement("update productos set EXISTENCIA = ?, PRECIO_DE_COMPRA = ? where CÓDIGO = " + String.valueOf(modelo2.getValueAt(i,1)));
-
-                precioActual = Double.parseDouble(String.valueOf(modelo2.getValueAt(i, 3)));
-                existencia = existencias[i] + Double.parseDouble(String.valueOf(modelo2.getValueAt(i, 0)));
-
-                ps1.setString(1,String.valueOf(existencia));
-                ps1.setString(2,String.valueOf(precioActual));
-                ps1.executeUpdate();
-            }
-        */
         int numeroElementos = modelo4.getRowCount();
         
         try
@@ -1327,9 +1316,30 @@ public class Inventario extends javax.swing.JFrame {
     private DefaultTableModel modelo4 = new DefaultTableModel()
     {
         @Override
-        public boolean isCellEditable(int row, int column) {
+        public void setValueAt(Object aValue, int row, int column) {
+            
+            /*if(column == 4)
+            {
+                super.setValueAt(aValue,row,column);
+            }*/
+            
             if(column == 3)
+            {
+                if(esDoublePositivo(String.valueOf(aValue)))
+                {
+                   double diferencia = Double.parseDouble(String.valueOf(aValue)) - Double.parseDouble(String.valueOf(getValueAt(row,column-1)));
+                   super.setValueAt(aValue, row, column); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+                   super.setValueAt(diferencia,row,column+1);
+                }
+            }
+        }
+        @Override
+        public boolean isCellEditable(int row, int column) 
+        {
+            if(column == 3)
+            {
                 return super.isCellEditable(row, column);
+            }
             //return super.isCellEditable(row, column); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
             return false;
         }

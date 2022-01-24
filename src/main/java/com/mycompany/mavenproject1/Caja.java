@@ -296,6 +296,13 @@ public class Caja extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        LogInDialog log = new LogInDialog(this,true);
+        boolean pass = log.showDialog();
+        if(!pass)
+        {
+            JOptionPane.showMessageDialog(this,"Usuario o contraseña incoreccto");
+            return;
+        }
         Opciones masOpciones = new Opciones(this,true);
         int index = masOpciones.showDialog();
         

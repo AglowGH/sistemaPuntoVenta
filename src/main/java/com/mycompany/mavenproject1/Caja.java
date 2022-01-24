@@ -221,6 +221,7 @@ public class Caja extends javax.swing.JFrame {
         newInput = newInput.replace('(',' ');
         newInput = newInput.replace(')',' ');
         newInput = newInput.replace('%',' ');
+        newInput = newInput.replace("'","");
         return newInput;
 
     }

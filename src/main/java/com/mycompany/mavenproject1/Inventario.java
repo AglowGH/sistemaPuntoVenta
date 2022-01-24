@@ -811,6 +811,7 @@ public class Inventario extends javax.swing.JFrame {
         newInput = newInput.replace('(',' ');
         newInput = newInput.replace(')',' ');
         newInput = newInput.replace('%',' ');
+        newInput = newInput.replace("'","");
         return newInput;
 
     }
@@ -868,7 +869,7 @@ public class Inventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    //La siguiente funcio verifica que el código de barras no se repita con otro producto ya existente
+    //La siguiente funcion verifica que el código de barras no se repita con otro producto ya existente
     private String verificarCodigoBarras(String codigo)
     {
         try{
@@ -1135,14 +1136,16 @@ public class Inventario extends javax.swing.JFrame {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             for(int i=0;i<numeroElementos;i++)
             {
-                String codigo = String.valueOf(modelo4.getValueAt(i,0));
-                PreparedStatement ps = connection.prepareStatement("update productos set EXISTENCIA = ? where CÓDIGO = " + codigo);
-                ps.setString(1,String.valueOf(modelo4.getValueAt(i,3)));
+                String codigo = "'" + String.valueOf(modelo4.getValueAt(i,0)) + "'";
+                System.out.println(codigo);
+                PreparedStatement ps = connection.prepareStatement("UPDATE productos SET EXISTENCIA = " + String.valueOf(modelo4.getValueAt(i,3)) + " WHERE CÓDIGO = " + codigo);
+                System.out.println(String.valueOf(modelo4.getValueAt(i,3)));
+                //ps.setString(1,String.valueOf(modelo4.getValueAt(i,3)));
                 ps.executeUpdate();
             }       
         }catch(SQLException e)
         {
-            JOptionPane.showMessageDialog(this,"Error al actualizar el inventario.");
+            JOptionPane.showMessageDialog(this,e.getMessage());
         }
         
     }
@@ -1325,6 +1328,8 @@ public class Inventario extends javax.swing.JFrame {
     {
         @Override
         public boolean isCellEditable(int row, int column) {
+            if(column == 3)
+                return super.isCellEditable(row, column);
             //return super.isCellEditable(row, column); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
             return false;
         }

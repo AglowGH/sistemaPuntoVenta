@@ -30,7 +30,7 @@ public class Ticket implements Printable
     private double cambio;
     private double pago;
     
-    public Ticket(int numeroTicket,DefaultTableModel modelo,double total,double cambio,double pago)
+    public Ticket(int numeroTicket,DefaultTableModel modelo,double total,double cambio,double pago,String cajero)
     {
         crearCarpeta();
         this.numeroTicket = numeroTicket;
@@ -38,6 +38,7 @@ public class Ticket implements Printable
         this.total = total;//es el total de toda la venta
         this.cambio = cambio;
         this.pago = pago;
+        this.cajero = cajero;
     }
     
     private void crearCarpeta()

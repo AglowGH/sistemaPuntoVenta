@@ -27,10 +27,11 @@ public class Cobro2 extends javax.swing.JDialog {
         initComponents();
     }
 
-    public double showDialog(double total,DefaultTableModel modelo)
+    public double showDialog(double total,DefaultTableModel modelo,String cajero)
     {
         int ticket = getUltimoTicket();
         this.modelo = modelo;
+        this.cajero = cajero;
         ticket ++;
         jTextField4.setText(String.valueOf(ticket));
         jTextField1.setText(String.valueOf(total));
@@ -181,7 +182,7 @@ public class Cobro2 extends javax.swing.JDialog {
         consolidarVenta(Double.parseDouble(jTextField1.getText()));
         aumentarContadorTicket();
         agregarGanancias();
-        Ticket ticket = new Ticket(Integer.parseInt(jTextField4.getText()),modelo,Double.parseDouble(jTextField1.getText()),Double.parseDouble(jTextField3.getText()),Double.parseDouble(jTextField2.getText()));
+        Ticket ticket = new Ticket(Integer.parseInt(jTextField4.getText()),modelo,Double.parseDouble(jTextField1.getText()),Double.parseDouble(jTextField3.getText()),Double.parseDouble(jTextField2.getText()),cajero);
         ticket.guardarTicket();
         guardarNumeroTicket(jTextField4.getText(),Double.parseDouble(jTextField1.getText()));
         dispose();
@@ -421,6 +422,7 @@ public class Cobro2 extends javax.swing.JDialog {
     private double ganancia = 0;
     private DefaultTableModel modelo = null;
     private String password = "A1b2C3";
+    private String cajero = "UNKNOW";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

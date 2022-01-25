@@ -26,8 +26,9 @@ public class CorteZ
     private String cajero = "UNKNOWN";
     private String password = "A1b2C3";
     
-    public CorteZ()
+    public CorteZ(String cajero)
     {
+        this.cajero = cajero;
         crearCarpeta();
     }
     private void crearCarpeta()
@@ -89,11 +90,11 @@ public class CorteZ
          }
          
          archivo.append("\n\n\n");
-         archivo.append("Ganancias por venta $" + ganancias);
+         archivo.append("Ganancias por venta $" + ganancias + "\n");
          totalE -= Double.parseDouble(ingresosEgresos[4]);
-         archivo.append("Egresos: $" + totalE);
+         archivo.append("Egresos: $" + totalE + "\n" );
          total = ganancias - totalE;
-         archivo.append("Total: $" + total);
+         archivo.append("Total: $" + total+ "\n");
          archivo.append("\n\n\n\n\nv8");
          archivo.close();
         }catch(IOException e)

@@ -22,8 +22,9 @@ public class CorteX
     private String cajero = "UNKNOWN";
     private String password = "A1b2C3";
     
-    public CorteX()
+    public CorteX(String cajero)
     {
+        this.cajero = cajero;
         crearCarpeta();
     }
     private void crearCarpeta()

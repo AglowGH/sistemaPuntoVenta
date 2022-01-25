@@ -37,6 +37,14 @@ public class Caja extends javax.swing.JFrame {
         int ySize = (int) tk.getScreenSize().getHeight();
         setBounds(0,0, xSize,ySize);
     }
+    
+    public void showCaja(String user)
+    {
+        
+        this.usuario = user;
+        jTextField3.setText(user);
+        setVisible(true);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,6 +65,8 @@ public class Caja extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1024, 768));
@@ -124,6 +134,10 @@ public class Caja extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Usuario:");
+
+        jTextField3.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -142,12 +156,16 @@ public class Caja extends javax.swing.JFrame {
                                 .addComponent(jButton4)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(36, 36, 36))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -162,7 +180,9 @@ public class Caja extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(jButton3)
                     .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -194,7 +214,7 @@ public class Caja extends javax.swing.JFrame {
         }
         
         Cobro2 cobro = new Cobro2(this,true);
-        double cambio = cobro.showDialog(calcularTotal(),modelo);
+        double cambio = cobro.showDialog(calcularTotal(),modelo,usuario);
         completarCompra(cambio);
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -248,7 +268,7 @@ public class Caja extends javax.swing.JFrame {
                 nuevoP[4] = String.valueOf(precio);
 
                 modelo.addRow(nuevoP);
-                jTextField2.setText(""); 
+                jTextField2.setText("");
                 
                 double total = Double.parseDouble(jTextField1.getText());
                 total += precio;//Double.parseDouble(rs.getString("PRECIO_DE_COMPRA"));
@@ -303,6 +323,7 @@ public class Caja extends javax.swing.JFrame {
         {
             return;
         }
+        usuario = pass;
         Opciones masOpciones = new Opciones(this,true);
         int index = masOpciones.showDialog();
         
@@ -324,7 +345,7 @@ public class Caja extends javax.swing.JFrame {
         if(index == 2)
         {
             //Corte x
-            CorteX corte = new CorteX();
+            CorteX corte = new CorteX(usuario);
             corte.crearCorte();
             return;
         }
@@ -332,7 +353,7 @@ public class Caja extends javax.swing.JFrame {
         if(index == 3)
         {
             //Corte z
-            CorteZ corte = new CorteZ();
+            CorteZ corte = new CorteZ(usuario);
             corte.crearCorte();
         }
         
@@ -480,7 +501,7 @@ public class Caja extends javax.swing.JFrame {
          
                 for(int i=0;i<nFilas;i++)
                 {
-                    PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = " + String.valueOf(modelo.getValueAt(i,0)));
+                    PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = '" + String.valueOf(modelo.getValueAt(i,0)) + "'");
                     ResultSet rs = pst.executeQuery();
                     //rs.next();
                     if(rs.next())
@@ -497,7 +518,7 @@ public class Caja extends javax.swing.JFrame {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             for(int i=0; i<nFilas ;i++)
             {
-                PreparedStatement ps1 = connection.prepareStatement("update productos set EXISTENCIA = ? where CÓDIGO = " + String.valueOf(modelo.getValueAt(i,0)));
+                PreparedStatement ps1 = connection.prepareStatement("update productos set EXISTENCIA = ? where CÓDIGO = '" + String.valueOf(modelo.getValueAt(i,0)) + "'");
 
                 existencia = existencias[i] - Double.parseDouble(String.valueOf(modelo.getValueAt(i, 1)));
 
@@ -519,6 +540,7 @@ public class Caja extends javax.swing.JFrame {
         }
     }
     private String password = "A1b2C3";
+    private String usuario = "UNKOWN";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -526,9 +548,11 @@ public class Caja extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,6 +8,11 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -20,7 +25,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Devolucion 
 {
-    String numeroTicket;
+    private String password = "A1b2C3";
+    private String numeroTicket;
     public Devolucion(String numeroTicket)
     {
         this.numeroTicket = numeroTicket;
@@ -38,8 +44,142 @@ public class Devolucion
         return false;
     }
     
+    public void ajustarDinero(String[] devolucion)
+    {
+        String codigo = devolucion[0];
+        double cantidad = Double.parseDouble(devolucion[5]);
+        double precioUnidad = Double.parseDouble(devolucion[3]);
+        double totalDevolucion = Double.parseDouble(devolucion[6]);
+        //Descontar dinero del cajón de dinero
+        
+        //Conseguir total de devoluciones
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("select * from dinero where ID = 1");
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next())
+            {
+                totalDevolucion += Double.parseDouble(rs.getString("DEVOLUCIONES"));
+            }
+            rs.close();
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, "1"+ e.getMessage());
+        }
+        
+        //Agregar devolución actual
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("update dinero set DEVOLUCIONES = ? where ID = 1");
+            ps.setString(1, String.valueOf(totalDevolucion));
+            ps.executeUpdate();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "2"+ e.getMessage());
+        }
+        //Descontar ganancias
+        
+        //Buscar datos del producto y obtner la ganancia
+        double descuentoGanancias = 0;
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("select * from productos where CÓDIGO = " + "'" + codigo + "'");
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next())
+            {
+                double ganancia = Double.parseDouble(rs.getString("% GANANCIA"))/100;
+                double impuestos = Double.parseDouble(rs.getString("% IMPUESTOS"))/100;
+                descuentoGanancias = cantidad *(precioUnidad/impuestos)*ganancia;
+            }
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, "3"+ e.getMessage());
+        }
+        
+        if(descuentoGanancias == 0)
+        { 
+            descuentoGanancias = cantidad *(precioUnidad/0.16)*0.20;
+        }
+        //Descontar la ganancia
+        
+        //Ganancia anterior
+        double gananciasHoy = 0 - descuentoGanancias;
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("select * from dinero where ID = 1");
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next())
+            {
+                gananciasHoy += Double.parseDouble(rs.getString("GANANCIA"))/100;
+            }
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, "4"+ e.getMessage());
+            return;
+        }
+        //Proceder a descontar
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("update dinero set GANANCIA = ? where ID = 1");
+            ps.setString(1, String.valueOf(gananciasHoy));
+            ps.executeUpdate();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "5"+ e.getMessage());
+        }
+        
+    }
+    
+    public void agregarProducto(String[] devolucion)
+    {
+        String codigo = devolucion[0];
+        double cantidadDevolver = Double.parseDouble(devolucion[5]);
+        double cantidadActual = 0;
+        //Obtener unidades actuales
+        try
+        {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("select * from productos where CÓDIGO = '" + codigo + "'");
+            ResultSet rs = ps.executeQuery();
+            if(rs.next())
+            {
+                cantidadActual = Double.parseDouble(rs.getString("EXISTENCIA"));
+            }
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, "6"+ e.getMessage());
+            return;
+        }
+        //Actualizar el numero de unidades
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("update productos set EXISTENCIA = ? where CÓDIGO = '" + codigo + "'");
+            cantidadActual +=cantidadDevolver;
+            ps.setString(1, String.valueOf(cantidadActual));
+            ps.executeUpdate();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "7"+ e.getMessage());
+        }
+    }
+    
+    public boolean buscarDevolucion()
+    {
+        File file = new File("tickets\\devolucion_" + numeroTicket + ".txt");
+        if(file.exists())
+        {
+            if(file.isFile())
+                return true;
+        }
+        return false;
+    }
+    
     public DefaultTableModel obtenerVentas()
     {
+        if(buscarDevolucion())
+        {
+            return null;
+        }
 
         DefaultTableModel modelo = new DefaultTableModel()
         {
@@ -179,6 +319,7 @@ public class Devolucion
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         String fechaHora = dtf.format(LocalDateTime.now());
         String productos[] = obtenerProductos(modelo);
+        int nProductos = modelo.getRowCount();
         
         try{
          FileWriter archivo = new FileWriter(new File("tickets\\devolucion_" + numeroTicket + ".txt"));
@@ -190,7 +331,6 @@ public class Devolucion
          
          archivo.append("\n\n\n");
          archivo.append("Productos: \n\n");
-         int nProductos = modelo.getRowCount();
          for(int i=0;i<nProductos;i++)
          {
             archivo.append(productos[i] + "\n");
@@ -208,6 +348,13 @@ public class Devolucion
             
         }
         
+        //Ajustar las cuentas y el inventario por producto
+        for(int i=0;i<nProductos;i++)
+        {
+            String[] producto = obtenerProducto(modelo,i);
+            ajustarDinero(producto);
+            agregarProducto(producto);
+        }
         
         imprimir("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\mavenproject1\\tickets\\devolucion_" + numeroTicket + ".txt");
     }
@@ -236,6 +383,18 @@ public class Devolucion
             productos[i] = codigo + " " + unidades + " " + producto + " $" + precioUnidad + " $" + totalPorProducto;
         }
         return productos;
+    }
+    
+    private String[] obtenerProducto(DefaultTableModel modelo,int row)
+    {
+        int numeroColumnas = modelo.getColumnCount();
+        String producto[] = new String[numeroColumnas];
+        for(int i=0;i<numeroColumnas;i++)
+        {
+            producto[i] = String.valueOf(modelo.getValueAt(row,i));
+        }
+        
+        return producto;
     }
 
     private void imprimir(String archivo)

@@ -29,7 +29,7 @@ public class AdministracionTicket extends javax.swing.JFrame {
         
         if(null == modelo)
         {
-            JOptionPane.showMessageDialog(this,"Ticket mo encontrado!!!");
+            JOptionPane.showMessageDialog(this,"Ticket no encontrado!!!");
             return;
         }
         
@@ -75,6 +75,12 @@ public class AdministracionTicket extends javax.swing.JFrame {
         });
 
         jTable1.setModel(modelo);
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTable1FocusGained(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -97,7 +103,9 @@ public class AdministracionTicket extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Total:");
 
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextField2.setText("0");
+        jTextField2.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -167,6 +175,17 @@ public class AdministracionTicket extends javax.swing.JFrame {
         // TODO add your handling code here:
         presentarTicket();
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTable1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTable1FocusGained
+        // TODO add your handling code here:
+        double value = 0;
+        int count = modelo.getRowCount();
+        for(int i=0;i<count;i++)
+        {
+            value = Double.parseDouble(String.valueOf(modelo.getValueAt(i,6)));
+        }
+        jTextField2.setText(String.valueOf(value));
+    }//GEN-LAST:event_jTable1FocusGained
 
     /**
      * @param args the command line arguments

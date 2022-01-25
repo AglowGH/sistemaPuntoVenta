@@ -5,6 +5,7 @@
 package com.mycompany.mavenproject1;
 
 import java.awt.Toolkit;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -97,8 +98,15 @@ public class Home extends javax.swing.JFrame
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
+        LogInDialog logIn = new LogInDialog(this,true);
+        String user = logIn.showDialog();
+        
+        if(user == null)
+            return;
+        
         Caja caja = new Caja();
-        caja.setVisible(true);
+        caja.showCaja(user);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

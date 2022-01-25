@@ -17,14 +17,15 @@ public class AdministracionTicket extends javax.swing.JFrame {
     /**
      * Creates new form Ticket
      */
-    public AdministracionTicket() {
+    public AdministracionTicket() 
+    {
         initComponents();
     }
     
     public void presentarTicket()
     {
-        Devolucion dev = new Devolucion(jTextField1.getText());
-        DefaultTableModel modelo = dev.obtenerVentas();
+        dev = new Devolucion(jTextField1.getText());
+        modelo = dev.obtenerVentas();
         
         if(null == modelo)
         {
@@ -34,6 +35,13 @@ public class AdministracionTicket extends javax.swing.JFrame {
         
         jTable1.setModel(modelo);
         
+    }
+    
+    
+    public void showFrame(String usuario)
+    {
+        user = usuario;
+        setVisible(true);
     }
 
     /**
@@ -66,17 +74,7 @@ public class AdministracionTicket extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setModel(modelo);
         jScrollPane1.setViewportView(jTable1);
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -99,6 +97,8 @@ public class AdministracionTicket extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Total:");
 
+        jTextField2.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,7 +109,7 @@ public class AdministracionTicket extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addGap(18, 18, 18)
@@ -154,6 +154,10 @@ public class AdministracionTicket extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        if(dev != null && modelo != null)
+        {
+            dev.relizarDevolucion(user, modelo,Double.parseDouble(jTextField2.getText()));
+        }
         Home home = new Home();
         home.setVisible(true);
         dispose();
@@ -200,6 +204,9 @@ public class AdministracionTicket extends javax.swing.JFrame {
         });
     }
 
+    private String user = "UNKNOW";
+    private Devolucion dev = null;
+    private DefaultTableModel modelo = new DefaultTableModel();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

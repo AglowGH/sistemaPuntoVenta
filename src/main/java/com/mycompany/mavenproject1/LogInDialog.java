@@ -25,10 +25,10 @@ public class LogInDialog extends javax.swing.JDialog {
         initComponents();
     }
     
-    public boolean showDialog()
+    public String showDialog()
     {
         setVisible(true);
-        return login;
+        return user;
     }
 
     /**
@@ -128,7 +128,7 @@ public class LogInDialog extends javax.swing.JDialog {
                 String passwor = rs.getString("PASSWORD");
                 if(contrasena.equals(passwor))
                 {
-                    login = true;
+                    user = usuario;
                 }else
                 {
                     JOptionPane.showMessageDialog(this,"Usuario o contraseña incorrectos.");
@@ -184,7 +184,7 @@ public class LogInDialog extends javax.swing.JDialog {
         });
     }
 
-    private boolean login = false;
+    private String user = null;
     private String password = "A1b2C3";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

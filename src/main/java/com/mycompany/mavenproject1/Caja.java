@@ -298,8 +298,8 @@ public class Caja extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         LogInDialog log = new LogInDialog(this,true);
-        boolean pass = log.showDialog();
-        if(!pass)
+        String pass = log.showDialog();
+        if(pass == null)
         {
             return;
         }
@@ -309,7 +309,7 @@ public class Caja extends javax.swing.JFrame {
         if(index == 0)
         {
             AdministracionTicket ticket = new AdministracionTicket();
-            ticket.setVisible(true);
+            ticket.showFrame(pass);
             dispose();
             //JOptionPane.showMessageDialog(this,"Seguimos trabajando en ello!!");
         }

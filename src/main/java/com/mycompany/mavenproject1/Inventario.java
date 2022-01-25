@@ -754,8 +754,8 @@ public class Inventario extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         LogInDialog log = new LogInDialog(this,true);
-        boolean pass = log.showDialog();
-        if(!pass)
+        String pass = log.showDialog();
+        if(pass == null)
             return;
         int nFilas = jTable2.getRowCount();
         if(nFilas == 0)
@@ -943,8 +943,8 @@ public class Inventario extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         LogInDialog log = new LogInDialog(this,true);
-        boolean pass = log.showDialog();
-        if(!pass)
+        String pass = log.showDialog();
+        if(pass == null)
         {
             return;
         }
@@ -1121,8 +1121,8 @@ public class Inventario extends javax.swing.JFrame {
         if(seleccion.equals("General"))
         {
             LogInDialog dialog = new LogInDialog(this,true);
-            boolean pass = dialog.showDialog();
-            if(pass)
+            String pass = dialog.showDialog();
+            if(pass != null)
             {
                 actualizarTablaInventarioGeneral();
             }else

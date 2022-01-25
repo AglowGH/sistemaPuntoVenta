@@ -26,16 +26,48 @@ public class Devolucion
         this.numeroTicket = numeroTicket;
     }
     
+    private boolean esDoublePositivo(String valor,double limit)
+    {
+        try{
+            double conversion = Double.parseDouble(valor);    
+            return conversion >= 0 && conversion <= limit;
+        }catch(NumberFormatException e)
+        {
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        return false;
+    }
+    
     public DefaultTableModel obtenerVentas()
     {
-        /*File doc =
-          new File("C:\\Drive\\Learn.txt");
-        Scanner obj = new Scanner(doc);
 
-        while (obj.hasNextLine())
-            System.out.println(obj.nextLine());
-        }*/
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = new DefaultTableModel()
+        {
+            @Override
+            public boolean isCellEditable(int row, int column) 
+            {
+                if(column == 5)
+                    return true;
+                return false;
+            }
+            
+            @Override
+            public void setValueAt(Object aValue, int row, int column) 
+            {
+            
+                if(column == 5)
+                {
+                    double limit = Double.parseDouble(String.valueOf(getValueAt(row,1)));
+                    if(!esDoublePositivo(String.valueOf(aValue),limit))
+                    {
+                        return;
+                    }
+                }
+                super.setValueAt(aValue, row, column); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+                double totalDev = Double.parseDouble(String.valueOf(getValueAt(row,column))) * Double.parseDouble(String.valueOf(getValueAt(row,3)));
+                super.setValueAt(totalDev,row,column+1);
+            }
+        };
         
         modelo.addColumn("Código");
         modelo.addColumn("Cantidad");
@@ -72,7 +104,6 @@ public class Devolucion
                     String[] arreglo = recuperarDatos(linea);
                     if(arreglo != null)
                     {
-                        System.out.println(arreglo[0] + " " + arreglo[1] + " " + arreglo[2] + " " + arreglo[3] + " " + arreglo[4] + " " + arreglo[5] + " " + arreglo[6]);
                         modelo.addRow(arreglo);
                     }
                 }
@@ -80,7 +111,7 @@ public class Devolucion
             
         }catch(IOException e)
         {
-            JOptionPane.showMessageDialog(null,"Error al recuperrar informaci{on del ticket.");
+            JOptionPane.showMessageDialog(null,"Error al recuperrar información del ticket.");
         }
         
         return null;
@@ -153,7 +184,7 @@ public class Devolucion
          FileWriter archivo = new FileWriter(new File("tickets\\devolucion_" + numeroTicket + ".txt"));
          
          archivo.write(titulo + "\n\n\n");
-         archivo.append("Cajero: " + usuario + "\n");
+         archivo.append("Autorizó: " + usuario + "\n");
          archivo.append("Fecha y Hora:" + fechaHora + "\n");
          archivo.append("Ticket: " + numeroTicket + "\n");
          
@@ -174,7 +205,7 @@ public class Devolucion
          archivo.close();
         }catch(IOException e)
         {
-            JOptionPane.showMessageDialog(null,"Error al crear el ticket.");
+            
         }
         
         

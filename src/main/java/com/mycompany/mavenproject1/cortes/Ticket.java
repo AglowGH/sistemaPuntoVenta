@@ -65,10 +65,11 @@ public class Ticket implements Printable
          archivo.append("Ticket: " + numeroTicket + "\n");
          
          archivo.append("\n\n\n");
+         archivo.append("Productos: \n\n");
          int nProductos = modelo.getRowCount();
          for(int i=0;i<nProductos;i++)
          {
-            archivo.append(productos[i] + "\n\n");
+            archivo.append(productos[i] + "\n");
          }
          archivo.append("\n\n\n");
          
@@ -107,6 +108,7 @@ public class Ticket implements Printable
         
     }
     
+    
     private String[] obtenerProductos()
     {
         int numeroProductos = modelo.getRowCount();
@@ -124,6 +126,7 @@ public class Ticket implements Printable
             codigo = String.valueOf(modelo.getValueAt(i,0));
             unidades = String.valueOf(modelo.getValueAt(i,1));
             producto = String.valueOf(modelo.getValueAt(i,2));
+            producto = producto.replace(" ","_");
             precioUnidad = String.valueOf(modelo.getValueAt(i,3));
             totalPorProducto = String.valueOf(modelo.getValueAt(i,4));
             

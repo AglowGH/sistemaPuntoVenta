@@ -4,6 +4,10 @@
  */
 package com.mycompany.mavenproject1;
 
+import com.mycompany.mavenproject1.cortes.Devolucion;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Usuario
@@ -15,6 +19,21 @@ public class AdministracionTicket extends javax.swing.JFrame {
      */
     public AdministracionTicket() {
         initComponents();
+    }
+    
+    public void presentarTicket()
+    {
+        Devolucion dev = new Devolucion(jTextField1.getText());
+        DefaultTableModel modelo = dev.obtenerVentas();
+        
+        if(null == modelo)
+        {
+            JOptionPane.showMessageDialog(this,"Ticket mo encontrado!!!");
+            return;
+        }
+        
+        jTable1.setModel(modelo);
+        
     }
 
     /**
@@ -41,6 +60,11 @@ public class AdministracionTicket extends javax.swing.JFrame {
 
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextField1.setText("0");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -91,7 +115,7 @@ public class AdministracionTicket extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
                         .addGap(26, 26, 26))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 811, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
@@ -115,7 +139,7 @@ public class AdministracionTicket extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
 
         pack();
@@ -134,6 +158,11 @@ public class AdministracionTicket extends javax.swing.JFrame {
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+        presentarTicket();
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -317,18 +317,20 @@ public class Caja extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        LogInDialog log = new LogInDialog(this,true);
-        String pass = log.showDialog();
-        if(pass == null)
-        {
-            return;
-        }
-        usuario = pass;
+        
         Opciones masOpciones = new Opciones(this,true);
         int index = masOpciones.showDialog();
         
         if(index == 0)
         {
+            LogInDialog log = new LogInDialog(this,true);
+            String pass = log.showDialog("MONEY");
+            if(pass == null)
+            {
+                return;
+            }
+            usuario = pass;
+            jTextField3.setText(usuario);
             AdministracionTicket ticket = new AdministracionTicket();
             ticket.showFrame(pass);
             dispose();
@@ -337,6 +339,14 @@ public class Caja extends javax.swing.JFrame {
         
         if(index == 1)
         {
+            LogInDialog log = new LogInDialog(this,true);
+            String pass = log.showDialog("MONEY");
+            if(pass == null)
+            {
+                return;
+            }
+            usuario = pass;
+            jTextField3.setText(usuario);
             Retiro retiro = new Retiro();
             retiro.setVisible(true);
             dispose();
@@ -344,7 +354,14 @@ public class Caja extends javax.swing.JFrame {
         
         if(index == 2)
         {
-            //Corte x
+            LogInDialog log = new LogInDialog(this,true);
+            String pass = log.showDialog("CORTE");
+            if(pass == null)
+            {
+                return;
+            }
+            usuario = pass;
+            jTextField3.setText(usuario);
             CorteX corte = new CorteX(usuario);
             corte.crearCorte();
             return;
@@ -352,7 +369,14 @@ public class Caja extends javax.swing.JFrame {
         
         if(index == 3)
         {
-            //Corte z
+            LogInDialog log = new LogInDialog(this,true);
+            String pass = log.showDialog("CORTE");
+            if(pass == null)
+            {
+                return;
+            }
+            usuario = pass;
+            jTextField3.setText(usuario);
             CorteZ corte = new CorteZ(usuario);
             corte.crearCorte();
         }

@@ -100,7 +100,7 @@ public class Home extends javax.swing.JFrame
         // TODO add your handling code here:
         
         LogInDialog logIn = new LogInDialog(this,true);
-        String user = logIn.showDialog();
+        String user = logIn.showDialog("MONEY");
         
         if(user == null)
             return;

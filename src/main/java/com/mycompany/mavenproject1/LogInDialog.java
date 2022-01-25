@@ -25,8 +25,9 @@ public class LogInDialog extends javax.swing.JDialog {
         initComponents();
     }
     
-    public String showDialog()
+    public String showDialog(String permiso)
     {
+        this.permiso = permiso;
         setVisible(true);
         return user;
     }
@@ -121,7 +122,7 @@ public class LogInDialog extends javax.swing.JDialog {
         
         try{
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("select PASSWORD from usuarios where USER = " + usuario);
+            PreparedStatement ps = connection.prepareStatement("select * from usuarios where USER = " + usuario);
             ResultSet rs = ps.executeQuery();
             if(rs.next())
             {
@@ -186,6 +187,7 @@ public class LogInDialog extends javax.swing.JDialog {
 
     private String user = null;
     private String password = "A1b2C3";
+    private String permiso = "";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

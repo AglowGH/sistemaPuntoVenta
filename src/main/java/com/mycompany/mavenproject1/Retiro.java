@@ -202,8 +202,8 @@ public class Retiro extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        Caja caja = new Caja();
-        caja.setVisible(true);
+        Home home = new Home();
+        home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -255,8 +255,8 @@ public class Retiro extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         
-        Caja caja = new Caja();
-        caja.setVisible(true);
+        Home home = new Home();
+        home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -273,8 +273,8 @@ public class Retiro extends javax.swing.JFrame {
     }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        Caja caja = new Caja();
-        caja.setVisible(true);
+        Home home = new Home();
+        home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -318,8 +318,8 @@ public class Retiro extends javax.swing.JFrame {
             
         }
         
-        Caja caja = new Caja();
-        caja.setVisible(true);
+        Home home = new Home();
+        home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 

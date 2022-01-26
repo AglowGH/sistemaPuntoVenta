@@ -48,6 +48,8 @@ public class CorteZ
         String[] tickets = recuperarTickets();
         int numeroCorte = Integer.parseInt(ingresosEgresos[8]) + 1;
         double ganancias = recuperarGanancia();
+        int numeroClientes = Integer.parseInt(recuperarNumeroClientes());
+        double totalProducto = totalMercancia();
         
         try{
          FileWriter archivo = new FileWriter(new File("Cortes_Z\\corte_Z_" + numeroCorte + ".txt"));
@@ -89,7 +91,10 @@ public class CorteZ
              archivo.append(i + "\n");
          }
          
+         archivo.append("------Información Adicional-----------------");
          archivo.append("\n\n\n");
+         archivo.append("No. Clientes : " + numeroClientes + "\n");
+         archivo.append("Valor de mercancia : $" + totalProducto + "\n");
          archivo.append("Ganancias por venta $" + ganancias + "\n");
          totalE -= Double.parseDouble(ingresosEgresos[4]);
          archivo.append("Egresos: $" + totalE + "\n" );
@@ -123,6 +128,28 @@ public class CorteZ
     public void leerCorte()
     {
         
+    }
+    
+    private String recuperarNumeroClientes()
+    {
+        String noClientes = "";
+        
+        try
+        {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("select * from dinero where ID = 1");
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next())
+            {
+                noClientes = rs.getString("NoClientes");
+            }
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al recuperar clientes, error: " + e.getMessage());
+        }
+        
+        return noClientes; 
     }
     
     private String[] recuperarTickets()
@@ -227,7 +254,7 @@ public class CorteZ
         //Limpiar la informacion necesaria de la tabla dinero
         try{
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("update dinero set INICIAL_DIA = ?, PAGO_CLIENTES = ?, VENTA = ?, OTROS = ?, DEVOLUCIONES = ?, PAGO_PROVEDORES = ?, PAGO_SERVICIOS = ?, OTRO_PAGOS = ? where ID = 1");
+            PreparedStatement ps = connection.prepareStatement("update dinero set INICIAL_DIA = ?, PAGO_CLIENTES = ?, VENTA = ?, OTROS = ?, DEVOLUCIONES = ?, PAGO_PROVEDORES = ?, PAGO_SERVICIOS = ?, OTRO_PAGOS = ?, NoClientes = ?, GANANCIA = ? where ID = 1");
             ps.setString(1,"0");
             ps.setString(2,"0");
             ps.setString(3,"0");
@@ -236,6 +263,8 @@ public class CorteZ
             ps.setString(6,"0");
             ps.setString(7,"0");
             ps.setString(8,"0");
+            ps.setString(9,"0");
+            ps.setString(10,"0");
             ps.executeUpdate();
         }catch(SQLException e)
         {
@@ -259,5 +288,58 @@ public class CorteZ
             
         }
         return gananciaAnterior;
+    }
+    
+    private double totalMercancia()
+    {
+        int totalProductos = 0;
+        double monto = 0;
+        try
+        {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) As total from productos");
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next())
+            {
+                totalProductos = rs.getShort("total");
+            }
+            
+            ps = connection.prepareStatement("select * from productos");
+            rs = ps.executeQuery();
+            
+            for(int i =0;i<totalProductos;i++)
+            {
+                if(rs.next())
+                {
+                    double precioProvedor = Double.parseDouble(rs.getString("PRECIO_DE_COMPRA"));
+                    double ganancia = Double.parseDouble(rs.getString("% GANANCIA"));
+                    double impuestos = Double.parseDouble(rs.getString("% IMPUESTOS"));
+                    double precio = calcularPrecioCliente(precioProvedor,ganancia,impuestos);
+                    monto += Double.parseDouble(rs.getString("EXISTENCIA")) * precio;
+                }
+            }
+            rs.close();
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null,"Error al calcular mercancia.");
+        }
+        System.out.println(monto);
+        return monto;
+    }
+    
+    private double calcularPrecioCliente(double precioProvedor,double ganancia,double impuestos)
+    {
+        if(ganancia >= 100)
+        {
+            return 0;
+        }
+        double porcentajeGanancia = ganancia/100;
+        double porcentajeImpuesto = (impuestos/100) + 1;
+        double precio = precioProvedor/(1 - porcentajeGanancia);
+        precio = Math.round(precio*100)/100;
+        precio *= porcentajeImpuesto;
+        precio = Math.round(precio*100)/100;
+        return precio;
     }
 }

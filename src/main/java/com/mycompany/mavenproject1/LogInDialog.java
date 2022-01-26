@@ -129,7 +129,14 @@ public class LogInDialog extends javax.swing.JDialog {
                 String passwor = rs.getString("PASSWORD");
                 if(contrasena.equals(passwor))
                 {
-                    user = usuario;
+                    int accion = Integer.parseInt(rs.getString(permiso));
+                    if(accion == 1)
+                    {
+                        user = usuario;
+                    }else
+                    {
+                        JOptionPane.showMessageDialog(this,"Acceso denegado.");
+                    }
                 }else
                 {
                     JOptionPane.showMessageDialog(this,"Usuario o contraseña incorrectos.");

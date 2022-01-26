@@ -214,6 +214,34 @@ public class Cobro2 extends javax.swing.JDialog {
         {
             JOptionPane.showMessageDialog(null,e.getMessage());
         }
+        //Aumentar contador de clientes
+        
+        //Conseguir numero actual de clientes
+        int numeroClientes = 0;
+        try
+        {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("select * from dinero where ID = 1");
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next())
+            {
+                numeroClientes = Integer.parseInt(rs.getString("NoClientes"));
+            }
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(this,"Error en números de clinetes, error: " + e.getMessage());
+        }
+        //Realizar cambio
+        try
+        {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
+            PreparedStatement ps = connection.prepareStatement("update dinero set NoClientes = " + String.valueOf(numeroClientes + 1) + " where ID = 1");
+            ps.executeUpdate();
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(this,"Error al actualizar números de clinetes, error: " + e.getMessage());
+        }
     }
     private void consolidarVenta(double total)
     {

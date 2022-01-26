@@ -1,20 +1,21 @@
 ***REFACCIONARIA GJ***
 
 
-Cajero: UNKNOWN
-Fecha y Hora:2022/01/19 10:15:58
+Cajero: 'admin'
+Fecha y Hora:2022/01/25 18:57:37
 Ticket: 1
 
 
 
-7501799101747 1 ATF WINOL $45.0 $45.0
+Productos: 
+
+polish 1 PROTEC_ALMORALL____1_L $42.0 $42.0
 
 
 
-
-Total: $45.0
-Pago: $45.0
-Cambio $: 0.0
+Total: $42.0
+Pago: $100.0
+Cambio $: 58.0
 
 
 

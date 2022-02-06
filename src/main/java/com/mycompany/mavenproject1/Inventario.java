@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.mavenproject1;
+import com.mycompany.mavenproject1.cortes.ImprimirInventario;
 import java.awt.Toolkit;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -664,6 +665,11 @@ public class Inventario extends javax.swing.JFrame {
         });
 
         jButton8.setText("Imprimir Lista");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton9.setText("Imprimir resultados");
 
@@ -863,7 +869,7 @@ public class Inventario extends javax.swing.JFrame {
             pst.setString(2,dato.trim());
             dato = checarSQLInjection(jTextField2.getText().trim());
             pst.setString(3,dato.trim());
-            dato = checarSQLInjection(jTextField3.getText().trim());
+            dato = checarSQLInjection("'" + jTextField3.getText().trim() + "'");
             pst.setString(4,dato.trim());
             dato = checarSQLInjection(jTextField4.getText().trim());
             pst.setString(5,dato.trim());
@@ -1169,6 +1175,19 @@ public class Inventario extends javax.swing.JFrame {
         jTextField8.setText(String.valueOf(total));
         modelo2.removeRow(index);
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        String opcion = String.valueOf(jComboBox5.getSelectedItem());
+        if(opcion.equals("General"))
+        {
+            ImprimirInventario ii = new ImprimirInventario();
+            ii.recuperarInventario();
+        }else
+        {
+            JOptionPane.showMessageDialog(this,"Option no available!!");
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     private void actualizarInventarioGeneral()
     {

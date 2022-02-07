@@ -1,0 +1,37 @@
+***REFACCIONARIA GJ***
+Cajero: 'admin'
+Fecha y Hora:2022/02/06 17:59:18
+Corte Z : 1
+---------Ingresos--------------
+Inicial día: $0.0
+Pago de clientes: $0.0
+Ventas: $166.0
+Otros ingresos: $0.0
+Total ingresos: $166.0
+
+---------Egresos-----------------
+Devoluciones: $0.0
+Pago provedores: $0.0
+Servicios: $0.0
+Otros pagos: $0.0
+Total egresos: $0.0
+
+Total en caja: $166.0
+Tickets: 
+
+0  $0.0
+1  $166.0
+------Información Adicional-----------------
+
+
+No. Clientes : 1
+Valor de mercancia : $183973.0
+Ganancias por venta $19.5
+Egresos: $0.0
+Total: $19.5
+
+
+
+
+
+v8

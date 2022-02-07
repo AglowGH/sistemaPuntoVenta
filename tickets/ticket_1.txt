@@ -1,0 +1,26 @@
+***REFACCIONARIA GJ***
+
+
+Cajero: 'admin'
+Fecha y Hora:2022/02/06 17:56:05
+Ticket: 1
+
+
+
+Productos: 
+
+7501116200054 1 MOBIL_25w60_AK $114.0 $114.0
+7501377301385 1 SILICON_TF_GRIS $52.0 $52.0
+
+
+
+Total: $166.0
+Pago: $166.0
+Cambio $: 0.0
+
+
+
+¡Muchas gracias por su compra!
+
+
+v8

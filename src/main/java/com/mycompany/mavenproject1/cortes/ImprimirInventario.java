@@ -4,6 +4,7 @@
  */
 package com.mycompany.mavenproject1.cortes;
 
+import impresion.Impresora;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
@@ -23,9 +24,12 @@ import javax.swing.JOptionPane;
  */
 public class ImprimirInventario 
 {
+    private Impresora impresora;
+    
     public ImprimirInventario()
     {
         crearCarpeta();
+        impresora = new Impresora();
     }
     private void crearCarpeta()
     {
@@ -59,20 +63,15 @@ public class ImprimirInventario
             Logger.getLogger(ImprimirInventario.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,ex.getMessage());
         }
-        imprimirInventario();
+        //imprimirInventario();
+        try {
+            impresora.imprimir("Impresion_Inventarios\\1.txt",1);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null,"Error al imprimir!!!!!");
+        }
+        
     }
     
-    public void imprimirInventario()
-    {
-        try{
-            File file = new File("Impresion_Inventarios\\1.txt");
-            Desktop desktop = Desktop.getDesktop();
-            desktop.print(file);
-        }catch(IOException e)
-        {
-            JOptionPane.showMessageDialog(null,"Error al imprimir");
-        }
-    }
     
     private String pass = "A1b2C3";
 }

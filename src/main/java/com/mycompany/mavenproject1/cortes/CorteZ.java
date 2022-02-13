@@ -16,6 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -110,23 +112,16 @@ public class CorteZ
             JOptionPane.showMessageDialog(null,"Error al crear el ticket.");
         }
         
-        imprimir("Cortes_Z\\corte_Z_" + numeroCorte + ".txt");
+        try {
+            impresora.imprimir("Cortes_Z\\corte_Z_" + numeroCorte + ".txt",1);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null,"Error al imprimir!!!!!");
+        }
+        
         actualizarContador(numeroCorte);
         actualizarTablas();
     }
     
-    private void imprimir(String archivo)
-    {
-        try{
-            File file = new File(archivo);
-            Desktop desktop = Desktop.getDesktop();
-            desktop.print(file);
-            desktop.print(file);
-        }catch(IOException e)
-        {
-            JOptionPane.showMessageDialog(null,"Error al imprimir");
-        }
-    }
     
     public void leerCorte()
     {

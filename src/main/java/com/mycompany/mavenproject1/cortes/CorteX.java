@@ -4,6 +4,7 @@
  */
 package com.mycompany.mavenproject1.cortes;
 
+import impresion.Impresora;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
@@ -21,11 +22,13 @@ public class CorteX
 {
     private String cajero = "UNKNOWN";
     private String password = "A1b2C3";
+    private Impresora impresora;
     
     public CorteX(String cajero)
     {
         this.cajero = cajero;
         crearCarpeta();
+        impresora = new Impresora();
     }
     private void crearCarpeta()
     {
@@ -89,22 +92,15 @@ public class CorteX
         {
             JOptionPane.showMessageDialog(null,"Error al crear el ticket.");
         }
-        imprimir("Cortes_X\\corte_X_" + numeroCorte + ".txt");
+        
+        try {
+            impresora.imprimir("Cortes_X\\corte_X_" + numeroCorte + ".txt",1);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null,"Error al imprimir!!!!!");
+        }
         actualizarContador(numeroCorte);
     }
     
-    private void imprimir(String archivo)
-    {
-        try{
-            File file = new File(archivo);
-            Desktop desktop = Desktop.getDesktop();
-            desktop.print(file);
-            desktop.print(file);
-        }catch(IOException e)
-        {
-            JOptionPane.showMessageDialog(null,"Error al imprimir");
-        }
-    }
     
     public void leerCorte()
     {

@@ -4,6 +4,7 @@
  */
 package com.mycompany.mavenproject1.cortes;
 
+import impresion.Impresora;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
@@ -27,9 +28,12 @@ public class Devolucion
 {
     private String password = "A1b2C3";
     private String numeroTicket;
+    private Impresora impresora;
+    
     public Devolucion(String numeroTicket)
     {
         this.numeroTicket = numeroTicket;
+        impresora = new Impresora();
     }
     
     private boolean esDoublePositivo(String valor,double limit)
@@ -356,7 +360,11 @@ public class Devolucion
             agregarProducto(producto);
         }
         
-        imprimir("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\mavenproject1\\tickets\\devolucion_" + numeroTicket + ".txt");
+        try {
+            impresora.imprimir("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\mavenproject1\\tickets\\devolucion_" + numeroTicket + ".txt",1);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null,"Error al imprimir!!!!!");
+        }
     }
     
     private String[] obtenerProductos(DefaultTableModel modelo)
@@ -397,16 +405,4 @@ public class Devolucion
         return producto;
     }
 
-    private void imprimir(String archivo)
-    {
-        try{
-            File file = new File(archivo);
-            Desktop desktop = Desktop.getDesktop();
-            desktop.print(file);
-            desktop.print(file);
-        }catch(IOException e)
-        {
-            JOptionPane.showMessageDialog(null,"Error al imprimir");
-        }
-    }
 }

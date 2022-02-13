@@ -62,6 +62,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="2" name="/home/rick/NetBeansProjects/sistemaPuntoVenta/src/main/java/imagenes/caja.png"/>
         </Property>
+        <Property name="mnemonic" type="int" value="49"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[200, 200]"/>
         </Property>
@@ -78,6 +79,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="2" name="/home/rick/NetBeansProjects/sistemaPuntoVenta/src/main/java/imagenes/inventario.png"/>
         </Property>
+        <Property name="mnemonic" type="int" value="50"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[200, 200]"/>
         </Property>

@@ -5,7 +5,6 @@
 package com.mycompany.mavenproject1.cortes;
 
 import impresion.Impresora;
-import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;

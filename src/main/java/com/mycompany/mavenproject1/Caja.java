@@ -39,6 +39,7 @@ public class Caja extends javax.swing.JFrame {
         
         this.usuario = user;
         jTextField3.setText(user);
+        jTextField2.requestFocus();
         setVisible(true);
     }
 
@@ -68,6 +69,7 @@ public class Caja extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1024, 768));
         setSize(new java.awt.Dimension(1024, 768));
 
+        jButton1.setMnemonic('7');
         jButton1.setText("Home");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,6 +103,7 @@ public class Caja extends javax.swing.JFrame {
         jLabel1.setText("Total:");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
+        jButton2.setMnemonic('3');
         jButton2.setText("Eliminar Producto");
         jButton2.setActionCommand("");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -109,6 +112,7 @@ public class Caja extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setMnemonic('4');
         jButton3.setText("Cancelar Venta");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,6 +120,7 @@ public class Caja extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setMnemonic('5');
         jButton4.setText("Cobrar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,6 +128,7 @@ public class Caja extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setMnemonic('6');
         jButton5.setText("Más Opciones");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,7 +240,9 @@ public class Caja extends javax.swing.JFrame {
         return newInput;
 
     }
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    
+    private void agregarProducto()
+    {
         String codigo = checarSQLInjection(jTextField2.getText().trim());
         String producto[] = venta.buscarProductoVenta(codigo);
         if(producto !=null)
@@ -248,6 +256,10 @@ public class Caja extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Producto no encontrado");
         }
         jTextField2.setText("");
+    }
+    
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        agregarProducto();
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -356,6 +368,10 @@ public class Caja extends javax.swing.JFrame {
             BuscarProducto bp = new BuscarProducto(this,true);
             String seleccion = bp.showDialog(model);
             jTextField2.setText(seleccion);
+            if(!seleccion.equals(""))
+            {
+                agregarProducto();
+            }
         }
     }//GEN-LAST:event_jTextField2KeyReleased
 

@@ -5,7 +5,6 @@
 package com.mycompany.mavenproject1.cortes;
 
 import impresion.Impresora;
-import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

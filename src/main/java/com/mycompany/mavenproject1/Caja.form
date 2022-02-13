@@ -94,6 +94,7 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
+        <Property name="mnemonic" type="int" value="55"/>
         <Property name="text" type="java.lang.String" value="Home"/>
       </Properties>
       <Events>
@@ -155,6 +156,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
+        <Property name="mnemonic" type="int" value="51"/>
         <Property name="text" type="java.lang.String" value="Eliminar Producto"/>
         <Property name="actionCommand" type="java.lang.String" value=""/>
       </Properties>
@@ -164,6 +166,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton3">
       <Properties>
+        <Property name="mnemonic" type="int" value="52"/>
         <Property name="text" type="java.lang.String" value="Cancelar Venta"/>
       </Properties>
       <Events>
@@ -172,6 +175,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton4">
       <Properties>
+        <Property name="mnemonic" type="int" value="53"/>
         <Property name="text" type="java.lang.String" value="Cobrar"/>
       </Properties>
       <Events>
@@ -180,6 +184,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton5">
       <Properties>
+        <Property name="mnemonic" type="int" value="54"/>
         <Property name="text" type="java.lang.String" value="M&#xe1;s Opciones"/>
       </Properties>
       <Events>

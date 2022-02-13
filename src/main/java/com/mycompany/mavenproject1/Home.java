@@ -44,6 +44,7 @@ public class Home extends javax.swing.JFrame
         setSize(new java.awt.Dimension(1024, 768));
 
         jButton1.setIcon(new javax.swing.ImageIcon("/home/rick/NetBeansProjects/sistemaPuntoVenta/src/main/java/imagenes/caja.png")); // NOI18N
+        jButton1.setMnemonic('1');
         jButton1.setMaximumSize(new java.awt.Dimension(200, 200));
         jButton1.setMinimumSize(new java.awt.Dimension(200, 200));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -53,6 +54,7 @@ public class Home extends javax.swing.JFrame
         });
 
         jButton2.setIcon(new javax.swing.ImageIcon("/home/rick/NetBeansProjects/sistemaPuntoVenta/src/main/java/imagenes/inventario.png")); // NOI18N
+        jButton2.setMnemonic('2');
         jButton2.setMaximumSize(new java.awt.Dimension(200, 200));
         jButton2.setMinimumSize(new java.awt.Dimension(200, 200));
         jButton2.addActionListener(new java.awt.event.ActionListener() {

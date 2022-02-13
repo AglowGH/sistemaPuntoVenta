@@ -68,6 +68,12 @@ public class LogInDialog extends javax.swing.JDialog {
             }
         });
 
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -117,6 +123,16 @@ public class LogInDialog extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        aceptarEntrada();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+        aceptarEntrada();
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
+
+    private void aceptarEntrada()
+    {
         String usuario =  "'" + jTextField1.getText() + "'";
         String contrasena = String.valueOf(jPasswordField1.getPassword());
         
@@ -148,8 +164,7 @@ public class LogInDialog extends javax.swing.JDialog {
         }
         
         dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
+    }
     /**
      * @param args the command line arguments
      */

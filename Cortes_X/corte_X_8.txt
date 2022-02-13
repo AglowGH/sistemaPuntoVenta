@@ -1,0 +1,28 @@
+***REFACCIONARIA GJ***
+Cajero: 'admin'
+Fecha y Hora:2022/02/13 13:13:16
+Corte X : 8
+---------Ingresos--------------
+Inicial día: $0.0
+Pago de clientes: $0.0
+Ventas: $42.0
+Otros ingresos: $0.0
+Total ingresos: $42.0
+
+---------Egresos-----------------
+Devoluciones: $0.0
+Pago provedores: $0.0
+Servicios: $0.0
+Otros pagos: $0.0
+Total egresos: $0.0
+
+Total en caja: $42.0
+Tickets: 
+
+72  $42.0
+
+
+
+
+
+v8

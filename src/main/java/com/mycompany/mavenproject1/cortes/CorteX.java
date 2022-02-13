@@ -47,7 +47,7 @@ public class CorteX
         int numeroCorte = Integer.parseInt(ingresosEgresos[8]) + 1;
         
         try{
-         FileWriter archivo = new FileWriter(new File("Cortes_X\\corte_X_" + numeroCorte + ".txt"));
+         FileWriter archivo = new FileWriter(new File("Cortes_X/corte_X_" + numeroCorte + ".txt"));
          
          archivo.write(titulo + "\n");
          archivo.append("Cajero: " + cajero + "\n");

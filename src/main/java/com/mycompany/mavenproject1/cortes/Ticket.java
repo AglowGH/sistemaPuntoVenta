@@ -60,7 +60,7 @@ public class Ticket implements Printable
         String productos[] = obtenerProductos();
         
         try{
-         FileWriter archivo = new FileWriter(new File("tickets\\ticket_" + numeroTicket + ".txt"));
+         FileWriter archivo = new FileWriter(new File("tickets/ticket_" + numeroTicket + ".txt"));
          
          archivo.write(titulo + "\n\n\n");
          archivo.append("Cajero: " + cajero + "\n");

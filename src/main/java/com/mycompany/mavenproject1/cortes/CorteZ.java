@@ -56,7 +56,7 @@ public class CorteZ
         double totalProducto = totalMercancia();
         
         try{
-         FileWriter archivo = new FileWriter(new File("Cortes_Z\\corte_Z_" + numeroCorte + ".txt"));
+         FileWriter archivo = new FileWriter(new File("Cortes_Z/corte_Z_" + numeroCorte + ".txt"));
          
          archivo.write(titulo + "\n");
          archivo.append("Cajero: " + cajero + "\n");

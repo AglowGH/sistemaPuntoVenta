@@ -20,7 +20,7 @@ public class Impresora
     
     public void imprimir(String archivo,int numCopias) throws IOException
     {
-        File file = new File(archivo);
+        /*File file = new File(archivo);
         if(!file.exists())
         {
             throw new IOException("Archivo a imprimir no existe");
@@ -29,6 +29,6 @@ public class Impresora
         for(int i=0;i<numCopias;i++)
         {
             desktop.print(file);
-        }
+        }*/
     }
 }

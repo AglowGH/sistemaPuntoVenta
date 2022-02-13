@@ -5,6 +5,7 @@
 package dinero;
 
 import java.sql.*;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -184,12 +185,12 @@ public class Venta
             ps.executeUpdate();
             
             //Guardar ticket
-            ps = cn.prepareStatement("INSERT INTO VENTAS(NUMERO_TICKET,VENTA) VALUES (" + String.valueOf(noAnterior) + "," + String.valueOf(total) + ")");
+            ps = cn.prepareStatement("INSERT INTO ventas(NUMERO_TICKET,VENTA) VALUES (" + String.valueOf(noAnterior) + "," + String.valueOf(total) + ")");
             ps.executeUpdate();
             
         }catch(SQLException e)
         {
-            
+            JOptionPane.showMessageDialog(null,e.getMessage());
         }
     }
     

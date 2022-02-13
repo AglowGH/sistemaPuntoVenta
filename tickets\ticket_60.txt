@@ -1,0 +1,25 @@
+***REFACCIONARIA GJ***
+
+
+Cajero: 'admin'
+Fecha y Hora:2022/02/13 11:17:26
+Ticket: 60
+
+
+
+Productos: 
+
+polish 1 PROTEC_ALMORALL____1_L $42.0 $42.0
+
+
+
+Total: $42.0
+Pago: $100.0
+Cambio $: 58.0
+
+
+
+¡Muchas gracias por su compra!
+
+
+v8

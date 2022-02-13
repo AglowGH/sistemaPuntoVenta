@@ -78,8 +78,8 @@ public class Cobro2 extends javax.swing.JDialog {
             }
         });
         jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField2KeyPressed(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField2KeyReleased(evt);
             }
         });
 
@@ -170,7 +170,20 @@ public class Cobro2 extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        botonAceptar();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void consolidarVenta(double total)
+    {
+        venta.actualizarTickets(total);
+        venta.agregarGanancias(modelo);
+        venta.agregarDinero(total);
+        venta.actualizarNumeroClientes();
+        venta.descontarExistencias(modelo);
+    }
+
+    private void botonAceptar()
+    {
         if(!venta.esDoublePositivo(jTextField2.getText()))
         {
             JOptionPane.showMessageDialog(null,"Error en el pago!!!");
@@ -187,18 +200,7 @@ public class Cobro2 extends javax.swing.JDialog {
         Ticket ticket = new Ticket(Integer.parseInt(jTextField4.getText()),modelo,Double.parseDouble(jTextField1.getText()),Double.parseDouble(jTextField3.getText()),Double.parseDouble(jTextField2.getText()),cajero);
         ticket.guardarTicket();
         dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void consolidarVenta(double total)
-    {
-        venta.actualizarTickets(total);
-        venta.agregarGanancias(modelo);
-        venta.agregarDinero(total);
-        venta.actualizarNumeroClientes();
-        venta.descontarExistencias(modelo);
     }
-
-    
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
         if(!venta.esDoublePositivo(jTextField2.getText()))
@@ -223,21 +225,13 @@ public class Cobro2 extends javax.swing.JDialog {
         jTextField3.setText(String.valueOf(cambio));
     }//GEN-LAST:event_jTextField2FocusLost
 
-    private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
+    private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
         // TODO add your handling code here:
-        if(evt.getKeyCode() == KeyEvent.VK_ESCAPE)
+        if(evt.getKeyCode() == KeyEvent.VK_F5)
         {
-            dispose();
-        }else if((KeyEvent.VK_0 <= evt.getKeyCode()) && (evt.getKeyCode() <= KeyEvent.VK_9) || ((evt.getKeyCode() == KeyEvent.VK_PERIOD) && !periodo))
-        {
-            
-            periodo = true;
-        }else
-        {
-            
+            botonAceptar();
         }
-        
-    }//GEN-LAST:event_jTextField2KeyPressed
+    }//GEN-LAST:event_jTextField2KeyReleased
 
     /**
      * @param args the command line arguments

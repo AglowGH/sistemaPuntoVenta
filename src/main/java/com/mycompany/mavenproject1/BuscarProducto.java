@@ -95,6 +95,15 @@ public class BuscarProducto extends javax.swing.JDialog {
         {
             dispose();
         }
+        if(evt.getKeyCode()== KeyEvent.VK_ENTER)
+        {
+            int seleccion = jTable1.getSelectedRow();
+            if(seleccion != -1)
+            {
+                codigo = String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(),0));
+                dispose();
+            }
+        }
     }//GEN-LAST:event_jTable1KeyPressed
 
     /**

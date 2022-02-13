@@ -1,0 +1,26 @@
+***REFACCIONARIA GJ***
+
+
+Cajero: 'admin'
+Fecha y Hora:2022/02/12 17:17:20
+Ticket: 54
+
+
+
+Productos: 
+
+7501116200139 10 MOBIL_10W30 $160.0 $1600.0
+707773540336 4 ACEDELCO_MR42XLS $34.0 $136.0
+
+
+
+Total: $1736.0
+Pago: $2000.0
+Cambio $: 264.0
+
+
+
+¡Muchas gracias por su compra!
+
+
+v8

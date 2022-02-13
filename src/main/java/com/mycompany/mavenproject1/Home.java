@@ -43,7 +43,7 @@ public class Home extends javax.swing.JFrame
         setPreferredSize(new java.awt.Dimension(1024, 768));
         setSize(new java.awt.Dimension(1024, 768));
 
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\mavenproject1\\src\\main\\java\\imagenes\\caja.png")); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon("/home/rick/NetBeansProjects/sistemaPuntoVenta/src/main/java/imagenes/caja.png")); // NOI18N
         jButton1.setMaximumSize(new java.awt.Dimension(200, 200));
         jButton1.setMinimumSize(new java.awt.Dimension(200, 200));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -52,7 +52,7 @@ public class Home extends javax.swing.JFrame
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\mavenproject1\\src\\main\\java\\imagenes\\inventario.png")); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon("/home/rick/NetBeansProjects/sistemaPuntoVenta/src/main/java/imagenes/inventario.png")); // NOI18N
         jButton2.setMaximumSize(new java.awt.Dimension(200, 200));
         jButton2.setMinimumSize(new java.awt.Dimension(200, 200));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -84,11 +84,11 @@ public class Home extends javax.swing.JFrame
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(203, Short.MAX_VALUE)
+                .addContainerGap(193, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addGap(86, 86, 86))
         );

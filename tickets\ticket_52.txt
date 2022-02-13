@@ -1,0 +1,26 @@
+***REFACCIONARIA GJ***
+
+
+Cajero: 'admin'
+Fecha y Hora:2022/02/12 17:14:44
+Ticket: 52
+
+
+
+Productos: 
+
+7501116200054 1 MOBIL_25w60_AK $114.0 $114.0
+7502240723174 7 ACEITE_QUAKER_25W50 $116.0 $812.0
+
+
+
+Total: $926.0
+Pago: $1000.0
+Cambio $: 74.0
+
+
+
+¡Muchas gracias por su compra!
+
+
+v8

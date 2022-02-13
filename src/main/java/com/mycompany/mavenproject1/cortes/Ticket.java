@@ -4,6 +4,7 @@
  */
 package com.mycompany.mavenproject1.cortes;
 
+import impresion.Impresora;
 import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.print.PageFormat;
@@ -29,6 +30,7 @@ public class Ticket implements Printable
     private double total;
     private double cambio;
     private double pago;
+    private Impresora impresora;
     
     public Ticket(int numeroTicket,DefaultTableModel modelo,double total,double cambio,double pago,String cajero)
     {
@@ -39,6 +41,7 @@ public class Ticket implements Printable
         this.cambio = cambio;
         this.pago = pago;
         this.cajero = cajero;
+        impresora = new Impresora();
     }
     
     private void crearCarpeta()
@@ -87,22 +90,15 @@ public class Ticket implements Printable
             JOptionPane.showMessageDialog(null,"Error al crear el ticket.");
         }
         
-        
-        imprimir("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\mavenproject1\\tickets\\ticket_" + numeroTicket + ".txt");
-    }
-
-    private void imprimir(String archivo)
-    {
-        try{
-            File file = new File(archivo);
-            Desktop desktop = Desktop.getDesktop();
-            desktop.print(file);
-            desktop.print(file);
+        try
+        {
+            impresora.imprimir("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\mavenproject1\\tickets\\ticket_" + numeroTicket + ".txt",2);
         }catch(IOException e)
         {
-            JOptionPane.showMessageDialog(null,"Error al imprimir");
+            JOptionPane.showMessageDialog(null,"Error al imprimir!!!!!");
         }
     }
+
     
     public void leerTicket()
     {

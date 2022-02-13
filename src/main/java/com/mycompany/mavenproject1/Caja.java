@@ -4,15 +4,11 @@
  */
 package com.mycompany.mavenproject1;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import com.mycompany.mavenproject1.cortes.*;
+import dinero.Venta;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 
@@ -165,7 +161,7 @@ public class Caja extends javax.swing.JFrame {
                         .addGap(36, 36, 36))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,24 +210,16 @@ public class Caja extends javax.swing.JFrame {
         }
         
         Cobro2 cobro = new Cobro2(this,true);
-        double cambio = cobro.showDialog(calcularTotal(),modelo,usuario);
-        completarCompra(cambio);
+        double cambio = cobro.showDialog(venta.calcularTotal(jTable1,modelo),modelo,usuario);
+        if(cambio != -1)
+        {
+            //venta.descontarExistencias(cambio,modelo);
+            modelo.setRowCount(0);
+            jTextField1.setText("0");
+        }
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private double calcularPrecioCliente(double precioProvedor,double ganancia,double impuestos)
-    {
-        if(ganancia >= 100)
-        {
-            return 0;
-        }
-        double porcentajeGanancia = ganancia/100;
-        double porcentajeImpuesto = (impuestos/100) + 1;
-        double precio = precioProvedor/(1 - porcentajeGanancia);
-        precio = Math.round(precio*100)/100;
-        precio *= porcentajeImpuesto;
-        precio = Math.round(precio*100)/100;
-        return precio;
-    }
     
     private String checarSQLInjection(String input)
     {
@@ -247,42 +235,19 @@ public class Caja extends javax.swing.JFrame {
 
     }
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-        try{
-
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
-            PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = ?");
-            String codigo = checarSQLInjection(jTextField2.getText().trim());
-            pst.setString(1,codigo.trim());
-            ResultSet rs = pst.executeQuery();
-            double precio;
-
-            if(rs.next())
-            {
-                String[] nuevoP = new String[5];
-                nuevoP[0] = rs.getString("CÓDIGO");
-                nuevoP[1] = "1";
-                nuevoP[2] = rs.getString("NOMBRE");
-                precio = calcularPrecioCliente(Double.parseDouble(rs.getString("PRECIO_DE_COMPRA")),Double.parseDouble(rs.getString("% GANANCIA")),Double.parseDouble(rs.getString("% IMPUESTOS")));
-                nuevoP[3] = String.valueOf(precio);
-                nuevoP[4] = String.valueOf(precio);
-
-                modelo.addRow(nuevoP);
-                jTextField2.setText("");
-                
-                double total = Double.parseDouble(jTextField1.getText());
-                total += precio;//Double.parseDouble(rs.getString("PRECIO_DE_COMPRA"));
-                jTextField1.setText(String.valueOf(total));
-            }else
-            {
-                JOptionPane.showMessageDialog(null,"Producto no encontardo!!!");
-                jTextField2.setText("");
-            }
-        }catch(SQLException e)
+        String codigo = checarSQLInjection(jTextField2.getText().trim());
+        String producto[] = venta.buscarProductoVenta(codigo);
+        if(producto !=null)
         {
-            System.out.println(e.getMessage());
-
+            modelo.addRow(producto);
+            double total = Double.parseDouble(jTextField1.getText());
+            total += Double.parseDouble(String.valueOf(producto[4]));
+            jTextField1.setText(String.valueOf(total));
+        }else
+        {
+            JOptionPane.showMessageDialog(this,"Producto no encontrado");
         }
+        jTextField2.setText("");
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -387,47 +352,13 @@ public class Caja extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(evt.getKeyCode() == KeyEvent.VK_DOWN)
         {
-            DefaultTableModel model = buscarProducto(jTextField2.getText());
+            DefaultTableModel model = venta.buscarProductoConsulta(jTextField2.getText());
             BuscarProducto bp = new BuscarProducto(this,true);
             String seleccion = bp.showDialog(model);
             jTextField2.setText(seleccion);
         }
     }//GEN-LAST:event_jTextField2KeyReleased
 
-    private DefaultTableModel buscarProducto(String buscar)
-    {
-        DefaultTableModel modeloBuscar = new DefaultTableModel();
-        modeloBuscar.addColumn("Código");
-        modeloBuscar.addColumn("Nombre");
-        modeloBuscar.addColumn("Descripción");
-        modeloBuscar.addColumn("Existencia");
-        try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("select * from productos where CONCAT(NOMBRE,'',DESCRIPCIÓN,'',CÓDIGO) like '%" + buscar + "%'");
-            ResultSet rs = ps.executeQuery();
-            while(rs.next())
-            {
-                String fila[] = {rs.getString("CÓDIGO"),rs.getString("NOMBRE"),rs.getString("DESCRIPCIÓN"),rs.getString("EXISTENCIA")};
-                modeloBuscar.addRow(fila);
-            }
-        } catch (SQLException ex)
-        {
-            //Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,ex.getMessage());
-        }
-        return modeloBuscar;
-    }
-    
-    private double calcularTotal()
-    {
-        int nProductos = jTable1.getRowCount();
-        double total = 0;
-        for(int i=0;i<nProductos;i++)
-        {
-            total += Double.parseDouble(String.valueOf(modelo.getValueAt(i, 4)));
-        }
-        return total;
-    }
     
     /**
      * @param args the command line arguments
@@ -471,7 +402,7 @@ public class Caja extends javax.swing.JFrame {
             
             if(column == 1 || column == 3)
             {
-                if(!esDoublePositivo(String.valueOf(aValue)))
+                if(!venta.esDoublePositivo(String.valueOf(aValue)))
                 {
                     return;
                 }
@@ -501,70 +432,8 @@ public class Caja extends javax.swing.JFrame {
         }
         
     };
-    private boolean esDoublePositivo(String valor)
-    {
-        try{
-            double conversion = Double.parseDouble(valor);    
-            return conversion >= 0;
-        }catch(NumberFormatException e)
-        {
-            JOptionPane.showMessageDialog(null,e.getMessage());
-        }
-        return false;
-    }
-    public void completarCompra(double cambio)
-    {
-        if(cambio != -1)
-        {
-            int nFilas = modelo.getRowCount();
-            
-            double existencias[] = new double[nFilas];
-        
-            try{
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-         
-                for(int i=0;i<nFilas;i++)
-                {
-                    PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = '" + String.valueOf(modelo.getValueAt(i,0)) + "'");
-                    ResultSet rs = pst.executeQuery();
-                    //rs.next();
-                    if(rs.next())
-                        existencias[i] = Double.parseDouble(rs.getString("EXISTENCIA"));
-                }
-            }catch(SQLException e)
-            {
-                JOptionPane.showMessageDialog(null,e.getMessage());
-            }
-            
-            double existencia;
-            try{
-
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            for(int i=0; i<nFilas ;i++)
-            {
-                PreparedStatement ps1 = connection.prepareStatement("update productos set EXISTENCIA = ? where CÓDIGO = '" + String.valueOf(modelo.getValueAt(i,0)) + "'");
-
-                existencia = existencias[i] - Double.parseDouble(String.valueOf(modelo.getValueAt(i, 1)));
-
-                ps1.setString(1,String.valueOf(existencia));
-                ps1.executeUpdate();
-            }
-
-            }catch(SQLException e)
-            {
-                JOptionPane.showMessageDialog(null, e.getMessage());
-            }
-            
-            for(int i=0; i < nFilas; i++)
-            {
-                modelo.removeRow(0);
-            }
-            jTextField1.setText("0");
-            
-        }
-    }
-    private String password = "A1b2C3";
     private String usuario = "UNKOWN";
+    private final Venta venta = new Venta();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

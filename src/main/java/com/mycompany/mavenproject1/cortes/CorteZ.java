@@ -4,6 +4,7 @@
  */
 package com.mycompany.mavenproject1.cortes;
 
+import impresion.Impresora;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
@@ -25,11 +26,13 @@ public class CorteZ
 {
     private String cajero = "UNKNOWN";
     private String password = "A1b2C3";
+    private Impresora impresora;
     
     public CorteZ(String cajero)
     {
         this.cajero = cajero;
         crearCarpeta();
+        impresora = new Impresora();
     }
     private void crearCarpeta()
     {

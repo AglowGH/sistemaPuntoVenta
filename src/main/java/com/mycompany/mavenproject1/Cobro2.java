@@ -4,13 +4,9 @@
  */
 package com.mycompany.mavenproject1;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import com.mycompany.mavenproject1.cortes.*;
+import dinero.Venta;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,7 +25,7 @@ public class Cobro2 extends javax.swing.JDialog {
 
     public double showDialog(double total,DefaultTableModel modelo,String cajero)
     {
-        int ticket = getUltimoTicket();
+        int ticket = venta.getUltimoTicket();
         this.modelo = modelo;
         this.cajero = cajero;
         ticket ++;
@@ -165,14 +161,13 @@ public class Cobro2 extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        if(!esDoublePositivo(jTextField2.getText()))
+
+        if(!venta.esDoublePositivo(jTextField2.getText()))
         {
             JOptionPane.showMessageDialog(null,"Error en el pago!!!");
             return;
         }
         double cambio2 = Double.parseDouble(jTextField3.getText());
-        //System.out.println(cambio);
         if(cambio2 < 0)
         {
             JOptionPane.showMessageDialog(null,"Falta money!!!");
@@ -180,141 +175,24 @@ public class Cobro2 extends javax.swing.JDialog {
         }
         this.cambio = cambio2;
         consolidarVenta(Double.parseDouble(jTextField1.getText()));
-        aumentarContadorTicket();
-        agregarGanancias();
         Ticket ticket = new Ticket(Integer.parseInt(jTextField4.getText()),modelo,Double.parseDouble(jTextField1.getText()),Double.parseDouble(jTextField3.getText()),Double.parseDouble(jTextField2.getText()),cajero);
         ticket.guardarTicket();
-        guardarNumeroTicket(jTextField4.getText(),Double.parseDouble(jTextField1.getText()));
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private boolean esDoublePositivo(String valor)
-    {
-        try{
-            double conversion = Double.parseDouble(valor);    
-            return conversion >= 0;
-        }catch(NumberFormatException e)
-        {
-            JOptionPane.showMessageDialog(null,e.getMessage());
-        }
-        return false;
-    }
-    private void guardarNumeroTicket(String numeroTicket,double total){
-        try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("insert into ventas values (?,?,?)");
-            
-            ps.setString(1,"0");
-            ps.setString(2,numeroTicket);
-            ps.setString(3,String.valueOf(total));
-            
-            ps.executeUpdate();
-            
-        }catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(null,e.getMessage());
-        }
-        //Aumentar contador de clientes
-        
-        //Conseguir numero actual de clientes
-        int numeroClientes = 0;
-        try
-        {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("select * from dinero where ID = 1");
-            ResultSet rs = ps.executeQuery();
-            
-            if(rs.next())
-            {
-                numeroClientes = Integer.parseInt(rs.getString("NoClientes"));
-            }
-        }catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(this,"Error en números de clinetes, error: " + e.getMessage());
-        }
-        //Realizar cambio
-        try
-        {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("update dinero set NoClientes = " + String.valueOf(numeroClientes + 1) + " where ID = 1");
-            ps.executeUpdate();
-        }catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(this,"Error al actualizar números de clinetes, error: " + e.getMessage());
-        }
-    }
     private void consolidarVenta(double total)
     {
-        try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("update dinero set VENTA = ? where ID = 1");
-            double ventaActual = getDinero("VENTA");
-            ventaActual += total;
-            
-            ps.setString(1, String.valueOf(ventaActual));
-            ps.executeUpdate();
-            
-        }catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        venta.actualizarTickets(total);
+        venta.agregarGanancias(modelo);
+        venta.agregarDinero(total);
+        venta.actualizarNumeroClientes();
+        venta.descontarExistencias(modelo);
     }
+
     
-    private double getDinero(String columna)
-    {
-        try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("select * from dinero where ID = 1");
-            ResultSet rs = ps.executeQuery();
-            
-            if(rs.next())
-            {
-                return Double.parseDouble(rs.getString(columna));
-            }
-        }catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        return 0;
-    }
-    
-    private void aumentarContadorTicket()
-    {
-        try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("update dinero set ULTIMO_TICKET = ? where ID = 1");
-            int numeroT = Integer.parseInt(jTextField4.getText());
-            
-            ps.setString(1,String.valueOf(numeroT));
-            ps.executeUpdate();
-            
-        }catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-    }
-    
-    private int getUltimoTicket()
-    {
-        try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("select ULTIMO_TICKET from dinero where ID = 1");
-            ResultSet rs = ps.executeQuery();
-            if(rs.next())
-            {
-                String ultimoTicket = rs.getString("ULTIMO_TICKET");
-                int numero = Integer.parseInt(ultimoTicket);
-                return numero;
-            }
-        }catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        return -1;
-    }
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
-        if(!esDoublePositivo(jTextField2.getText()))
+        if(!venta.esDoublePositivo(jTextField2.getText()))
         {
          JOptionPane.showMessageDialog(null,"Error en el pago!!!");
          return;   
@@ -326,7 +204,7 @@ public class Cobro2 extends javax.swing.JDialog {
 
     private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
         // TODO add your handling code here:
-        if(!esDoublePositivo(jTextField2.getText()))
+        if(!venta.esDoublePositivo(jTextField2.getText()))
         {
          JOptionPane.showMessageDialog(null,"Error en el pago!!!");
          return;   
@@ -378,79 +256,11 @@ public class Cobro2 extends javax.swing.JDialog {
         });
     }
 
-    private void agregarGanancias()
-    {
-        for(int i=0;i<modelo.getRowCount();i++)
-        {
-            agregarGanancia(String.valueOf(modelo.getValueAt(i,0)),Double.parseDouble(String.valueOf(modelo.getValueAt(i, 1))));
-        }
-        ganancia += recuperarGanancia();
-        try{
-
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
-            PreparedStatement pst = connection.prepareStatement("update dinero set GANANCIA = ? where ID = 1");
-            //ResultSet rs = pst.executeQuery();
-            pst.setString(1,String.valueOf(ganancia));
-            pst.executeUpdate();
-        }catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-    }
-    //Este método agrega solamente las ganacias de un producto
-    private void agregarGanancia(String codigo,double cantidad)
-    {
-        try{
-
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
-            PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = " + codigo);
-            ResultSet rs = pst.executeQuery();
-
-            if(rs.next())
-            {
-                ganancia += calcularGanancia(Double.parseDouble(rs.getString("PRECIO_DE_COMPRA")),Double.parseDouble(rs.getString("% GANANCIA")),cantidad);
-            }
-        }catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-    }
-    private double calcularGanancia(double precioProvedor,double ganancia,double cantidad)
-    {
-        if(ganancia >= 100)
-        {
-            return 0;
-        }
-        double porcentajeGanancia = ganancia/100;
-        double precio = cantidad * precioProvedor/(1 - porcentajeGanancia);
-        precio = Math.round(precio*100)/100;
-        precio -= (cantidad * precioProvedor);
-        return precio;
-    }
-    
-    private double recuperarGanancia()
-    {
-        double gananciaAnterior = 0;
-        try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("select GANANCIA from dinero where ID = 1");
-            ResultSet rs = ps.executeQuery();
-            if(rs.next())
-            {
-                gananciaAnterior = Double.parseDouble(rs.getString("GANANCIA"));
-            }
-        }catch(SQLException e)
-        {
-            
-        }
-        return gananciaAnterior;
-    }
     
     private double cambio = -1;
-    private double ganancia = 0;
     private DefaultTableModel modelo = null;
-    private String password = "A1b2C3";
     private String cajero = "UNKNOW";
+    private final Venta venta = new Venta();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

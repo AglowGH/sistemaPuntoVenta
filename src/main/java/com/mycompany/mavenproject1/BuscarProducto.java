@@ -17,7 +17,6 @@ public class BuscarProducto extends javax.swing.JDialog {
      */
     public BuscarProducto(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        //modelo = new DefaultTableModel();
         initComponents();
     }
     
@@ -47,7 +46,7 @@ public class BuscarProducto extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Código", "Nombre", "Descripción", "Existencia"
+                "Código", "Nombre", "Precio", "Existencia", "Descripción"
             }
         ));
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {

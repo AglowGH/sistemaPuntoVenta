@@ -228,7 +228,15 @@ public class Cobro2 extends javax.swing.JDialog {
         if(evt.getKeyCode() == KeyEvent.VK_ESCAPE)
         {
             dispose();
+        }else if((KeyEvent.VK_0 <= evt.getKeyCode()) && (evt.getKeyCode() <= KeyEvent.VK_9) || ((evt.getKeyCode() == KeyEvent.VK_PERIOD) && !periodo))
+        {
+            
+            periodo = true;
+        }else
+        {
+            
         }
+        
     }//GEN-LAST:event_jTextField2KeyPressed
 
     /**
@@ -278,6 +286,7 @@ public class Cobro2 extends javax.swing.JDialog {
     private DefaultTableModel modelo = null;
     private String cajero = "UNKNOW";
     private final Venta venta = new Venta();
+    private boolean periodo = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

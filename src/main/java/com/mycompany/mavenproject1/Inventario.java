@@ -789,7 +789,7 @@ public class Inventario extends javax.swing.JFrame {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
             for(int i=0; i<nFilas ;i++)
             {
-                PreparedStatement ps1 = connection.prepareStatement("update productos set EXISTENCIA = ?, PRECIO_DE_COMPRA = ? where CÓDIGO = " + String.valueOf(modelo2.getValueAt(i,1)));
+                PreparedStatement ps1 = connection.prepareStatement("update productos set EXISTENCIA = ?, PRECIO_DE_COMPRA = ? where CÓDIGO = '" + String.valueOf(modelo2.getValueAt(i,1))+"'");
 
                 precioActual = Double.parseDouble(String.valueOf(modelo2.getValueAt(i, 3)));
                 existencia = existencias[i] + Double.parseDouble(String.valueOf(modelo2.getValueAt(i, 0)));
@@ -804,7 +804,7 @@ public class Inventario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
-        Home home = new Home();
+        Home home = new Home(user);
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -813,9 +813,9 @@ public class Inventario extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
 
+            String codigo = checarSQLInjection(jTextField7.getText());
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
             PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = ?");
-            String codigo = checarSQLInjection(jTextField7.getText());
             pst.setString(1,codigo.trim());
             ResultSet rs = pst.executeQuery();
 
@@ -871,8 +871,21 @@ public class Inventario extends javax.swing.JFrame {
         }
         try
         {
+            /*String datos[] = new String[10];
+            datos[0] = "0";
+            datos[1] = checarSQLInjection(jTextField1.getText().trim());
+            datos[2] = checarSQLInjection(jTextField2.getText().trim());
+            datos[3] = checarSQLInjection(jTextField3.getText().trim());
+            datos[4] = checarSQLInjection(jTextField4.getText().trim());
+            datos[5] = checarSQLInjection(jTextField5.getText().trim());
+            datos[6] = checarSQLInjection(jTextField6.getText().trim());
+            datos[7]="0";
+            datos[8]="0";
+            datos[9] = checarSQLInjection(jTextField9.getText().trim());*/
+            
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
-            PreparedStatement pst = connection.prepareStatement("insert into productos values(?,?,?,?,?,?,?,?,?,?)");
+            //PreparedStatement pst = connection.prepareStatement("INSERT INTO productos(NOMBRE,DESCRIPCIÓN,CÓDIGO,% GANANCIA,% IMPUESTOS,PRECIO_DE_COMPRA,EXISTENCIA,INVENTARIO,CANTIDAD) VALUES("+datos[1]+","+datos[2]+",'"+datos[3]+"',"+datos[4]+","+datos[5]+","+datos[6]+","+datos[7]+","+datos[8]+","+datos[9]+")");
+            PreparedStatement pst = connection.prepareStatement("INSERT INTO productos VALUES(?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1,"0");
             String dato = checarSQLInjection(jTextField1.getText().trim());
             pst.setString(2,dato.trim());
@@ -902,7 +915,7 @@ public class Inventario extends javax.swing.JFrame {
             jTextField9.setText("");
 
             //initComponents();
-            Home home = new Home();
+            Home home = new Home(user);
             home.setVisible(true);
             dispose();
 
@@ -917,7 +930,7 @@ public class Inventario extends javax.swing.JFrame {
     {
         try{
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("select NOMBRE from productos where CÓDIGO = " + codigo);
+            PreparedStatement ps = connection.prepareStatement("select NOMBRE from productos where CÓDIGO = '" + codigo + "'");
             ResultSet rs = ps.executeQuery();
             if(rs.next())
             {
@@ -1292,7 +1305,7 @@ public class Inventario extends javax.swing.JFrame {
          
             for(int i=0;i<nFilas;i++)
             {
-                PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = " + String.valueOf(modelo2.getValueAt(i,1)));
+                PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = '" + String.valueOf(modelo2.getValueAt(i,1))+"'");
                 ResultSet rs = pst.executeQuery();
                 //rs.next();
                 if(rs.next())

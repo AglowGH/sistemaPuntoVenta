@@ -155,7 +155,7 @@ public class AdministracionTicket extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        Home home = new Home();
+        Home home = new Home(user);
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -166,7 +166,7 @@ public class AdministracionTicket extends javax.swing.JFrame {
         {
             dev.relizarDevolucion(user, modelo,Double.parseDouble(jTextField2.getText()));
         }
-        Home home = new Home();
+        Home home = new Home(user);
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed

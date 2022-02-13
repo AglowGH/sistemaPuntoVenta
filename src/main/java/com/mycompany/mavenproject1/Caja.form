@@ -79,8 +79,8 @@
                   <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="533" max="32767" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="525" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jLabel1" max="32767" attributes="0"/>
                   <Component id="jTextField2" alignment="0" max="32767" attributes="0"/>
@@ -94,7 +94,6 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
-        <Property name="mnemonic" type="int" value="55"/>
         <Property name="text" type="java.lang.String" value="Home"/>
       </Properties>
       <Events>
@@ -120,6 +119,9 @@
               <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTable1KeyPressed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -156,7 +158,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
-        <Property name="mnemonic" type="int" value="51"/>
         <Property name="text" type="java.lang.String" value="Eliminar Producto"/>
         <Property name="actionCommand" type="java.lang.String" value=""/>
       </Properties>
@@ -166,7 +167,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton3">
       <Properties>
-        <Property name="mnemonic" type="int" value="52"/>
         <Property name="text" type="java.lang.String" value="Cancelar Venta"/>
       </Properties>
       <Events>
@@ -175,7 +175,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton4">
       <Properties>
-        <Property name="mnemonic" type="int" value="53"/>
         <Property name="text" type="java.lang.String" value="Cobrar"/>
       </Properties>
       <Events>
@@ -184,7 +183,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton5">
       <Properties>
-        <Property name="mnemonic" type="int" value="54"/>
         <Property name="text" type="java.lang.String" value="M&#xe1;s Opciones"/>
       </Properties>
       <Events>

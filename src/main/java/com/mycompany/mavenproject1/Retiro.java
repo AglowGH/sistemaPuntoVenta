@@ -23,6 +23,10 @@ public class Retiro extends javax.swing.JFrame {
     public Retiro() {
         initComponents();
     }
+    public Retiro(String usuario) {
+        initComponents();
+        user = usuario;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -202,7 +206,7 @@ public class Retiro extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        Home home = new Home();
+        Home home = new Home(user);
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -255,7 +259,7 @@ public class Retiro extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         
-        Home home = new Home();
+        Home home = new Home(user);
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -273,7 +277,7 @@ public class Retiro extends javax.swing.JFrame {
     }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        Home home = new Home();
+        Home home = new Home(user);
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -318,7 +322,7 @@ public class Retiro extends javax.swing.JFrame {
             
         }
         
-        Home home = new Home();
+        Home home = new Home(user);
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -376,6 +380,7 @@ public class Retiro extends javax.swing.JFrame {
     }
 
     private String password = "A1b2C3";
+    private String user = "UNKNOWN";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

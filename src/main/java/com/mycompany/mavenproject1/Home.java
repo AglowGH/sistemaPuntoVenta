@@ -24,8 +24,17 @@ public class Home extends javax.swing.JFrame
         int xSize = (int) tk.getScreenSize().getWidth();
         int ySize = (int) tk.getScreenSize().getHeight();
         setBounds(0,0, xSize,ySize);
+        verificarUsuario();
     }
 
+    public Home(String usuario) {
+        initComponents();
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        int xSize = (int) tk.getScreenSize().getWidth();
+        int ySize = (int) tk.getScreenSize().getHeight();
+        setBounds(0,0, xSize,ySize);
+        user = usuario;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -98,23 +107,27 @@ public class Home extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        
+    private void verificarUsuario()
+    {
         LogInDialog logIn = new LogInDialog(this,true);
-        String user = logIn.showDialog("MONEY");
+        user = logIn.showDialog("MONEY");
         
         if(user == null)
-            return;
+            dispose();
         
+    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+
         Caja caja = new Caja();
         caja.showCaja(user);
         dispose();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        Inventario inventario = new Inventario();
+        Inventario inventario = new Inventario(user);
         inventario.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -161,6 +174,7 @@ public class Home extends javax.swing.JFrame
         });
     }
 
+    private String user = null;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

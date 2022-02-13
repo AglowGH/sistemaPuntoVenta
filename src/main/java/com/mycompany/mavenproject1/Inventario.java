@@ -20,6 +20,16 @@ public class Inventario extends javax.swing.JFrame {
     /**
      * Creates new form Inventario
      */
+    public Inventario(String usuario) {
+        actualizarInfo();
+        initComponents();
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        int xSize = (int) tk.getScreenSize().getWidth();
+        int ySize = (int) tk.getScreenSize().getHeight();
+        setBounds(0,0, xSize,ySize);
+        user = usuario;
+    }
+
     public Inventario() {
         actualizarInfo();
         initComponents();
@@ -28,7 +38,6 @@ public class Inventario extends javax.swing.JFrame {
         int ySize = (int) tk.getScreenSize().getHeight();
         setBounds(0,0, xSize,ySize);
     }
-
     private void actualizarInfo()
     {
         modelo4.addColumn("Código");
@@ -752,7 +761,7 @@ public class Inventario extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Home home = new Home();
+        Home home = new Home(user);
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -1330,6 +1339,7 @@ public class Inventario extends javax.swing.JFrame {
         });
     }
 
+    private String user = "UNKNOWN";
     private String password = "A1b2C3";
     private DefaultTableModel modelo = new DefaultTableModel()
     {

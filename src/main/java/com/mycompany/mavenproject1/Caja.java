@@ -43,6 +43,25 @@ public class Caja extends javax.swing.JFrame {
         setVisible(true);
     }
 
+    private void cobrar(boolean omisionTeclaF5)
+    {
+        int nFila = jTable1.getRowCount();
+        
+        if(nFila == 0)
+        {
+            JOptionPane.showMessageDialog(null,"No hay productos para cobrar");
+            return;
+        }
+        
+        Cobro2 cobro = new Cobro2(this,true);
+        double cambio = cobro.showDialog(venta.calcularTotal(jTable1,modelo),modelo,usuario,omisionTeclaF5);
+        if(cambio != -1)
+        {
+            modelo.setRowCount(0);
+            jTextField1.setText("0");
+        }
+        jTextField2.requestFocus();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,7 +88,6 @@ public class Caja extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1024, 768));
         setSize(new java.awt.Dimension(1024, 768));
 
-        jButton1.setMnemonic('7');
         jButton1.setText("Home");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,6 +97,11 @@ public class Caja extends javax.swing.JFrame {
 
         jTable1.setModel(modelo);
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTable1KeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -103,7 +126,6 @@ public class Caja extends javax.swing.JFrame {
         jLabel1.setText("Total:");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
-        jButton2.setMnemonic('3');
         jButton2.setText("Eliminar Producto");
         jButton2.setActionCommand("");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -112,7 +134,6 @@ public class Caja extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setMnemonic('4');
         jButton3.setText("Cancelar Venta");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,7 +141,6 @@ public class Caja extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setMnemonic('5');
         jButton4.setText("Cobrar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,7 +148,6 @@ public class Caja extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setMnemonic('6');
         jButton5.setText("Más Opciones");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,8 +205,8 @@ public class Caja extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField2)
@@ -200,30 +219,13 @@ public class Caja extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Home home = new Home();
+        Home home = new Home(usuario);
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        int nFila = jTable1.getRowCount();
-        
-        if(nFila == 0)
-        {
-            JOptionPane.showMessageDialog(null,"No hay productos para cobrar");
-            return;
-        }
-        
-        Cobro2 cobro = new Cobro2(this,true);
-        double cambio = cobro.showDialog(venta.calcularTotal(jTable1,modelo),modelo,usuario);
-        if(cambio != -1)
-        {
-            //venta.descontarExistencias(cambio,modelo);
-            modelo.setRowCount(0);
-            jTextField1.setText("0");
-        }
-        
+        cobrar(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     
@@ -275,6 +277,7 @@ public class Caja extends javax.swing.JFrame {
         totalCuenta -= totalProducto;
         jTextField1.setText(String.valueOf(totalCuenta));
         modelo.removeRow(i);
+        jTextField2.requestFocus();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -290,6 +293,7 @@ public class Caja extends javax.swing.JFrame {
             modelo.removeRow(0);
         }
         jTextField1.setText("0");
+        jTextField2.requestFocus();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -324,7 +328,7 @@ public class Caja extends javax.swing.JFrame {
             }
             usuario = pass;
             jTextField3.setText(usuario);
-            Retiro retiro = new Retiro();
+            Retiro retiro = new Retiro(usuario);
             retiro.setVisible(true);
             dispose();
         }
@@ -357,7 +361,7 @@ public class Caja extends javax.swing.JFrame {
             CorteZ corte = new CorteZ(usuario);
             corte.crearCorte();
         }
-        
+        jTextField2.requestFocus();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
@@ -373,7 +377,20 @@ public class Caja extends javax.swing.JFrame {
                 agregarProducto();
             }
         }
+        
+        if(evt.getKeyCode() == KeyEvent.VK_F5)
+        {
+            cobrar(false);
+        }
     }//GEN-LAST:event_jTextField2KeyReleased
+
+    private void jTable1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_F5)
+        {
+            cobrar(true);
+        }
+    }//GEN-LAST:event_jTable1KeyPressed
 
     
     /**

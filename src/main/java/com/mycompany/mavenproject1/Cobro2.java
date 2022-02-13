@@ -27,8 +27,9 @@ public class Cobro2 extends javax.swing.JDialog {
         initComponents();
     }
 
-    public double showDialog(double total,DefaultTableModel modelo,String cajero)
+    public double showDialog(double total,DefaultTableModel modelo,String cajero,boolean tecla)
     {
+        this.tecla = !tecla;
         int ticket = venta.getUltimoTicket();
         this.modelo = modelo;
         this.cajero = cajero;
@@ -189,6 +190,11 @@ public class Cobro2 extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null,"Error en el pago!!!");
             return;
         }
+        ////////////////
+        double cambio3 = -Double.parseDouble(jTextField1.getText());
+        cambio3 += Double.parseDouble(jTextField2.getText());
+        jTextField3.setText(String.valueOf(cambio3));
+        ////////////////
         double cambio2 = Double.parseDouble(jTextField3.getText());
         if(cambio2 < 0)
         {
@@ -201,6 +207,19 @@ public class Cobro2 extends javax.swing.JDialog {
         ticket.guardarTicket();
         dispose();
     }
+    
+    private void actualizarCambio()
+    {
+        if(!venta.esDoublePositivo(jTextField2.getText()))
+        {
+         JOptionPane.showMessageDialog(null,"Error en el pago!!!");
+         return;   
+        }
+        double cambio = -Double.parseDouble(jTextField1.getText());
+        cambio += Double.parseDouble(jTextField2.getText());
+        jTextField3.setText(String.valueOf(cambio));
+    }
+    
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
         if(!venta.esDoublePositivo(jTextField2.getText()))
@@ -214,22 +233,20 @@ public class Cobro2 extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
-        // TODO add your handling code here:
-        if(!venta.esDoublePositivo(jTextField2.getText()))
-        {
-         JOptionPane.showMessageDialog(null,"Error en el pago!!!");
-         return;   
-        }
-        double cambio = -Double.parseDouble(jTextField1.getText());
-        cambio += Double.parseDouble(jTextField2.getText());
-        jTextField3.setText(String.valueOf(cambio));
+        //actualizarCambio();
     }//GEN-LAST:event_jTextField2FocusLost
 
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
         // TODO add your handling code here:
         if(evt.getKeyCode() == KeyEvent.VK_F5)
         {
-            botonAceptar();
+            if(tecla)
+            {
+               //actualizarCambio();
+                botonAceptar();
+            }
+            else
+                tecla = true;
         }
     }//GEN-LAST:event_jTextField2KeyReleased
 
@@ -281,6 +298,7 @@ public class Cobro2 extends javax.swing.JDialog {
     private String cajero = "UNKNOW";
     private final Venta venta = new Venta();
     private boolean periodo = false;
+    private boolean tecla = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

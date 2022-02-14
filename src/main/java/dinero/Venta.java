@@ -4,6 +4,8 @@
  */
 package dinero;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -24,7 +26,7 @@ public class Venta
         
     }
     ///////////////////////////////////////////////////////////////CALCULOS/////////////////////////////////////////////////////////////////////////////////////////////
-    private double calcularPrecioCliente(double precioProvedor,double ganancia,double impuestos)
+    public double calcularPrecioCliente(double precioProvedor,double ganancia,double impuestos)
     {
         if(ganancia >= 100)
         {
@@ -33,10 +35,9 @@ public class Venta
         double porcentajeGanancia = ganancia/100;
         double porcentajeImpuesto = (impuestos/100) + 1;
         double precio = precioProvedor/(1 - porcentajeGanancia);
-        precio = Math.round(precio*100)/100;
         precio *= porcentajeImpuesto;
-        precio = Math.round(precio*100)/100;
-        return precio;
+        double number = BigDecimal.valueOf(precio).setScale(2,RoundingMode.CEILING).doubleValue();
+        return number;
     }
     
     public double calcularGanancia(double precioProvedor,double ganancia,double cantidad)
@@ -47,9 +48,9 @@ public class Venta
         }
         double porcentajeGanancia = ganancia/100;
         double precio = cantidad * precioProvedor/(1 - porcentajeGanancia);
-        precio = Math.round(precio*100)/100;
         precio -= (cantidad * precioProvedor);
-        return precio;
+        double number = BigDecimal.valueOf(precio).setScale(2,RoundingMode.CEILING).doubleValue();
+        return number;
     }
     
     public boolean esDoublePositivo(String valor)

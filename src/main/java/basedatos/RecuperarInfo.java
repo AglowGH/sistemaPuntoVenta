@@ -5,6 +5,8 @@
 package basedatos;
 
 import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author rick
@@ -120,5 +122,149 @@ public class RecuperarInfo
         return arreglo;
     }
     
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void informacionTablaInventarioGeneral(DefaultTableModel modelo)throws SQLException
+    {
+        Connection cn = DriverManager.getConnection(connection,usuario,password);
+        PreparedStatement ps = cn.prepareStatement("select * from productos");
+        ResultSet rs = ps.executeQuery();
+            
+        while(rs.next())
+        {
+            String[] arreglo = new String[5];
+            arreglo[0] = rs.getString("CÓDIGO");
+            arreglo[1] = rs.getString("NOMBRE");
+            arreglo[2] = rs.getString("EXISTENCIA");
+            arreglo[3] = rs.getString("INVENTARIO");
+            double diferencia = Double.parseDouble(arreglo[3]) - Double.parseDouble(arreglo[2]);
+            arreglo[4] = String.valueOf(diferencia);
+            modelo.addRow(arreglo);
+        }   
+    }
     
+    public void informacionAlertas(String tipo_alerta,DefaultTableModel modelo) throws SQLException
+    {
+            
+        Connection cn = DriverManager.getConnection(connection,usuario,password);
+        PreparedStatement ps = cn.prepareStatement("SELECT * FROM productos");
+        ResultSet rs = ps.executeQuery();
+        int nColumnas = 4;
+            
+        if(tipo_alerta.equals("Todas las alertas"))
+        {
+            while(rs.next())
+             {
+                String[] fila = new String[nColumnas];
+                fila[0] = rs.getString("CÓDIGO");
+                fila[1] = rs.getString("NOMBRE");
+                fila[2] = rs.getString("EXISTENCIA");
+                fila[3] = rs.getString("CANTIDAD_MINIMA");
+                    
+                double existencia = Double.parseDouble(fila[2]);
+                double minimo = Double.parseDouble(fila[3]);
+                    
+                if(existencia < minimo)
+                {
+                    modelo.addRow(fila);
+                }
+                    
+            }
+        }else if(tipo_alerta.equals("Sin mercancia"))
+        {
+            while(rs.next())
+            {
+                String[] fila = new String[nColumnas];
+                fila[0] = rs.getString("CÓDIGO");
+                fila[1] = rs.getString("NOMBRE");
+                fila[2] = rs.getString("EXISTENCIA");
+                fila[3] = rs.getString("CANTIDAD_MINIMA");
+                    
+                double existencia = Double.parseDouble(fila[2]);
+                    
+                if(existencia <= 0)
+                {
+                    modelo.addRow(fila);
+                }
+                    
+            }
+                
+        }else if(tipo_alerta.equals("Por acabar"))
+        {
+            while(rs.next())
+            {
+                String[] fila = new String[nColumnas];
+                fila[0] = rs.getString("CÓDIGO");
+                fila[1] = rs.getString("NOMBRE");
+                fila[2] = rs.getString("EXISTENCIA");
+                fila[3] = rs.getString("CANTIDAD_MINIMA");
+                    
+                double existencia = Double.parseDouble(fila[2]);
+                double minimo = Double.parseDouble(fila[3]);
+                    
+                if(existencia < minimo && existencia >0)
+                {
+                    modelo.addRow(fila);
+                }
+                    
+            }
+        }
+        
+    }
+    
+    public void informacionProductos(DefaultTableModel modelo)throws SQLException
+    {
+        modelo.addColumn("Código");
+           modelo.addColumn("Nombre");
+           modelo.addColumn("Existencia");
+           modelo.addColumn("Inventario");
+           modelo.addColumn("Cantidad Minima");
+           
+           Connection cn = DriverManager.getConnection(connection,usuario,password);
+           String sql = "SELECT CÓDIGO, NOMBRE, EXISTENCIA, INVENTARIO, CANTIDAD_MINIMA FROM productos  ";
+           PreparedStatement ps = cn.prepareStatement(sql);
+           ResultSet rs = ps.executeQuery();
+           ResultSetMetaData rsMD = rs.getMetaData();
+           int nColumnas = rsMD.getColumnCount();
+           while(rs.next())
+           {
+               Object[] fila = new Object[nColumnas];
+               for(int i=1;i<=nColumnas;i++)
+               {
+                   fila[i-1] = rs.getObject(i);
+               }
+               modelo.addRow(fila);
+           }
+    }
+    
+    public DefaultTableModel buscarProductoEnInventario(String buscar)throws SQLException
+    {
+        DefaultTableModel modeloBuscar = new DefaultTableModel();
+        modeloBuscar.addColumn("Código");
+        modeloBuscar.addColumn("Nombre");
+        modeloBuscar.addColumn("Existencia");
+        modeloBuscar.addColumn("Cantidad Minima");
+        Connection cn = DriverManager.getConnection(connection,usuario,password);
+        PreparedStatement ps = cn.prepareStatement("select * from productos where CONCAT(NOMBRE,'',DESCRIPCIÓN,'',CÓDIGO) like '%" + buscar + "%'");
+        ResultSet rs = ps.executeQuery();
+        while(rs.next())
+        {
+            String fila[] = {rs.getString("CÓDIGO"),rs.getString("NOMBRE"),rs.getString("EXISTENCIA"),rs.getString("INVENTARIO"),rs.getString("CANTIDAD_MINIMA")};
+            modeloBuscar.addRow(fila);
+        }
+        
+        return modeloBuscar;
+    }
+    
+    //La siguiente funcion verifica que el código de barras no se repita con otro producto ya existente
+    public String verificarCodigoBarras(String codigo)throws SQLException
+    {
+        Connection cn = DriverManager.getConnection(connection,usuario,password);
+        PreparedStatement ps = cn.prepareStatement("select NOMBRE from productos where CÓDIGO = '" + codigo + "'");
+        ResultSet rs = ps.executeQuery();
+        if(rs.next())
+        {
+            return rs.getString("NOMBRE");
+        }
+        return null;
+    }
 }

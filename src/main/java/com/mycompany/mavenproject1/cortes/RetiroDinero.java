@@ -66,7 +66,7 @@ public class RetiroDinero
            
            file.close();
            
-           impresora.imprimir("Retiro_"+fechaHora+"_.txt",1);
+           impresora.imprimir("Retiro_"+fecha+"_"+hora+"_.txt",1);
         }catch(IOException e)
         {
             JOptionPane.showMessageDialog(null,e.getMessage());

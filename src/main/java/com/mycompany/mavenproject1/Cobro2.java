@@ -7,9 +7,6 @@ package com.mycompany.mavenproject1;
 import javax.swing.JOptionPane;
 import com.mycompany.mavenproject1.cortes.*;
 import dinero.Venta;
-import java.awt.AWTEvent;
-import java.awt.Toolkit;
-import java.awt.event.AWTEventListener;
 import java.awt.event.KeyEvent;
 import javax.swing.table.DefaultTableModel;
 
@@ -206,18 +203,6 @@ public class Cobro2 extends javax.swing.JDialog {
         Ticket ticket = new Ticket(Integer.parseInt(jTextField4.getText()),modelo,Double.parseDouble(jTextField1.getText()),Double.parseDouble(jTextField3.getText()),Double.parseDouble(jTextField2.getText()),cajero);
         ticket.guardarTicket();
         dispose();
-    }
-    
-    private void actualizarCambio()
-    {
-        if(!venta.esDoublePositivo(jTextField2.getText()))
-        {
-         JOptionPane.showMessageDialog(null,"Error en el pago!!!");
-         return;   
-        }
-        double cambio = -Double.parseDouble(jTextField1.getText());
-        cambio += Double.parseDouble(jTextField2.getText());
-        jTextField3.setText(String.valueOf(cambio));
     }
     
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed

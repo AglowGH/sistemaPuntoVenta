@@ -4,6 +4,7 @@
  */
 package com.mycompany.mavenproject1;
 
+import basedatos.Injection;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -227,25 +228,10 @@ public class Caja extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         cobrar(false);
     }//GEN-LAST:event_jButton4ActionPerformed
-
-    
-    private String checarSQLInjection(String input)
-    {
-        String newInput = input.replace('/',' ');
-        newInput = newInput.replace('-',' ');
-        newInput = newInput.replace('=',' ');
-        newInput = newInput.replace('(',' ');
-        newInput = newInput.replace(')',' ');
-        newInput = newInput.replace('%',' ');
-        newInput = newInput.replace("'","");
-        newInput = newInput.replace(":","");
-        return newInput;
-
-    }
     
     private void agregarProducto()
     {
-        String codigo = checarSQLInjection(jTextField2.getText().trim());
+        String codigo = injection.checarSQLInjection(jTextField2.getText().trim());
         String producto[] = venta.buscarProductoVenta(codigo);
         if(producto !=null)
         {
@@ -467,6 +453,7 @@ public class Caja extends javax.swing.JFrame {
     };
     private String usuario = "UNKOWN";
     private final Venta venta = new Venta();
+    private Injection injection = new Injection();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

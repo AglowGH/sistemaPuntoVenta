@@ -3,7 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.mavenproject1;
+import basedatos.ActualizarInfo;
+import basedatos.Injection;
+import basedatos.RecuperarInfo;
 import com.mycompany.mavenproject1.cortes.ImprimirInventario;
+import dinero.Venta;
 import java.awt.Toolkit;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -50,8 +54,13 @@ public class Inventario extends javax.swing.JFrame {
         modelo3.addColumn("Nombre");
         modelo3.addColumn("Existencia");
         modelo3.addColumn("Cantida Miníma");
-        
-        actualizarAlerta("Todas las alertas");
+        try
+        {
+            recuperar.informacionAlertas("Todas las alertas",modelo3);
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(this,e.getMessage());
+        }
         
         modelo2.addColumn("Cantidad");
         modelo2.addColumn("Código");
@@ -87,110 +96,6 @@ public class Inventario extends javax.swing.JFrame {
         }
     }
     
-    private void actualizarInfoT1()
-    {
-        try{
-           modelo.addColumn("Código");
-           modelo.addColumn("Nombre");
-           modelo.addColumn("Existencia");
-           modelo.addColumn("Inventario");
-           modelo.addColumn("Cantidad Minima");
-           
-           Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
-           String sql = "SELECT CÓDIGO, NOMBRE, EXISTENCIA, INVENTARIO, CANTIDAD_MINIMA FROM productos  ";
-           PreparedStatement ps = connection.prepareStatement(sql);
-           ResultSet rs = ps.executeQuery();
-           ResultSetMetaData rsMD = rs.getMetaData();
-           int nColumnas = rsMD.getColumnCount();
-           while(rs.next())
-           {
-               Object[] fila = new Object[nColumnas];
-               for(int i=1;i<=nColumnas;i++)
-               {
-                   fila[i-1] = rs.getObject(i);
-               }
-               modelo.addRow(fila);
-           }
-        }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-    }
-    
-    private void actualizarAlerta(String tipo_alerta)
-    {
-        try
-        {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/refaccionaria","root",password);
-            //String sql = "select CÓDIGO, NOMBRE, EXISTENCIA, CANTIDAD_MINIMA from productos";
-            String sql ="select * from productos";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            int nColumnas = 4;
-            
-            if(tipo_alerta.equals("Todas las alertas"))
-            {
-                while(rs.next())
-                {
-                    String[] fila = new String[nColumnas];
-                    fila[0] = rs.getString("CÓDIGO");
-                    fila[1] = rs.getString("NOMBRE");
-                    fila[2] = rs.getString("EXISTENCIA");
-                    fila[3] = rs.getString("CANTIDAD_MINIMA");
-                    
-                    double existencia = Double.parseDouble(fila[2]);
-                    double minimo = Double.parseDouble(fila[3]);
-                    
-                    if(existencia < minimo)
-                    {
-                        modelo3.addRow(fila);
-                    }
-                    
-                }
-            }else if(tipo_alerta.equals("Sin mercancia"))
-            {
-                while(rs.next())
-                {
-                    String[] fila = new String[nColumnas];
-                    fila[0] = rs.getString("CÓDIGO");
-                    fila[1] = rs.getString("NOMBRE");
-                    fila[2] = rs.getString("EXISTENCIA");
-                    fila[3] = rs.getString("CANTIDAD_MINIMA");
-                    
-                    double existencia = Double.parseDouble(fila[2]);
-                    
-                    if(existencia <= 0)
-                    {
-                        modelo3.addRow(fila);
-                    }
-                    
-                }
-                
-            }else if(tipo_alerta.equals("Por acabar"))
-            {
-                while(rs.next())
-                {
-                    String[] fila = new String[nColumnas];
-                    fila[0] = rs.getString("CÓDIGO");
-                    fila[1] = rs.getString("NOMBRE");
-                    fila[2] = rs.getString("EXISTENCIA");
-                    fila[3] = rs.getString("CANTIDAD_MINIMA");
-                    
-                    double existencia = Double.parseDouble(fila[2]);
-                    double minimo = Double.parseDouble(fila[3]);
-                    
-                    if(existencia < minimo && existencia >0)
-                    {
-                        modelo3.addRow(fila);
-                    }
-                    
-                }
-            }
-            
-        }catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -765,7 +670,7 @@ public class Inventario extends javax.swing.JFrame {
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
+   
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         LogInDialog log = new LogInDialog(this,true);
@@ -778,32 +683,14 @@ public class Inventario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"La tabla esta vacia.");
             return;
         }
-
-        double precioActual;
-        double existencias[];
-        double existencia;
-        existencias = actualizarExistencias();
-
+        
         try{
-
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            for(int i=0; i<nFilas ;i++)
-            {
-                PreparedStatement ps1 = connection.prepareStatement("update productos set EXISTENCIA = ?, PRECIO_DE_COMPRA = ? where CÓDIGO = '" + String.valueOf(modelo2.getValueAt(i,1))+"'");
-
-                precioActual = Double.parseDouble(String.valueOf(modelo2.getValueAt(i, 3)));
-                existencia = existencias[i] + Double.parseDouble(String.valueOf(modelo2.getValueAt(i, 0)));
-
-                ps1.setString(1,String.valueOf(existencia));
-                ps1.setString(2,String.valueOf(precioActual));
-                ps1.executeUpdate();
-            }
-
+            actualizar.recibirProductoProvedor(modelo2);
         }catch(SQLException e)
         {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            JOptionPane.showMessageDialog(this,e.getMessage());
         }
-
+        
         Home home = new Home(user);
         home.setVisible(true);
         dispose();
@@ -813,7 +700,7 @@ public class Inventario extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
 
-            String codigo = checarSQLInjection(jTextField7.getText());
+            String codigo = injection.checarSQLInjection(jTextField7.getText());
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
             PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = ?");
             pst.setString(1,codigo.trim());
@@ -844,104 +731,54 @@ public class Inventario extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jTextField7ActionPerformed
-
-    private String checarSQLInjection(String input)
-    {
-        String newInput = input.replace('/',' ');
-        newInput = newInput.replace('-',' ');
-        newInput = newInput.replace('=',' ');
-        newInput = newInput.replace('(',' ');
-        newInput = newInput.replace(')',' ');
-        newInput = newInput.replace('%',' ');
-        newInput = newInput.replace("'","");
-        newInput = newInput.replace(":","");
-        return newInput;
-
-    }
-    
+  
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         if(!verificarDatos())return;
-        String input = checarSQLInjection(jTextField3.getText().trim());
-        String nombreProducto = verificarCodigoBarras(input.trim());
+        String input = injection.checarSQLInjection(jTextField3.getText().trim());
+        String nombreProducto = null;
+        try{
+            nombreProducto = recuperar.verificarCodigoBarras(input.trim());
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(this,e.getMessage());
+        }
         if(nombreProducto != null)
         {
             JOptionPane.showMessageDialog(null,"El producto: " + nombreProducto + " usa el código de barras proporcionado.");
             return;
         }
+        String datos[] = new String[10];
+        datos[0] = "0";
+        datos[1] = injection.checarSQLInjection(jTextField1.getText().trim());
+        datos[2] = injection.checarSQLInjection(jTextField2.getText().trim());
+        datos[3] = injection.checarSQLInjection(jTextField3.getText().trim());
+        datos[4] = injection.checarSQLInjection(jTextField4.getText().trim());
+        datos[5] = injection.checarSQLInjection(jTextField5.getText().trim());
+        datos[6] = injection.checarSQLInjection(jTextField6.getText().trim());
+        datos[7]="0";
+        datos[8]="0";
+        datos[9] = injection.checarSQLInjection(jTextField9.getText().trim());
         try
         {
-            /*String datos[] = new String[10];
-            datos[0] = "0";
-            datos[1] = checarSQLInjection(jTextField1.getText().trim());
-            datos[2] = checarSQLInjection(jTextField2.getText().trim());
-            datos[3] = checarSQLInjection(jTextField3.getText().trim());
-            datos[4] = checarSQLInjection(jTextField4.getText().trim());
-            datos[5] = checarSQLInjection(jTextField5.getText().trim());
-            datos[6] = checarSQLInjection(jTextField6.getText().trim());
-            datos[7]="0";
-            datos[8]="0";
-            datos[9] = checarSQLInjection(jTextField9.getText().trim());*/
-            
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria", "root",password);
-            //PreparedStatement pst = connection.prepareStatement("INSERT INTO productos(NOMBRE,DESCRIPCIÓN,CÓDIGO,% GANANCIA,% IMPUESTOS,PRECIO_DE_COMPRA,EXISTENCIA,INVENTARIO,CANTIDAD) VALUES("+datos[1]+","+datos[2]+",'"+datos[3]+"',"+datos[4]+","+datos[5]+","+datos[6]+","+datos[7]+","+datos[8]+","+datos[9]+")");
-            PreparedStatement pst = connection.prepareStatement("INSERT INTO productos VALUES(?,?,?,?,?,?,?,?,?,?)");
-            pst.setString(1,"0");
-            String dato = checarSQLInjection(jTextField1.getText().trim());
-            pst.setString(2,dato.trim());
-            dato = checarSQLInjection(jTextField2.getText().trim());
-            pst.setString(3,dato.trim());
-            dato = checarSQLInjection("'" + jTextField3.getText().trim() + "'");
-            pst.setString(4,dato.trim());
-            dato = checarSQLInjection(jTextField4.getText().trim());
-            pst.setString(5,dato.trim());
-            dato = checarSQLInjection(jTextField5.getText().trim());
-            pst.setString(6,dato.trim());
-            dato = checarSQLInjection(jTextField6.getText().trim());
-            pst.setString(7,dato.trim());
-            pst.setString(8,"0");
-            pst.setString(9,"0");
-            dato = checarSQLInjection(jTextField9.getText().trim());
-            pst.setString(10,dato.trim());
-
-            pst.executeUpdate();
-
-            jTextField1.setText("");
-            jTextField2.setText("");
-            jTextField3.setText("");
-            jTextField4.setText("");
-            jTextField5.setText("");
-            jTextField6.setText("");
-            jTextField9.setText("");
-
-            //initComponents();
-            Home home = new Home(user);
-            home.setVisible(true);
-            dispose();
-
+            actualizar.guardarProductoNuevo(datos);
         }catch(SQLException e)
         {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(this,e.getMessage());
         }
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jTextField9.setText("");
+
+        Home home = new Home(user);
+        home.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    //La siguiente funcion verifica que el código de barras no se repita con otro producto ya existente
-    private String verificarCodigoBarras(String codigo)
-    {
-        try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("select NOMBRE from productos where CÓDIGO = '" + codigo + "'");
-            ResultSet rs = ps.executeQuery();
-            if(rs.next())
-            {
-                return rs.getString("NOMBRE");
-            }
-        }catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        return null;
-    }
     //verifica que los parametros que se tienen que introducir números sean números.
     private boolean verificarDatos()
     {
@@ -987,9 +824,7 @@ public class Inventario extends javax.swing.JFrame {
         modelo.removeRow(i);
         try
         {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("delete from productos where CÓDIGO = '" + codigo+"'");
-            ps.executeUpdate();
+            actualizar.eliminarProducto(codigo);
         }catch(SQLException e)
         {
             JOptionPane.showMessageDialog(null,e.getMessage());
@@ -1003,7 +838,7 @@ public class Inventario extends javax.swing.JFrame {
             jTextField4.setText("0");
             return;
         }
-        double precio = calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+        double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
             //JOptionPane.showMessageDialog(null, "Checa tus datos!!!!");
@@ -1019,7 +854,7 @@ public class Inventario extends javax.swing.JFrame {
             jTextField5.setText("0");
             return;
         }
-        double precio = calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+        double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
             //JOptionPane.showMessageDialog(null, "Checa tus datos!!!!");
@@ -1035,7 +870,7 @@ public class Inventario extends javax.swing.JFrame {
             jTextField6.setText("0");
             return;
         }
-        double precio = calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+        double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
             //JOptionPane.showMessageDialog(null, "Checa tus datos!!!!");
@@ -1051,7 +886,7 @@ public class Inventario extends javax.swing.JFrame {
             jTextField4.setText("0");
             return;
         }
-        double precio = calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+        double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
             //JOptionPane.showMessageDialog(null, "Checa tus datos!!!!");
@@ -1067,7 +902,7 @@ public class Inventario extends javax.swing.JFrame {
             jTextField5.setText("0");
             return;
         }
-        double precio = calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+        double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
             //JOptionPane.showMessageDialog(null, "Checa tus datos!!!!");
@@ -1083,7 +918,7 @@ public class Inventario extends javax.swing.JFrame {
             jTextField6.setText("0");
             return;
         }
-        double precio = calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+        double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
             //JOptionPane.showMessageDialog(null, "Checa tus datos!!!!");
@@ -1096,18 +931,23 @@ public class Inventario extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println(jComboBox4.getSelectedItem());
         String seleccion = String.valueOf(jComboBox4.getSelectedItem());
-        if("Todas las alertas".equals(seleccion))
+        try{
+            if("Todas las alertas".equals(seleccion))
+            {
+                modelo3.setRowCount(0);
+                recuperar.informacionAlertas(seleccion,modelo3);
+            }else if("Sin mercancia".equals(seleccion))
+            {
+                modelo3.setRowCount(0);
+                recuperar.informacionAlertas(seleccion,modelo3);
+            }else if("Por acabar".equals(seleccion))
+            {
+                modelo3.setRowCount(0);
+                recuperar.informacionAlertas(seleccion,modelo3);
+            }
+        }catch(SQLException e)
         {
-            modelo3.setRowCount(0);
-            actualizarAlerta(seleccion);
-        }else if("Sin mercancia".equals(seleccion))
-        {
-            modelo3.setRowCount(0);
-            actualizarAlerta(seleccion);
-        }else if("Por acabar".equals(seleccion))
-        {
-            modelo3.setRowCount(0);
-            actualizarAlerta(seleccion);
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_jComboBox4ActionPerformed
 
@@ -1117,11 +957,18 @@ public class Inventario extends javax.swing.JFrame {
         
         if(jTextField10.getText().trim().equals(""))
             return;
-        String input = checarSQLInjection(jTextField10.getText());
-        DefaultTableModel model = buscarProducto(input.trim());
+        String input = injection.checarSQLInjection(jTextField10.getText());
+        DefaultTableModel model = new DefaultTableModel();
+        try{
+            model = recuperar.buscarProductoEnInventario(input.trim());
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null,e.getMessage());
+            
+        }
         if(model.getRowCount() != 0)
         {
-             modelo = model;
+            modelo = model;
             jTable1.setModel(modelo);
         }else{
             JOptionPane.showMessageDialog(null,"Ese producto no existe.");
@@ -1138,7 +985,13 @@ public class Inventario extends javax.swing.JFrame {
                 return false;
             }
         };
-        actualizarInfoT1();
+        //actualizarInfoT1();
+        try{
+            recuperar.informacionProductos(modelo);
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(this,e.getMessage());
+        }
         jTable1.setModel(modelo);
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -1146,22 +999,27 @@ public class Inventario extends javax.swing.JFrame {
         // TODO add your handling code here:
         String seleccion = jComboBox5.getSelectedItem().toString();
         modelo4.setRowCount(0);
+        try{
         if(seleccion.equals("General"))
         {
             LogInDialog dialog = new LogInDialog(this,true);
             String pass = dialog.showDialog("AUDITORIA");
             if(pass != null)
             {
-                actualizarTablaInventarioGeneral();
+                recuperar.informacionTablaInventarioGeneral(modelo4);
             }else
             {
                 jComboBox5.setSelectedIndex(0);
             }
         }
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }//GEN-LAST:event_jComboBox5ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+
         int index = jComboBox5.getSelectedIndex();
         
         switch(index)
@@ -1170,7 +1028,12 @@ public class Inventario extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this,"Opción no disponible para este tipo de inventario.");
                 break;
             case 1:
-                actualizarInventarioGeneral();
+                try{
+                    actualizar.actualizarInventarioGeneral(modelo4);
+                }catch(SQLException e)
+                {
+                    JOptionPane.showMessageDialog(this,e.getMessage());
+                }
                 jComboBox5.setSelectedIndex(0);
                 modelo4.setRowCount(0);
                 break;
@@ -1210,113 +1073,7 @@ public class Inventario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Option no available!!");
         }
     }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void actualizarInventarioGeneral()
-    {
-        int numeroElementos = modelo4.getRowCount();
-        
-        try
-        {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            for(int i=0;i<numeroElementos;i++)
-            {
-                String codigo = "'" + String.valueOf(modelo4.getValueAt(i,0)) + "'";
-                System.out.println(codigo);
-                PreparedStatement ps = connection.prepareStatement("UPDATE productos SET EXISTENCIA = " + String.valueOf(modelo4.getValueAt(i,3)) + " WHERE CÓDIGO = " + codigo);
-                System.out.println(String.valueOf(modelo4.getValueAt(i,3)));
-                //ps.setString(1,String.valueOf(modelo4.getValueAt(i,3)));
-                ps.executeUpdate();
-            }       
-        }catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(this,e.getMessage());
-        }
-        
-    }
-    private void actualizarTablaInventarioGeneral()
-    {
-        try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("select * from productos");
-            ResultSet rs = ps.executeQuery();
-            
-            while(rs.next())
-            {
-                String[] arreglo = new String[5];
-                arreglo[0] = rs.getString("CÓDIGO");
-                arreglo[1] = rs.getString("NOMBRE");
-                arreglo[2] = rs.getString("EXISTENCIA");
-                arreglo[3] = rs.getString("INVENTARIO");
-                double diferencia = Double.parseDouble(arreglo[3]) - Double.parseDouble(arreglo[2]);
-                arreglo[4] = String.valueOf(diferencia);
-                modelo4.addRow(arreglo);
-            }
-            
-        }catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(this,"Error al cargar el inventario general ");
-        }
-    }
     
-    private DefaultTableModel buscarProducto(String buscar)
-    {
-        DefaultTableModel modeloBuscar = new DefaultTableModel();
-        modeloBuscar.addColumn("Código");
-        modeloBuscar.addColumn("Nombre");
-        modeloBuscar.addColumn("Existencia");
-        modeloBuscar.addColumn("Cantidad Minima");
-        try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("select * from productos where CONCAT(NOMBRE,'',DESCRIPCIÓN,'',CÓDIGO) like '%" + buscar + "%'");
-            ResultSet rs = ps.executeQuery();
-            while(rs.next())
-            {
-                String fila[] = {rs.getString("CÓDIGO"),rs.getString("NOMBRE"),rs.getString("EXISTENCIA"),rs.getString("INVENTARIO"),rs.getString("CANTIDAD_MINIMA")};
-                modeloBuscar.addRow(fila);
-            }
-        } catch (SQLException ex)
-        {
-            //Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,ex.getMessage());
-        }
-        return modeloBuscar;
-    }
-    
-    private double calcularPrecioCliente(double precioProvedor,double ganancia,double impuestos)
-    {
-        if(ganancia >= 100)
-        {
-            return 0;
-        }
-        double porcentajeGanancia = ganancia/100;
-        double porcentajeImpuesto = (impuestos/100) + 1;
-        double precio = precioProvedor/(1 - porcentajeGanancia);
-        precio *= porcentajeImpuesto;
-        precio = Math.round(precio*100)/100;
-        return precio;
-    }
-    private double[] actualizarExistencias()
-    {
-        int nFilas = jTable2.getRowCount();
-        double existencias[] = new double[nFilas];
-        
-        try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-         
-            for(int i=0;i<nFilas;i++)
-            {
-                PreparedStatement pst = connection.prepareStatement("select * from productos where CÓDIGO = '" + String.valueOf(modelo2.getValueAt(i,1))+"'");
-                ResultSet rs = pst.executeQuery();
-                //rs.next();
-                if(rs.next())
-                    existencias[i] = Double.parseDouble(rs.getString("EXISTENCIA"));
-            }
-        }catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(null,e.getMessage());
-        }
-        return existencias;
-    }
     /**
      * @param args the command line arguments
      */
@@ -1441,6 +1198,11 @@ public class Inventario extends javax.swing.JFrame {
         }
         
     };
+    
+    private Injection injection = new Injection();
+    private ActualizarInfo actualizar = new ActualizarInfo();
+    private RecuperarInfo recuperar = new RecuperarInfo();
+    private Venta venta = new Venta();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;

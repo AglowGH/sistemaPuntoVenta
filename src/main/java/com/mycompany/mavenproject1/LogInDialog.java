@@ -4,6 +4,7 @@
  */
 package com.mycompany.mavenproject1;
 
+import basedatos.Injection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -133,7 +134,8 @@ public class LogInDialog extends javax.swing.JDialog {
 
     private void aceptarEntrada()
     {
-        String usuario =  "'" + jTextField1.getText() + "'";
+        String usuario = injection.checarSQLInjection(jTextField1.getText());
+        usuario =  "'" + usuario + "'";
         String contrasena = String.valueOf(jPasswordField1.getPassword());
         
         try{
@@ -210,6 +212,7 @@ public class LogInDialog extends javax.swing.JDialog {
     private String user = null;
     private String password = "A1b2C3";
     private String permiso = "";
+    private Injection injection = new Injection();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

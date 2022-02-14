@@ -10,5 +10,23 @@ package basedatos;
  */
 public class Injection 
 {
+    public Injection()
+    {
+        
+    }
+    
+    public String checarSQLInjection(String input)
+    {
+        String newInput = input.replace('/',' ');
+        newInput = newInput.replace('-',' ');
+        newInput = newInput.replace('=',' ');
+        newInput = newInput.replace('(',' ');
+        newInput = newInput.replace(')',' ');
+        newInput = newInput.replace('%',' ');
+        newInput = newInput.replace("'","");
+        newInput = newInput.replace(":","");
+        return newInput;
+    }
+    
     
 }

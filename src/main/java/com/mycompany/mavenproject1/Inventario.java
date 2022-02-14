@@ -988,7 +988,7 @@ public class Inventario extends javax.swing.JFrame {
         try
         {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/refaccionaria","root",password);
-            PreparedStatement ps = connection.prepareStatement("delete from productos where CÓDIGO = " + codigo);
+            PreparedStatement ps = connection.prepareStatement("delete from productos where CÓDIGO = '" + codigo+"'");
             ps.executeUpdate();
         }catch(SQLException e)
         {

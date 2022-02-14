@@ -1,0 +1,17 @@
+***REFACCIONARIA GJ***
+
+
+Cajero: 'admin'
+Fecha y hora:2022/02/13 19:00:16
+Motivo PAGO_PROVEDORES
+
+
+
+
+Total: $200.0
+
+
+
+
+___________________________________
+                FIRMA              

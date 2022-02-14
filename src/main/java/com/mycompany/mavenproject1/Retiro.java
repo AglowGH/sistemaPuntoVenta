@@ -4,6 +4,7 @@
  */
 package com.mycompany.mavenproject1;
 
+import com.mycompany.mavenproject1.cortes.RetiroDinero;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -253,7 +254,8 @@ public class Retiro extends javax.swing.JFrame {
             
             ps.setString(1, String.valueOf(dineroAcumulado));
             ps.executeUpdate();
-            
+            comprobante = new RetiroDinero(user,columna,dinero);
+            comprobante.guardarComprobante();
         }catch(SQLException e)
         {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -316,7 +318,8 @@ public class Retiro extends javax.swing.JFrame {
             
             ps.setString(1, String.valueOf(dineroAcumulado));
             ps.executeUpdate();
-            
+            comprobante = new RetiroDinero(user,columna,dinero);
+            comprobante.guardarComprobante();
         }catch(SQLException e)
         {
             
@@ -381,6 +384,7 @@ public class Retiro extends javax.swing.JFrame {
 
     private String password = "A1b2C3";
     private String user = "UNKNOWN";
+    private RetiroDinero comprobante;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

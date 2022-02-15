@@ -4,6 +4,7 @@
  */
 package basedatos;
 
+import dinero.Venta;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -16,6 +17,7 @@ public class RecuperarInfo
     private String usuario = "root";
     private String password = "A1b2C3";
     private String connection = "jdbc:mysql://localhost/refaccionaria";
+    private Venta venta = new Venta();
     
     public RecuperarInfo()
     {
@@ -213,46 +215,65 @@ public class RecuperarInfo
     
     public void informacionProductos(DefaultTableModel modelo)throws SQLException
     {
-        modelo.addColumn("Código");
-           modelo.addColumn("Nombre");
-           modelo.addColumn("Existencia");
-           modelo.addColumn("Inventario");
-           modelo.addColumn("Cantidad Minima");
            
            Connection cn = DriverManager.getConnection(connection,usuario,password);
-           String sql = "SELECT CÓDIGO, NOMBRE, EXISTENCIA, INVENTARIO, CANTIDAD_MINIMA FROM productos  ";
+           String sql = "SELECT * FROM productos";
            PreparedStatement ps = cn.prepareStatement(sql);
            ResultSet rs = ps.executeQuery();
            ResultSetMetaData rsMD = rs.getMetaData();
            int nColumnas = rsMD.getColumnCount();
            while(rs.next())
            {
-               Object[] fila = new Object[nColumnas];
+               Object[] fila = new Object[nColumnas+1];
                for(int i=1;i<=nColumnas;i++)
                {
                    fila[i-1] = rs.getObject(i);
                }
+               double precioCliente = venta.calcularPrecioCliente(Double.parseDouble(String.valueOf(fila[6])),Double.parseDouble(String.valueOf(fila[4])),Double.parseDouble(String.valueOf(fila[5])));
+               fila[nColumnas] = String.valueOf(precioCliente);
                modelo.addRow(fila);
            }
     }
     
-    public DefaultTableModel buscarProductoEnInventario(String buscar)throws SQLException
+    public void buscarProductoEnInventario(String buscar,DefaultTableModel modelo)throws SQLException
     {
-        DefaultTableModel modeloBuscar = new DefaultTableModel();
-        modeloBuscar.addColumn("Código");
-        modeloBuscar.addColumn("Nombre");
-        modeloBuscar.addColumn("Existencia");
-        modeloBuscar.addColumn("Cantidad Minima");
         Connection cn = DriverManager.getConnection(connection,usuario,password);
         PreparedStatement ps = cn.prepareStatement("select * from productos where CONCAT(NOMBRE,'',DESCRIPCIÓN,'',CÓDIGO) like '%" + buscar + "%'");
         ResultSet rs = ps.executeQuery();
+        ResultSetMetaData rsMD = rs.getMetaData();
+        int nColumnas = rsMD.getColumnCount();
         while(rs.next())
         {
-            String fila[] = {rs.getString("CÓDIGO"),rs.getString("NOMBRE"),rs.getString("EXISTENCIA"),rs.getString("INVENTARIO"),rs.getString("CANTIDAD_MINIMA")};
-            modeloBuscar.addRow(fila);
+            Object[] fila = new Object[nColumnas+1];
+            for(int i=0;i<nColumnas;i++)
+            {
+                fila[i] = rs.getObject(i+1);
+            }
+            double precioCliente = venta.calcularPrecioCliente(Double.parseDouble(String.valueOf(fila[6])),Double.parseDouble(String.valueOf(fila[4])),Double.parseDouble(String.valueOf(fila[5])));
+            fila[nColumnas] = String.valueOf(precioCliente);
+            modelo.addRow(fila);
+            //String fila[] = {rs.getString("CÓDIGO"),rs.getString("NOMBRE"),rs.getString("EXISTENCIA"),rs.getString("INVENTARIO"),rs.getString("CANTIDAD_MINIMA")};
         }
-        
-        return modeloBuscar;
+    }
+    
+    public String[] buscarProductoParaEntrada(String codigo) throws SQLException
+    {
+        String[] producto = new String[5];
+        Connection cn = DriverManager.getConnection(connection,usuario,password);
+        PreparedStatement pst = cn.prepareStatement("select * from productos where CÓDIGO = ?");
+        pst.setString(1,codigo);
+        ResultSet rs = pst.executeQuery();
+
+        if(rs.next())
+        {
+                producto[0] = "1";
+                producto[1] = rs.getString("CÓDIGO");
+                producto[2] = rs.getString("NOMBRE");
+                producto[3] = rs.getString("PRECIO_DE_COMPRA");
+                producto[4] = rs.getString("PRECIO_DE_COMPRA");
+                return producto;
+        }
+        return null;
     }
     
     //La siguiente funcion verifica que el código de barras no se repita con otro producto ya existente

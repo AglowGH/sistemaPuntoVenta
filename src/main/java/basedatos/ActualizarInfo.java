@@ -90,4 +90,27 @@ public class ActualizarInfo
         PreparedStatement ps = cn.prepareStatement("delete from productos where CÓDIGO = '" + codigo+"'");
         ps.executeUpdate();
     }
+    
+    public void actualizarInfoTodosLosProductos(DefaultTableModel modelo)throws SQLException
+    {
+        int rows = modelo.getRowCount();
+        Connection cn = DriverManager.getConnection(connection,usuario,password);
+        for(int i = 0; i < rows;i++)
+        {
+            String id = String.valueOf(modelo.getValueAt(i,0));
+            PreparedStatement ps = cn.prepareStatement("UPDATE productos SET NOMBRE = ?, DESCRIPCIÓN = ?, CÓDIGO = ?, `% GANANCIA` = ?, `% IMPUESTOS` = ?, PRECIO_DE_COMPRA = ?, EXISTENCIA = ?, INVENTARIO = ?, CANTIDAD_MINIMA = ? WHERE ID = " + id);
+            
+            ps.setString(1,String.valueOf(modelo.getValueAt(i,1)));
+            ps.setString(2,String.valueOf(modelo.getValueAt(i,2)));
+            ps.setString(3,String.valueOf(modelo.getValueAt(i,3)));
+            ps.setString(4,String.valueOf(modelo.getValueAt(i,4)));
+            ps.setString(5,String.valueOf(modelo.getValueAt(i,5)));
+            ps.setString(6,String.valueOf(modelo.getValueAt(i,6)));
+            ps.setString(7,String.valueOf(modelo.getValueAt(i,7)));
+            ps.setString(8,String.valueOf(modelo.getValueAt(i,8)));
+            ps.setString(9,String.valueOf(modelo.getValueAt(i,9)));
+            
+            ps.executeUpdate();
+        }
+    }
 }

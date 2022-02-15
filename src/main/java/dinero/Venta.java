@@ -49,8 +49,15 @@ public class Venta
         double porcentajeGanancia = ganancia/100;
         double precio = cantidad * precioProvedor/(1 - porcentajeGanancia);
         precio -= (cantidad * precioProvedor);
-        double number = BigDecimal.valueOf(precio).setScale(2,RoundingMode.CEILING).doubleValue();
+        double number = BigDecimal.valueOf(precio).setScale(2,RoundingMode.HALF_DOWN).doubleValue();
         return number;
+    }
+    
+    public double obtenerGanancia(double precioProvedor,double impuestos,double precioCliente)
+    {
+        double numero = -((precioProvedor*(impuestos+1)/precioCliente)-1);
+        double resultado = BigDecimal.valueOf(numero).setScale(4,RoundingMode.HALF_DOWN).doubleValue();
+        return resultado;
     }
     
     public boolean esDoublePositivo(String valor)
@@ -112,7 +119,7 @@ public class Venta
         modeloBuscar.addColumn("Nombre");
         modeloBuscar.addColumn("Precio");
         modeloBuscar.addColumn("Existencia");
-        modeloBuscar.addColumn("Descripción");
+        modeloBuscar.addColumn("Provedor");
         try{
             Connection cn = DriverManager.getConnection(connection,usuario,password);
             PreparedStatement ps = cn.prepareStatement("select * from productos where CONCAT(NOMBRE,'',DESCRIPCIÓN,'',CÓDIGO) like '%" + buscar + "%'");

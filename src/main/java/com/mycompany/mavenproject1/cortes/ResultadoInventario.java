@@ -8,6 +8,7 @@ package com.mycompany.mavenproject1.cortes;
  *
  * @author Usuario
  */
-public class ResultadoInventario {
+public class ResultadoInventario 
+{
     
 }

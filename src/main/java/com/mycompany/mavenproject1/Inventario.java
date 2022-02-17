@@ -9,6 +9,7 @@ import basedatos.RecuperarInfo;
 import com.mycompany.mavenproject1.cortes.ImprimirInventario;
 import dinero.Venta;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
@@ -122,9 +123,9 @@ public class Inventario extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jTextField9 = new javax.swing.JTextField();
+        jTextField11 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -293,21 +294,11 @@ public class Inventario extends javax.swing.JFrame {
                 jTextField4FocusLost(evt);
             }
         });
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
 
         jTextField5.setText("0");
         jTextField5.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField5FocusLost(evt);
-            }
-        });
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
             }
         });
 
@@ -317,54 +308,58 @@ public class Inventario extends javax.swing.JFrame {
                 jTextField6FocusLost(evt);
             }
         });
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
-
-        jLabel8.setText("0");
 
         jLabel13.setText("Cantidad Minima:");
 
         jTextField9.setText("0");
+        jTextField9.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField9FocusLost(evt);
+            }
+        });
+
+        jTextField11.setText("0");
+        jTextField11.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField11FocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton2)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel6))
+                                    .addGap(34, 34, 34))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel13)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel6))
-                                        .addGap(34, 34, 34))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel13)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                                    .addComponent(jTextField6)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField3)
-                                    .addComponent(jTextField9)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7)))
+                                .addComponent(jLabel7)
+                                .addGap(105, 105, 105)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+                            .addComponent(jTextField6)
+                            .addComponent(jTextField1)
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField3)
+                            .addComponent(jTextField9)
+                            .addComponent(jTextField11)
+                            .addComponent(jTextField4))))
                 .addContainerGap(564, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -399,12 +394,12 @@ public class Inventario extends javax.swing.JFrame {
                     .addComponent(jLabel13)
                     .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
-                .addContainerGap(294, Short.MAX_VALUE))
+                .addContainerGap(288, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Alta Producto", jPanel1);
@@ -426,6 +421,11 @@ public class Inventario extends javax.swing.JFrame {
         jTextField7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField7ActionPerformed(evt);
+            }
+        });
+        jTextField7.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField7KeyPressed(evt);
             }
         });
 
@@ -708,34 +708,12 @@ public class Inventario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
-
-        try{
-
-            String codigo = injection.checarSQLInjection(jTextField7.getText());
-            String producto[] = recuperar.buscarProductoParaEntrada(codigo);
-
-            if(producto != null)
-            {  
-                modelo2.addRow(producto);
-
-                double total = Double.parseDouble(jTextField8.getText());
-                total += Double.parseDouble(producto[3]);
-                jTextField8.setText(String.valueOf(total));
-            }else
-            {
-                JOptionPane.showMessageDialog(null,"Producto no encontardo!!!");
-            }
-            jTextField7.setText("");
-        }catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(this,e.getMessage());
-
-        }
+        agregarProducto();
     }//GEN-LAST:event_jTextField7ActionPerformed
   
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if(!verificarDatos())return;
+        //if(!verificarDatos())return;
         String input = injection.checarSQLInjection(jTextField3.getText().trim());
         String nombreProducto = null;
         try{
@@ -770,14 +748,12 @@ public class Inventario extends javax.swing.JFrame {
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
-        jTextField4.setText("");
-        jTextField5.setText("");
-        jTextField6.setText("");
-        jTextField9.setText("");
+        jTextField4.setText("0");
+        jTextField5.setText("0");
+        jTextField6.setText("0");
+        jTextField9.setText("0");
+        jTextField11.setText("0");
 
-        //Home home = new Home(user);
-        //home.setVisible(true);
-        //dispose();
         modelo.setRowCount(0);
         try{
             recuperar.informacionProductos(modelo);
@@ -787,21 +763,6 @@ public class Inventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    //verifica que los parametros que se tienen que introducir números sean números.
-    private boolean verificarDatos()
-    {
-        boolean v1 = venta.esDoublePositivo(jTextField4.getText().trim());
-        boolean v2 = venta.esDoublePositivo(jTextField5.getText().trim());
-        boolean v3 = venta.esDoublePositivo(jTextField6.getText().trim());
-        boolean v4 = venta.esDoublePositivo(jTextField9.getText().trim());  
-        
-        if(!v1 || !v2 || !v3 || !v4)
-        {
-            JOptionPane.showMessageDialog(null,"Error al captura información, verifica los datos.");
-            return false;
-        }
-        return true;
-    }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         LogInDialog log = new LogInDialog(this,true);
@@ -824,61 +785,13 @@ public class Inventario extends javax.swing.JFrame {
             actualizar.eliminarProducto(codigo);
         }catch(SQLException e)
         {
-            JOptionPane.showMessageDialog(null,e.getMessage());
+            JOptionPane.showMessageDialog(this,e.getMessage());
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-        if(!verificarDatos())
-        {
-            jTextField4.setText("0");
-            return;
-        }
-        double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
-        if(precio <= 0)
-        {
-            //JOptionPane.showMessageDialog(null, "Checa tus datos!!!!");
-            return;
-        }
-        jLabel8.setText(String.valueOf(precio));
-    }//GEN-LAST:event_jTextField4ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-        if(!verificarDatos())
-        {
-            jTextField5.setText("0");
-            return;
-        }
-        double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
-        if(precio <= 0)
-        {
-            //JOptionPane.showMessageDialog(null, "Checa tus datos!!!!");
-            return;
-        }
-        jLabel8.setText(String.valueOf(precio));
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-        if(!verificarDatos())
-        {
-            jTextField6.setText("0");
-            return;
-        }
-        double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
-        if(precio <= 0)
-        {
-            //JOptionPane.showMessageDialog(null, "Checa tus datos!!!!");
-            return;
-        }
-        jLabel8.setText(String.valueOf(precio));
-    }//GEN-LAST:event_jTextField6ActionPerformed
-
     private void jTextField4FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField4FocusLost
         // TODO add your handling code here:
-        if(!verificarDatos())
+        if(!venta.esDoublePositivo(String.valueOf(jTextField4.getText())))
         {
             jTextField4.setText("0");
             return;
@@ -886,15 +799,15 @@ public class Inventario extends javax.swing.JFrame {
         double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
-            //JOptionPane.showMessageDialog(null, "Checa tus datos!!!!");
+            jTextField4.setText("0");
             return;
         }
-        jLabel8.setText(String.valueOf(precio));
+        jTextField11.setText(String.valueOf(precio));
     }//GEN-LAST:event_jTextField4FocusLost
 
     private void jTextField5FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField5FocusLost
         // TODO add your handling code here:
-        if(!verificarDatos())
+        if(!venta.esDoublePositivo(String.valueOf(jTextField5.getText())))
         {
             jTextField5.setText("0");
             return;
@@ -902,26 +815,30 @@ public class Inventario extends javax.swing.JFrame {
         double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
-            //JOptionPane.showMessageDialog(null, "Checa tus datos!!!!");
+            jTextField5.setText("0");
             return;
         }
-        jLabel8.setText(String.valueOf(precio));
+        jTextField11.setText(String.valueOf(precio));
     }//GEN-LAST:event_jTextField5FocusLost
 
     private void jTextField6FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField6FocusLost
         // TODO add your handling code here:
-        if(!verificarDatos())
+        if(!venta.esDoublePositivo(String.valueOf(jTextField6.getText())))
         {
             jTextField6.setText("0");
+            double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+            jTextField11.setText(String.valueOf(precio));
             return;
         }
         double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
-            //JOptionPane.showMessageDialog(null, "Checa tus datos!!!!");
+            jTextField6.setText("0");
+            precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+            jTextField11.setText(String.valueOf(precio));
             return;
         }
-        jLabel8.setText(String.valueOf(precio));
+        jTextField11.setText(String.valueOf(precio));
     }//GEN-LAST:event_jTextField6FocusLost
 
     private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
@@ -1077,6 +994,73 @@ public class Inventario extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jTextField7KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField7KeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_DOWN)
+        {
+            DefaultTableModel model = venta.buscarProductoConsulta(jTextField7.getText());
+            BuscarProducto buscar = new BuscarProducto(this,true);
+            String codigo = buscar.showDialog(model);
+            jTextField7.setText(codigo);
+            if (!codigo.equals(""))
+            {
+                agregarProducto();
+            }
+            
+        }
+    }//GEN-LAST:event_jTextField7KeyPressed
+
+    private void jTextField9FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField9FocusLost
+        if(!venta.esDoublePositivo(String.valueOf(jTextField9)))
+        {
+            jTextField9.setText("0");
+        }
+    }//GEN-LAST:event_jTextField9FocusLost
+
+    private void jTextField11FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField11FocusLost
+        if(!venta.esDoublePositivo(String.valueOf(jTextField11.getText())))
+        {
+            jTextField11.setText("0");
+            return;
+        }
+        double precioCliente = Double.parseDouble(jTextField11.getText());//venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+        double precioProvedor = Double.parseDouble(jTextField6.getText());
+        double impuestos = Double.parseDouble(jTextField5.getText());
+        if(precioCliente < precioProvedor)
+        {
+            jTextField11.setText("0");
+            return;
+        }
+        double porcentajeGanancia = venta.obtenerGanancia(precioProvedor, impuestos, precioCliente) * 100;
+        jTextField4.setText(String.valueOf(porcentajeGanancia));
+    }//GEN-LAST:event_jTextField11FocusLost
+    
+    private void agregarProducto()
+    {
+        try{
+
+            String codigo = injection.checarSQLInjection(jTextField7.getText());
+            String producto[] = recuperar.buscarProductoParaEntrada(codigo);
+
+            if(producto != null)
+            {  
+                modelo2.addRow(producto);
+
+                double total = Double.parseDouble(jTextField8.getText());
+                total += Double.parseDouble(producto[3]);
+                jTextField8.setText(String.valueOf(total));
+            }else
+            {
+                JOptionPane.showMessageDialog(null,"Producto no encontardo!!!");
+            }
+            jTextField7.setText("");
+        }catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(this,e.getMessage());
+
+        }
+    }
     
     /**
      * @param args the command line arguments
@@ -1297,7 +1281,6 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1314,6 +1297,7 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;

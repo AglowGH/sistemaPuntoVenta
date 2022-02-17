@@ -84,11 +84,12 @@ public class ActualizarInfo
         pst.executeUpdate();
     }
     
-    public void eliminarProducto(String codigo)throws SQLException
+    public void eliminarProducto(String id)throws SQLException
     {
         Connection cn = DriverManager.getConnection(connection,usuario,password);
-        PreparedStatement ps = cn.prepareStatement("delete from productos where CÓDIGO = '" + codigo+"'");
+        PreparedStatement ps = cn.prepareStatement("delete from productos where ID = " + id);
         ps.executeUpdate();
+        
     }
     
     public void actualizarInfoTodosLosProductos(DefaultTableModel modelo)throws SQLException

@@ -294,6 +294,11 @@ public class Inventario extends javax.swing.JFrame {
                 jTextField4FocusLost(evt);
             }
         });
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
 
         jTextField5.setText("0");
         jTextField5.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -301,11 +306,21 @@ public class Inventario extends javax.swing.JFrame {
                 jTextField5FocusLost(evt);
             }
         });
+        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField5ActionPerformed(evt);
+            }
+        });
 
         jTextField6.setText("0");
         jTextField6.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField6FocusLost(evt);
+            }
+        });
+        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField6ActionPerformed(evt);
             }
         });
 
@@ -324,6 +339,11 @@ public class Inventario extends javax.swing.JFrame {
                 jTextField11FocusLost(evt);
             }
         });
+        jTextField11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField11ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -340,27 +360,29 @@ public class Inventario extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel1)
                                         .addComponent(jLabel2)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jLabel6))
-                                    .addGap(34, 34, 34))
+                                        .addComponent(jLabel3))
+                                    .addGap(95, 95, 95))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel13)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(105, 105, 105)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(jTextField6)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2)
-                            .addComponent(jTextField3)
-                            .addComponent(jTextField9)
-                            .addComponent(jTextField11)
-                            .addComponent(jTextField4))))
-                .addContainerGap(564, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+                                .addComponent(jTextField1)
+                                .addComponent(jTextField2)
+                                .addComponent(jTextField3)
+                                .addComponent(jTextField9)
+                                .addComponent(jTextField11)
+                                .addComponent(jTextField4)))))
+                .addGap(40, 564, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,16 +401,16 @@ public class Inventario extends javax.swing.JFrame {
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
@@ -794,12 +816,16 @@ public class Inventario extends javax.swing.JFrame {
         if(!venta.esDoublePositivo(String.valueOf(jTextField4.getText())))
         {
             jTextField4.setText("0");
+            double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+            jTextField11.setText(String.valueOf(precio));
             return;
         }
         double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
             jTextField4.setText("0");
+            precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+            jTextField11.setText(String.valueOf(precio));
             return;
         }
         jTextField11.setText(String.valueOf(precio));
@@ -810,12 +836,16 @@ public class Inventario extends javax.swing.JFrame {
         if(!venta.esDoublePositivo(String.valueOf(jTextField5.getText())))
         {
             jTextField5.setText("0");
+            double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+            jTextField11.setText(String.valueOf(precio));
             return;
         }
         double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         if(precio <= 0)
         {
             jTextField5.setText("0");
+            precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+            jTextField11.setText(String.valueOf(precio));
             return;
         }
         jTextField11.setText(String.valueOf(precio));
@@ -1012,7 +1042,8 @@ public class Inventario extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField7KeyPressed
 
     private void jTextField9FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField9FocusLost
-        if(!venta.esDoublePositivo(String.valueOf(jTextField9)))
+        
+        if(!venta.esDoublePositivo(String.valueOf(jTextField9.getText())))
         {
             jTextField9.setText("0");
         }
@@ -1027,7 +1058,7 @@ public class Inventario extends javax.swing.JFrame {
         double precioCliente = Double.parseDouble(jTextField11.getText());//venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
         double precioProvedor = Double.parseDouble(jTextField6.getText());
         double impuestos = Double.parseDouble(jTextField5.getText());
-        if(precioCliente < precioProvedor)
+        if((precioCliente < precioProvedor) || precioCliente == 0)
         {
             jTextField11.setText("0");
             return;
@@ -1035,6 +1066,83 @@ public class Inventario extends javax.swing.JFrame {
         double porcentajeGanancia = venta.obtenerGanancia(precioProvedor, impuestos, precioCliente) * 100;
         jTextField4.setText(String.valueOf(porcentajeGanancia));
     }//GEN-LAST:event_jTextField11FocusLost
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+         if(!venta.esDoublePositivo(String.valueOf(jTextField4.getText())))
+        {
+            jTextField4.setText("0");
+            double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+            jTextField11.setText(String.valueOf(precio));
+            return;
+        }
+        double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+        if(precio <= 0)
+        {
+            jTextField4.setText("0");
+            precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+            jTextField11.setText(String.valueOf(precio));
+            return;
+        }
+        jTextField11.setText(String.valueOf(precio));
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+        if(!venta.esDoublePositivo(String.valueOf(jTextField5.getText())))
+        {
+            jTextField5.setText("0");
+            double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+            jTextField11.setText(String.valueOf(precio));
+            return;
+        }
+        double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+        if(precio <= 0)
+        {
+            jTextField5.setText("0");
+            precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+            jTextField11.setText(String.valueOf(precio));
+            return;
+        }
+        jTextField11.setText(String.valueOf(precio));
+    }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        // TODO add your handling code here:
+        if(!venta.esDoublePositivo(String.valueOf(jTextField6.getText())))
+        {
+            jTextField6.setText("0");
+            double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+            jTextField11.setText(String.valueOf(precio));
+            return;
+        }
+        double precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+        if(precio <= 0)
+        {
+            jTextField6.setText("0");
+            precio = venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+            jTextField11.setText(String.valueOf(precio));
+            return;
+        }
+        jTextField11.setText(String.valueOf(precio));
+    }//GEN-LAST:event_jTextField6ActionPerformed
+
+    private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
+        if(!venta.esDoublePositivo(String.valueOf(jTextField11.getText())))
+        {
+            jTextField11.setText("0");
+            return;
+        }
+        double precioCliente = Double.parseDouble(jTextField11.getText());//venta.calcularPrecioCliente(Double.parseDouble(jTextField6.getText()),Double.parseDouble(jTextField4.getText()),Double.parseDouble(jTextField5.getText()));
+        double precioProvedor = Double.parseDouble(jTextField6.getText());
+        double impuestos = Double.parseDouble(jTextField5.getText());
+        if((precioCliente < precioProvedor) || precioCliente == 0)
+        {
+            jTextField11.setText("0");
+            return;
+        }
+        double porcentajeGanancia = venta.obtenerGanancia(precioProvedor, impuestos, precioCliente) * 100;
+        jTextField4.setText(String.valueOf(porcentajeGanancia));
+    }//GEN-LAST:event_jTextField11ActionPerformed
     
     private void agregarProducto()
     {
